@@ -52,6 +52,8 @@
 
     <!--Superuser-->
     <string name="su_request_title">Superuser Request</string>
+    <string name="su_request_string1">Allow&#160;</string>
+    <string name="su_request_string2">&#160;to get SuperUser privileges?</string>
     <string name="touch_filtered_warning">Because an app is obscuring a Superuser request, Magisk can\'t verify your response</string>
     <string name="deny">Deny</string>
     <string name="prompt">Prompt</string>

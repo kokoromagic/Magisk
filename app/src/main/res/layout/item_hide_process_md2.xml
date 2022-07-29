@@ -30,6 +30,7 @@
             android:layout_marginBottom="@dimen/l_75"
             android:singleLine="true"
             android:ellipsize="middle"
+            android:textSize="14sp"
             android:text="@{item.displayName}"
             android:textAppearance="@style/AppearanceFoundation.Caption.Variant"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -38,10 +39,12 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="com.topjohnwu.magisk" />
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
+        <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/hide_process_checkbox"
             android:checked="@={item.enabled}"
             android:layout_width="wrap_content"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/l_50"
             app:layout_constraintBottom_toBottomOf="parent"

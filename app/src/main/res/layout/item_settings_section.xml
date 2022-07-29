@@ -14,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="@dimen/l1"
-        android:paddingBottom="@dimen/l_50">
+        android:layout_marginStart="@dimen/l1"
+        android:paddingTop="@dimen/l1">
 
         <TextView
             gone="@{item.title.empty}"

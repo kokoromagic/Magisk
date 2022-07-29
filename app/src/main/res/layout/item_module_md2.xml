@@ -21,10 +21,14 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        isEnabled="@{!item.removed &amp;&amp; item.enabled &amp;&amp; !item.showNotice}"
+        tools:isEnabled="false"
+        tools:layout_gravity="center"
+        tools:layout_margin="@dimen/l1">
 
         <com.google.android.material.card.MaterialCardView
-            style="@style/WidgetFoundation.Card"
+            style="@style/WidgetFoundation.Card.Shadowless"
             isEnabled="@{!item.removed &amp;&amp; item.enabled &amp;&amp; !item.showNotice}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,6 +79,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="@tools:sample/lorem" />
 
+
                 <TextView
                     android:id="@+id/module_version_author"
                     strikeThrough="@{item.removed}"
@@ -82,24 +87,25 @@
                     android:layout_height="wrap_content"
                     android:duplicateParentState="true"
                     android:text="@{@string/module_version_author(item.item.version, item.item.author)}"
-                    android:textAppearance="@style/AppearanceFoundation.Caption.Variant"
+                    android:textAppearance="@style/AppearanceFoundation.Body"
                     android:textColor="?android:textColorSecondary"
                     app:layout_constraintEnd_toEndOf="@+id/module_title"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@+id/module_title"
                     app:layout_constraintTop_toBottomOf="@+id/module_title"
                     tools:text="@tools:sample/lorem" />
 
-                <com.google.android.material.switchmaterial.SwitchMaterial
+                <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/module_indicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/l_50"
+                    android:layout_gravity="bottom"
+                    android:layout_marginEnd="16dp"
                     android:checked="@={item.enabled}"
-                    app:layout_constraintBottom_toBottomOf="@+id/module_version_author"
+                    app:layout_constraintBottom_toTopOf="@+id/module_divider"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1"
-                    app:layout_constraintStart_toEndOf="@+id/module_update"
-                    app:layout_constraintTop_toTopOf="@+id/module_title" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.15" />
 
                 <TextView
                     android:id="@+id/module_description"
@@ -107,14 +113,16 @@
                     strikeThrough="@{item.removed}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/l1"
                     android:layout_marginTop="@dimen/l1"
-                    android:layout_marginEnd="@dimen/l1"
+                    android:layout_marginEnd="@dimen/l5"
+                    android:layout_marginStart="@dimen/l1"
                     android:duplicateParentState="true"
                     android:maxLines="5"
                     android:text="@{item.item.description}"
                     android:textAppearance="@style/AppearanceFoundation.Caption.Variant"
                     android:textColor="?android:textColorSecondary"
+                    app:layout_constraintEnd_toStartOf="@+id/module_indicator"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/module_version_author"
                     tools:lines="4"
                     tools:text="@tools:sample/lorem/random" />
@@ -124,7 +132,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/l1"
-                    android:background="?colorSurfaceSurfaceVariant"
+                    android:background="@android:color/transparent"
                     app:layout_constraintTop_toBottomOf="@+id/module_description" />
 
                 <Button
@@ -157,7 +165,6 @@
                     android:onClick="@{() -> item.delete()}"
                     android:text="@{item.removed ? @string/module_state_restore : @string/module_state_remove}"
                     android:textAllCaps="false"
-                    android:theme="@style/ThemeOverlay.Button.Text.Secondary"
                     app:icon="@{item.removed ? @drawable/ic_restart : @drawable/ic_delete_md2}"
                     app:iconGravity="textEnd"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -183,7 +190,6 @@
                     android:fontFamily="sans-serif-medium"
                     android:text="@{item.noticeText}"
                     android:textAppearance="@style/AppearanceFoundation.Caption.Primary"
-                    android:textColor="?colorError"
                     app:layout_constraintBottom_toBottomOf="@+id/module_remove"
                     app:layout_constraintEnd_toStartOf="@+id/bottom_bar_barrier"
                     app:layout_constraintStart_toStartOf="parent"
@@ -193,9 +199,7 @@
                     tools:visibility="visible" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </com.google.android.material.card.MaterialCardView>
-
     </FrameLayout>
 
 </layout>

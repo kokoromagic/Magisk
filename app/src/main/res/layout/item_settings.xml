@@ -16,7 +16,7 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
-        style="@style/WidgetFoundation.Card"
+        style="@style/WidgetFoundation.Card.Shadowless"
         isEnabled="@{item.enabled}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +24,8 @@
         android:clickable="@{item.enabled}"
         android:focusable="@{item.enabled}"
         android:onClick="@{(view) -> item.onPressed(view, handler)}"
-        tools:layout_gravity="center">
+        tools:layout_gravity="center"
+        app:cardBackgroundColor="@color/color_card_background_color_selector">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,7 +44,7 @@
                 tools:srcCompat="@drawable/ic_fingerprint" />
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
@@ -52,6 +53,7 @@
                 android:paddingBottom="@dimen/l1">
 
                 <TextView
+                    android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -67,13 +69,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{item.description}"
-                    android:textAppearance="@style/AppearanceFoundation.Tiny.Variant"
+                    android:textAppearance="@style/AppearanceFoundation.Caption.Variant"
                     tools:lines="2"
                     tools:text="@tools:sample/lorem/random" />
 
             </LinearLayout>
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/selector_indicator"
                 goneUnless="@{item.showSwitch}"
                 isEnabled="@{item.enabled}"

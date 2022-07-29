@@ -113,12 +113,11 @@ class SuRequestViewModel(
             // The request is not coming from an app process, and the UID is a
             // shared UID. We have no way to know where this request comes from.
             icon = pm.defaultActivityIcon
-            title = "[SharedUID] ${info.sharedUserId}"
+            title = "${info.sharedUserId}"
             packageName = info.sharedUserId
         } else {
-            val prefix = if (info.sharedUserId == null) "" else "[SharedUID] "
             icon = app.loadIcon(pm)
-            title = "$prefix${app.getLabel(pm)}"
+            title = "${app.getLabel(pm)}"
             packageName = info.packageName
         }
 

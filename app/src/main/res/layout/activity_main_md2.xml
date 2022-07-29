@@ -27,6 +27,8 @@
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="30dp"
             app:defaultNavHost="true"
             app:navGraph="@navigation/main" />
 
@@ -43,10 +45,13 @@
                 android:layout_width="match_parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_scrollFlags="noScroll"
+                app:subtitleTextAppearance="@style/AppearanceFoundation.Body"
+                app:titleTextAppearance="@style/AppearanceFoundation.Title"
                 tools:layout_marginTop="24dp"
                 tools:title="Home" />
 
         </com.google.android.material.appbar.AppBarLayout>
+
 
         <com.topjohnwu.magisk.widget.ConcealableBottomNavigationView
             android:id="@+id/main_navigation"
@@ -57,11 +62,8 @@
             android:paddingBottom="0dp"
             app:fitsSystemWindowsInsets="start|end|bottom"
             app:itemHorizontalTranslationEnabled="false"
-            app:itemIconTint="@color/color_menu_tint"
-            app:itemRippleColor="?colorPrimary"
-            app:itemTextAppearanceActive="@style/AppearanceFoundation.Tiny.Bold"
-            app:itemTextAppearanceInactive="@style/AppearanceFoundation.Tiny.Bold"
-            app:itemTextColor="@color/color_menu_tint"
+            app:itemTextAppearanceActive="@style/AppearanceFoundation.Body"
+            app:itemTextAppearanceInactive="@style/AppearanceFoundation.Body"
             app:labelVisibilityMode="labeled"
             app:menu="@menu/menu_bottom_nav" />
 

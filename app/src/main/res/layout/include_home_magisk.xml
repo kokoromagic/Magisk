@@ -15,8 +15,10 @@
 
     </data>
 
+
     <com.google.android.material.card.MaterialCardView
-        style="@style/WidgetFoundation.Card"
+        style="@style/WidgetFoundation.Card.Shadowless"
+        app:cardBackgroundColor="@color/color_card_background_color_selector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="false">
@@ -28,38 +30,45 @@
             android:paddingTop="@dimen/l_50"
             android:paddingEnd="@dimen/l1"
             android:paddingBottom="@dimen/l_50"
-            tools:layout_gravity="center">
+            tools:layout_gravity="center"
+            android:focusable="false">
 
             <ImageView
                 android:id="@+id/home_magisk_icon"
-                style="@style/WidgetFoundation.Icon.Primary"
-                android:padding="@dimen/l_25"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:scaleType="fitCenter"
+                android:layout_marginTop="10dp"
+                android:adjustViewBounds="true"
+                app:tint="?attr/colorOnSurface"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_magisk_outline"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_magisk_outline" />
+                app:layout_constraintLeft_toLeftOf="parent"/>
 
             <TextView
                 android:id="@+id/home_magisk_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/l1"
                 android:text="@string/magisk"
                 android:textAppearance="@style/AppearanceFoundation.Title"
-                android:textColor="?colorPrimary"
                 android:maxLines="1"
                 android:ellipsize="end"
+                android:layout_marginLeft="3dp"
+                app:tint="?attr/colorOnSurface"
+                android:layout_centerVertical="true"
+                app:layout_constraintTop_toTopOf="@+id/home_magisk_icon"
                 app:layout_constraintBottom_toBottomOf="@+id/home_magisk_icon"
-                app:layout_constraintEnd_toStartOf="@+id/home_magisk_button"
-                app:layout_constraintStart_toEndOf="@+id/home_magisk_icon"
-                app:layout_constraintTop_toTopOf="@+id/home_magisk_icon" />
+                app:layout_constraintStart_toEndOf="@+id/home_magisk_icon"/>
 
             <FrameLayout
                 android:id="@+id/home_magisk_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_centerVertical="true"
+                app:layout_constraintTop_toTopOf="@+id/home_magisk_title"
                 app:layout_constraintBottom_toBottomOf="@+id/home_magisk_title"
-                app:layout_constraintTop_toTopOf="@+id/home_magisk_title">
+                app:layout_constraintRight_toRightOf="parent">
 
                 <Button
                     style="@style/WidgetFoundation.Button"
@@ -68,6 +77,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="@{() -> viewModel.onMagiskPressed()}"
                     android:text="@string/update"
+                    android:elevation="@dimen/btn_highlight"
                     android:textAllCaps="false"
                     android:layout_gravity="end"
                     app:icon="@drawable/ic_update_md2" />
@@ -91,7 +101,7 @@
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
                 app:referencedIds="@{viewModel.magiskTitleBarrierIds}"
-                tools:constraint_referenced_ids="home_magisk_icon,home_magisk_title,home_magisk_button" />
+                tools:constraint_referenced_ids="home_magisk_title,home_magisk_button" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"

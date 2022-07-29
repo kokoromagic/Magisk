@@ -18,11 +18,12 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
-        style="@style/WidgetFoundation.Card"
+        style="@style/WidgetFoundation.Card.Shadowless"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="false"
         tools:layout_gravity="center"
+        app:cardBackgroundColor="@color/color_card_background_color_selector"
         tools:layout_marginBottom="@dimen/l1">
 
         <LinearLayout
@@ -39,6 +40,16 @@
                 android:focusable="true"
                 android:nextFocusRight="@id/hide_expand_icon"
                 android:onClick="@{item::toggleExpand}">
+
+                <ProgressBar
+                    style="@style/WidgetFoundation.ProgressBar"
+                    gone="@{item.checkedPercent == 0}"
+                    android:layout_width="match_parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="top"
+                    android:progress="@{item.checkedPercent}" />
 
                 <ImageView
                     android:id="@+id/hide_icon"
@@ -73,7 +84,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@{item.info.packageName}"
-                    android:textAppearance="@style/AppearanceFoundation.Caption.Variant"
+                    android:textSize="14sp"
+                    android:textAppearance="@style/AppearanceFoundation.Tiny.Secondary"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/hide_name"
                     app:layout_constraintStart_toStartOf="@+id/hide_name"
@@ -101,20 +113,12 @@
                 app:extraBindings="@{viewModel.extraBindings}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?colorSurfaceVariant"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="2"
                 tools:listitem="@layout/item_hide_process_md2" />
 
         </LinearLayout>
-
-        <ProgressBar
-            style="@style/WidgetFoundation.ProgressBar"
-            gone="@{item.checkedPercent == 0}"
-            android:layout_width="match_parent"
-            android:layout_gravity="top"
-            android:progress="@{item.checkedPercent}" />
 
     </com.google.android.material.card.MaterialCardView>
 
