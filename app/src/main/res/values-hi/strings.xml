@@ -237,4 +237,23 @@
     <string name="reboot_apply_change">परिवर्तन लागू करने के लिए रीबूट करें</string>
     <string name="restore_app_confirmation">यह छिपे हुए ऐप को मूल ऐप पर वापस बहाल कर देगा। क्या आप वाकई ऐसा करना चाहते हैं?</string>
 
+
+    <!--Delta-->
+    <string name="direct_install_system">सीधे सिस्टम विभाजन पर स्थापित करें</string>
+    <string name="reboot_core_only">केवल मुख्य मोड में रीबूट करें</string>
+    <string name="settings_hidelist_config_title">जादू छुपाएं कॉन्फ़िगर करें</string>
+    <string name="settings_hidelist_config_summary">हाइडलिस्ट में शामिल करने के लिए प्रक्रियाओं का चयन करें t</string>
+    <string name="settings_magiskhide_title">जादू छुपाएं</string>
+    <string name="settings_magiskhide_summary">विभिन्न प्रकार की पहचान से जादू छुपाएं</string>
+    <string name="settings_unload_magisk_title">जादू अक्षम करें</string>
+    <string name="settings_unload_magisk_summary">मैजिक डेमॉन को अस्थायी रूप से बंद करें और सभी मैजिक परिवर्तनों को वापस लाएं</string>
+    <string name="settings_unload_magisk_toast">जादू अस्थायी रूप से अक्षम कर दिया गया है। जादू को पुनर्स्थापित करने के लिए पुनरारंभ करें</string>
+    <string name="settings_riru_title">রিরু কোর</string>
+    <string name="settings_riru_summary">रिरू कोड मॉड्यूल जोड़ें</string>
+    <string name="settings_riru_toast">रिरू कोर मॉड्यूल जोड़ा गया</string>
+    <string name="settings_magiskhide_whitelist_title">जादू श्वेतसूची छुपाएं</string>
+    <string name="settings_magiskhide_whitelist_summary">पहले रूट किए जा चुके ऐप्स से मैजिक को छोड़कर सभी ऐप्स से मैजिक छिपाएं</string>
+    <string name="settings_magiskhide_dualspace_title">मैजिक हाईड ड्यूल स्पेस</string>
+    <string name="settings_magiskhide_dualspace_summary">डुअल स्पेस में सभी ऐप्स से मैजिक छिपाएं।</string>
+
 </resources>

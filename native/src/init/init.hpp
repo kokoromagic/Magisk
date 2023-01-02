@@ -37,6 +37,7 @@ void setup_klog();
 const char *backup_init();
 void restore_ramdisk_init();
 int dump_preload(const char *path, mode_t mode);
+int patch_sepol(const char *in, const char *out);
 
 /***************
  * Base classes

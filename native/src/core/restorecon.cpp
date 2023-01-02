@@ -1,4 +1,5 @@
 #include <string_view>
+#include <unistd.h>
 
 #include <magisk.hpp>
 #include <selinux.hpp>

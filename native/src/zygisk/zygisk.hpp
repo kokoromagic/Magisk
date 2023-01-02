@@ -5,10 +5,16 @@
 #include <vector>
 #include <daemon.hpp>
 
-#define MAGISKTMP_ENV  "MAGISKTMP"
+#define NATIVE_BRIDGE_PROP "ro.dalvik.vm.native.bridge"
 
-#define HIJACK_BIN64   "/system/bin/appwidget"
-#define HIJACK_BIN32   "/system/bin/bu"
+#define LOADER_LIB "libzygisk-ld.so"
+#define ZYGISK_LIB "libzygisk.so"
+
+extern std::string orig_native_bridge;
+extern std::string nb_replace_lib;
+extern std::string nb_replace_bak;
+
+extern bool new_zygisk_enabled;
 
 namespace ZygiskRequest {
 enum : int {
@@ -17,7 +23,7 @@ enum : int {
     GET_LOG_PIPE,
     CONNECT_COMPANION,
     GET_MODDIR,
-    PASSTHROUGH,
+    SYSTEM_SERVER_FORKED,
     END
 };
 }
@@ -26,12 +32,10 @@ enum : int {
 #define ZLOGD(...) LOGD("zygisk64: " __VA_ARGS__)
 #define ZLOGE(...) LOGE("zygisk64: " __VA_ARGS__)
 #define ZLOGI(...) LOGI("zygisk64: " __VA_ARGS__)
-#define HIJACK_BIN HIJACK_BIN64
 #else
 #define ZLOGD(...) LOGD("zygisk32: " __VA_ARGS__)
 #define ZLOGE(...) LOGE("zygisk32: " __VA_ARGS__)
 #define ZLOGI(...) LOGI("zygisk32: " __VA_ARGS__)
-#define HIJACK_BIN HIJACK_BIN32
 #endif
 
 // Unmap all pages matching the name
@@ -39,6 +43,12 @@ void unmap_all(const char *name);
 
 // Remap all matching pages with anonymous pages
 void remap_all(const char *name);
+
+// Fake/clone matching pages with same info
+void fakemap_file(const char *name);
+
+// Hide magisk module from maps
+void hide_from_maps();
 
 // Get library name + offset (from start of ELF), given function address
 uintptr_t get_function_off(int pid, uintptr_t addr, char *lib);
@@ -57,3 +67,6 @@ inline int zygisk_request(int req) {
     write_int(fd, req);
     return fd;
 }
+
+void on_zygote_restart();
+

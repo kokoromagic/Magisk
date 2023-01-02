@@ -1,6 +1,9 @@
 #include <sys/mount.h>
 #include <map>
 #include <utility>
+#include <unistd.h>
+#include <limits.h>
+#include <string>
 
 #include <base.hpp>
 #include <magisk.hpp>
@@ -8,12 +11,21 @@
 #include <selinux.hpp>
 #include <resetprop.hpp>
 
+#include <libgen.h>
+
 #include "core.hpp"
 #include "node.hpp"
+#include "zygisk/zygisk.hpp"
 
 using namespace std;
 
-#define VLOGD(tag, from, to) LOGD("%-8s: %s <- %s\n", tag, to, from)
+static bool log_enabled = true;
+
+void zygisk_patch_libanroid_runtime();
+
+#define VLOGD(tag, from, to) if (log_enabled) LOGD("%-8s: %s <- %s\n", tag, to, from)
+
+#define DVLOGD(tag, target) if (log_enabled) LOGD("%-8s: %s\n", tag, target)
 
 static int bind_mount(const char *reason, const char *from, const char *to) {
     int ret = xmount(from, to, nullptr, MS_BIND | MS_REC, nullptr);
@@ -72,7 +84,7 @@ bool dir_node::prepare() {
         if (cannot_mnt) {
             if (_node_type > type_id<tmpfs_node>()) {
                 // Upgrade will fail, remove the unsupported child node
-                LOGW("Unable to add: %s, skipped\n", it->second->node_path().data());
+                DVLOGD("skip", it->second->node_path().data());
                 delete it->second;
                 it = children.erase(it);
                 continue;
@@ -125,11 +137,22 @@ void dir_node::collect_module_files(const char *module, int dfd) {
  * Mount Implementations
  ************************/
 
+static std::string do_readlink(std::string const& path) {
+    char buff[PATH_MAX];
+    ssize_t len = ::readlink(path.c_str(), buff, sizeof(buff)-1);
+    if (len != -1) {
+      buff[len] = '\0';
+      return std::string(buff);
+    }
+}
+
 void node_entry::create_and_mount(const char *reason, const string &src) {
     const string &dest = node_path();
     if (is_lnk()) {
-        VLOGD("cp_link", src.data(), dest.data());
-        cp_afc(src.data(), dest.data());
+        if (strcmp(do_readlink(src).data(), "/xxxxx") != 0){
+            VLOGD("cp_link", src.data(), dest.data());
+            cp_afc(src.data(), dest.data());
+        } else DVLOGD("remove", dest.data());
     } else {
         if (is_dir())
             xmkdir(dest.data(), 0);
@@ -221,22 +244,115 @@ static void inject_magisk_bins(root_node *system) {
     delete bin->extract("supolicy");
 }
 
-vector<module_info> *module_list;
-int app_process_32 = -1;
-int app_process_64 = -1;
+#include <embed.hpp>
+#include <wait.h>
 
-#define mount_zygisk(bit)                                                               \
-if (access("/system/bin/app_process" #bit, F_OK) == 0) {                                \
-    app_process_##bit = xopen("/system/bin/app_process" #bit, O_RDONLY | O_CLOEXEC);    \
-    string zbin = zygisk_bin + "/app_process" #bit;                                     \
-    string mbin = MAGISKTMP + "/magisk" #bit;                                           \
-    int src = xopen(mbin.data(), O_RDONLY | O_CLOEXEC);                                 \
-    int out = xopen(zbin.data(), O_CREAT | O_WRONLY | O_CLOEXEC, 0);                    \
-    xsendfile(out, src, nullptr, INT_MAX);                                              \
-    close(out);                                                                         \
-    close(src);                                                                         \
-    clone_attr("/system/bin/app_process" #bit, zbin.data());                            \
-    bind_mount("zygisk", zbin.data(), "/system/bin/app_process" #bit);                  \
+std::string orig_native_bridge = "0";
+std::string nb_replace_lib = "0";
+std::string nb_replace_bak = "0";
+std::string zygotemode;
+static bool nb_replace = false;
+
+static int extract_bin(const char *prog, const char *dst) {
+    int pid = xfork();
+    int status;
+    if (pid == 0) {
+        execl(prog, "", "zygisk", "extract", dst, nullptr);
+        PLOGE("execl");
+        exit(-2);
+    } else if (pid > 0) {
+        waitpid(pid, &status, 0);
+        return WEXITSTATUS(status);
+    } else {
+        return -1;
+    }
+}
+
+class zygisk_node : public node_entry {
+public:
+    explicit zygisk_node(const char *name) : node_entry(name, DT_REG, this) {}
+
+    void mount() override {
+        string src = MAGISKTMP + "/" ZYGISKBIN "/" + name();
+        const string &dir_name = parent()->node_path();
+        bool is_64bit = dir_name == "/system/lib64";
+        src += is_64bit ? ".64" : ".32";
+        string mbin = MAGISKTMP + "/magisk" + (is_64bit ? "64" : "32");
+        if (name() == LOADER_LIB || name() == nb_replace_lib) {
+            int r = extract_bin(mbin.data(), src.data());
+            if (r) {
+                LOGE("failed to extract zygisk-ld (%d)\n", r);
+                return;
+            }
+            if (chmod(src.data(), 0644) < 0) PLOGE("chmod");
+            if (setfilecon(src.data(), "u:object_r:system_file:s0") < 0) PLOGE("setfilecon");
+            string replace_new = dir_name + "/" + zygotemode;
+            symlink(name().data(), replace_new.data());
+        } else if (name() == ZYGISK_LIB) {
+            int f = xopen(mbin.data(), O_RDONLY | O_CLOEXEC);
+            int out = xopen(src.data(), O_CREAT | O_WRONLY | O_CLOEXEC, 0);
+            xsendfile(out, f, nullptr, INT_MAX);
+            close(f);
+            close(out);
+            if (chmod(src.data(), 0644) < 0) PLOGE("chmod");
+            if (setfilecon(src.data(), "u:object_r:system_file:s0") < 0) PLOGE("setfilecon");
+        } else if (name() == nb_replace_bak) {
+            src = MAGISKTMP + "/" MIRRDIR + dir_name + "/" + nb_replace_lib;
+        }
+        create_and_mount("zygisk", src);
+    }
+};
+
+vector<module_info> *module_list;
+
+static void inject_zygisk_libs(root_node *system) {
+#define INJECT(bit, lib_path) \
+    if (access("/system/bin/app_process" #bit , F_OK) == 0) { \
+        auto lib =  system->get_child<inter_node>(lib_path); \
+        if (!lib) { \
+            lib = new inter_node(lib_path); \
+            system->insert(lib); \
+        } \
+        if (nb_replace) { \
+            lib->insert(new zygisk_node(nb_replace_lib.data())); \
+            lib->insert(new zygisk_node(nb_replace_bak.data())); \
+        } else { \
+            lib->insert(new zygisk_node(LOADER_LIB)); \
+        } \
+        lib->insert(new zygisk_node(ZYGISK_LIB)); \
+        delete lib->extract(zygotemode.data()); \
+    }
+    zygotemode = getprop("ro.zygote");
+    INJECT(64, "lib64")
+    INJECT(32, "lib")
+    
+}
+
+static bool find_lib(const char *lib){
+    string lib32 = "/system/lib/"s + lib;
+    string lib64 = "/system/lib64/"s + lib;
+    return access(lib32.data(), F_OK) == 0 ||
+           access(lib64.data(), F_OK) == 0;
+}
+
+static void prepare_replace_nb(){
+    LOGD("zygisk: replace native bridge [%s]\n", nb_replace_lib.data());
+    nb_replace = true;
+    char *ranc;
+    do {
+        ranc = random_strc(get_random(5,16));
+        nb_replace_bak = "lib"s + ranc + ".so";
+        delete ranc;
+    } while (find_lib(nb_replace_bak.data()));
+    LOGD("zygisk: backup native bridge [%s]\n", nb_replace_bak.data());
+}
+
+static void zygisk_patch_props() {
+    if (!nb_replace_lib.empty() && nb_replace_lib != "0"){
+        setprop(NATIVE_BRIDGE_PROP, nb_replace_lib.data(), false);
+    } else {
+        setprop(NATIVE_BRIDGE_PROP, LOADER_LIB, false);
+    }
 }
 
 void load_modules() {
@@ -251,8 +367,8 @@ void load_modules() {
     LOGI("* Loading modules\n");
     for (const auto &m : *module_list) {
         const char *module = m.name.data();
-        char *b = buf + sprintf(buf, "%s/" MODULEMNT "/%s/", MAGISKTMP.data(), module);
-
+        string module_mnt_dir = MAGISKTMP + "/" MODULEMNT "/" + module;
+        char *b = buf + sprintf(buf, "%s/", module_mnt_dir.data());
         // Read props
         strcpy(b, "system.prop");
         if (access(buf, F_OK) == 0) {
@@ -276,14 +392,32 @@ void load_modules() {
         system->collect_module_files(module, fd);
         close(fd);
     }
-    if (MAGISKTMP != "/sbin" || !str_contains(getenv("PATH") ?: "", "/sbin")) {
+    if (MAGISKTMP != "/sbin" || !check_envpath("/sbin")) {
         // Need to inject our binaries into /system/bin
+        LOGD("su_mount: load magisk files\n");
         inject_magisk_bins(system);
+    }
+
+    // Mount on top of modules to enable zygisk
+    if (zygisk_enabled) {
+        orig_native_bridge = getprop(NATIVE_BRIDGE_PROP);
+
+        // NoxPlayer Android 9 hardcoded native bridge name
+        // But NATIVE_BRIDGE_PROP is "0"
+        if (orig_native_bridge == "0" && find_lib("libnb.so")) {
+            // directly replace libnb.so
+            nb_replace_lib = "libnb.so";
+            prepare_replace_nb();
+        }
+
+        string zygisk_bin = MAGISKTMP + "/" ZYGISKBIN;
+        mkdir(zygisk_bin.data(), 0);
+        inject_zygisk_libs(system);
     }
 
     if (!system->is_empty()) {
         // Handle special read-only partitions
-        for (const char *part : { "/vendor", "/product", "/system_ext" }) {
+        for (const char *part : { SPEC_PARTS, OTHER_PARTS }) {
             struct stat st{};
             if (lstat(part, &st) == 0 && S_ISDIR(st.st_mode)) {
                 if (auto old = system->extract(part + 1)) {
@@ -296,12 +430,66 @@ void load_modules() {
         root->mount();
     }
 
-    // Mount on top of modules to enable zygisk
     if (zygisk_enabled) {
-        string zygisk_bin = MAGISKTMP + "/" ZYGISKBIN;
-        mkdir(zygisk_bin.data(), 0);
-        mount_zygisk(32)
-        mount_zygisk(64)
+        if (new_zygisk_enabled) {
+            zygisk_patch_libanroid_runtime();
+        } else {
+            zygisk_patch_props();
+        }
+    }
+
+    log_enabled = false;
+}
+
+void su_mount() {
+    log_enabled = false;
+    node_entry::mirror_dir = MAGISKTMP + "/" MIRRDIR;
+    node_entry::module_mnt = MAGISKTMP + "/" MODULEMNT "/";
+
+    auto root = make_unique<root_node>("");
+    auto system = new root_node("system");
+    root->insert(system);
+
+    char buf[4096];
+    for (const auto &m : *module_list) {
+        const char *module = m.name.data();
+        string module_mnt_dir = MAGISKTMP + "/" MODULEMNT "/" + module;
+        char *b = buf + sprintf(buf, "%s/", module_mnt_dir.data());
+        // Check whether skip mounting
+        strcpy(b, "skip_mount");
+        if (access(buf, F_OK) == 0)
+            continue;
+
+        // Double check whether the system folder exists
+        strcpy(b, "system");
+        if (access(buf, F_OK) != 0)
+            continue;
+
+        LOGD("%s: loading mount files\n", module);
+        b[-1] = '\0';
+        int fd = xopen(buf, O_RDONLY | O_CLOEXEC);
+        system->collect_module_files(module, fd);
+        close(fd);
+    }
+    if (MAGISKTMP != "/sbin" || !check_envpath("/sbin")) {
+        // Need to inject our binaries into /system/bin
+        LOGD("su_mount: load magisk files\n");
+        inject_magisk_bins(system);
+    }
+
+    if (!system->is_empty()) {
+        // Handle special read-only partitions
+        for (const char *part : { SPEC_PARTS, OTHER_PARTS }) {
+            struct stat st{};
+            if (lstat(part, &st) == 0 && S_ISDIR(st.st_mode)) {
+                if (auto old = system->extract(part + 1)) {
+                    auto new_node = new root_node(old);
+                    root->insert(new_node);
+                }
+            }
+        }
+        root->prepare();
+        root->mount();
     }
 }
 
@@ -309,7 +497,7 @@ void load_modules() {
  * Filesystem operations
  ************************/
 
-static void prepare_modules() {
+void prepare_modules() {
     // Upgrade modules
     if (auto dir = open_dir(MODULEUPGRADE); dir) {
         int ufd = dirfd(dir.get());
@@ -354,6 +542,7 @@ static void foreach_module(Func fn) {
 static void collect_modules(bool open_zygisk) {
     foreach_module([=](int dfd, dirent *entry, int modfd) {
         if (faccessat(modfd, "remove", F_OK, 0) == 0) {
+        	
             LOGI("%s: remove\n", entry->d_name);
             auto uninstaller = MODULEROOT + "/"s + entry->d_name + "/uninstall.sh";
             if (access(uninstaller.data(), F_OK) == 0)
@@ -394,6 +583,32 @@ static void collect_modules(bool open_zygisk) {
             if (faccessat(modfd, "zygisk", F_OK, 0) == 0) {
                 LOGI("%s: ignore\n", entry->d_name);
                 return;
+            }
+        }
+        // Load sepolicy.rule if possible
+        string module_mnt_dir = MAGISKTMP + "/" MODULEMNT "/" + entry->d_name;
+        string module_rule = MAGISKTMP + "/" MIRRDIR "/sepolicy.rules/" + entry->d_name;
+        string module_rulefile = module_mnt_dir + "/sepolicy.rule";
+        if (!open_zygisk && access(module_rulefile.data(), F_OK) == 0){
+            struct stat st_modulemnt;
+            struct stat st_modulerule;
+            // if rule file is not found
+            if (access(string(module_rule + "/sepolicy.rule").data(), F_OK) != 0) {
+                LOGI("%s: applying [sepolicy.rule]\n", entry->d_name);
+                char MAGISKPOLICY[PATH_MAX];
+                sprintf(MAGISKPOLICY, "%s/magiskpolicy", MAGISKTMP.data());
+                auto ret = exec_command_sync(MAGISKPOLICY, "--live", "--apply", module_rulefile.data());
+                if (ret != 0) LOGW("%s: failed to apply [sepolicy.rule]\n", entry->d_name);
+            }
+            if (stat(module_mnt_dir.data(), &st_modulemnt) == 0 &&
+                (stat(module_rule.data(), &st_modulerule) != 0 ||
+                 st_modulemnt.st_dev != st_modulerule.st_dev ||
+                 st_modulemnt.st_ino != st_modulerule.st_ino)) {
+                     // refresh rule file
+                     LOGI("%s: refresh [sepolicy.rule]\n", entry->d_name);
+                     rm_rf(module_rule.data());
+                     mkdirs(module_rule.data(), 0755);
+                     cp_afc(module_rulefile.data(), string(module_rule + "/sepolicy.rule").data());
             }
         }
         info.name = entry->d_name;
@@ -480,3 +695,4 @@ void exec_module_scripts(const char *stage) {
         [](const module_info &info) -> string_view { return info.name; });
     exec_module_scripts(stage, module_names);
 }
+

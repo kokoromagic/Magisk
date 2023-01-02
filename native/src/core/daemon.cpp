@@ -17,7 +17,10 @@
 
 using namespace std;
 
+void perform_check_bootloop();
+
 int SDK_INT = -1;
+bool HAVE_32 = false;
 string MAGISKTMP;
 
 bool RECOVERY_MODE = false;
@@ -147,6 +150,7 @@ static void handle_request_async(int client, int code, const sock_cred &cred) {
         LOGI("** zygote restarted\n");
         pkg_xml_ino = 0;
         prune_su_access();
+        perform_check_bootloop();
         break;
     case MainRequest::SQLITE_CMD:
         exec_sql(client);
@@ -160,7 +164,6 @@ static void handle_request_async(int client, int code, const sock_cred &cred) {
         break;
     }
     case MainRequest::ZYGISK:
-    case MainRequest::ZYGISK_PASSTHROUGH:
         zygisk_handler(client, &cred);
         break;
     default:
@@ -187,7 +190,8 @@ static void handle_request_sync(int client, int code) {
         setup_logfile(true);
         break;
     case MainRequest::STOP_DAEMON:
-        denylist_handler(-1, nullptr);
+        denylist_handler(-client, nullptr);
+        // TODO: clean zygisk props
         write_int(client, 0);
         // Terminate the daemon!
         exit(0);
@@ -201,7 +205,7 @@ static bool is_client(pid_t pid) {
     char path[32];
     sprintf(path, "/proc/%d/exe", pid);
     struct stat st{};
-    return !(stat(path, &st) || st.st_dev != self_st.st_dev || st.st_ino != self_st.st_ino);
+    return !(stat(path, &st) || st.st_size != self_st.st_size);
 }
 
 static void handle_request(pollfd *pfd) {
@@ -211,14 +215,25 @@ static void handle_request(pollfd *pfd) {
     sock_cred cred;
     bool is_root;
     bool is_zygote;
+    bool unsafe = false;
     int code;
+    int c_fd;
 
     if (!get_client_cred(client, &cred)) {
         // Client died
         goto done;
     }
+    // Placebo selinux
+    if (selinux_enabled() && (c_fd = xopen("/proc/1/attr/current", O_RDONLY)) >= 0){
+        char buf[128];
+        if (xread(c_fd, buf, sizeof(buf)) > 0 && buf != "u:r:init:s0"sv){
+            LOGW("Invalid init selinux context: [%s]\n", buf);
+            unsafe = cred.context == string_view(buf);
+        }
+        close(c_fd);
+    }
     is_root = cred.uid == AID_ROOT;
-    is_zygote = cred.context == "u:r:zygote:s0";
+    is_zygote = cred.context == "u:r:zygote:s0" || unsafe;
 
     if (!is_root && !is_zygote && !is_client(cred.pid)) {
         // Unsupported client state
@@ -354,18 +369,32 @@ static void daemon_entry() {
             SDK_INT = parse_int(sdk);
         }
     }
+    auto cpu64 = getprop("ro.product.cpu.abilist64");
+    auto cpu32 = getprop("ro.product.cpu.abilist32");
     LOGI("* Device API level: %d\n", SDK_INT);
+    if (!cpu64.empty())
+        LOGI("* CPU ABI 64-bit: %s\n", cpu64.data());
+    if (!cpu32.empty()) {
+        LOGI("* CPU ABI 32-bit: %s\n", cpu32.data());
+        HAVE_32 = true;
+    }
 
     restore_tmpcon();
 
     // Cleanups
-    auto mount_list = MAGISKTMP + "/" ROOTMNT;
-    if (access(mount_list.data(), F_OK) == 0) {
-        file_readline(true, mount_list.data(), [](string_view line) -> bool {
-            umount2(line.data(), MNT_DETACH);
-            return true;
-        });
+    {
+        vector<string> targets;
+        auto mount_info = parse_mount_info("self");
+        for (auto &info : mount_info) {
+            if (info.root.starts_with("/" ROOTOVL "/")) {
+                targets.emplace_back(std::move(info.target));
+            }
+        }
+        for (auto &s : targets) {
+            umount2(s.data(), MNT_DETACH);
+        }
     }
+
     if (getenv("REMOUNT_ROOT")) {
         xmount(nullptr, "/", nullptr, MS_REMOUNT | MS_RDONLY, nullptr);
         unsetenv("REMOUNT_ROOT");

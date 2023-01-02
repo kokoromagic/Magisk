@@ -10,6 +10,7 @@ LOCAL_EXPORT_STATIC_LIBRARIES := libcxx
 LOCAL_STATIC_LIBRARIES := libcxx
 LOCAL_SRC_FILES := \
     new.cpp \
+    cus.cpp \
     files.cpp \
     misc.cpp \
     selinux.cpp \

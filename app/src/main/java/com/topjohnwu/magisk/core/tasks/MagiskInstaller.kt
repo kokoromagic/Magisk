@@ -394,7 +394,7 @@ abstract class MagiskInstallImpl protected constructor(
         return true
     }
 
-    private fun flashBoot() = "direct_install $installDir $srcBoot".sh().isSuccess
+    private fun flashBoot() = "direct_install \"$installDir\" \"$srcBoot\" \"$AppApkPath\"".sh().isSuccess
 
     private fun postOTA(): Boolean {
         try {
@@ -412,20 +412,30 @@ abstract class MagiskInstallImpl protected constructor(
         console.add("***************************************")
         return true
     }
+	
+	private fun print_title_delta(): Boolean {
+        console.add("********************************")
+        console.add(" Magisk Delta (Systemless Mode)")
+        console.add(" by HuskyDG")
+        console.add("********************************")
+        return true
+	}
 
     private fun String.sh() = shell.newJob().add(this).to(console, logs).exec()
     private fun Array<String>.sh() = shell.newJob().add(*this).to(console, logs).exec()
     private fun String.fsh() = ShellUtils.fastCmd(shell, this)
     private fun Array<String>.fsh() = ShellUtils.fastCmd(shell, *this)
 
-    protected fun patchFile(file: Uri) = extractFiles() && handleFile(file)
+    protected fun patchFile(file: Uri) = extractFiles() && print_title_delta() && handleFile(file)
 
-    protected fun direct() = findImage() && extractFiles() && patchBoot() && flashBoot()
+    protected fun direct() = findImage() && extractFiles() && print_title_delta() && patchBoot() && flashBoot()
+
+    protected fun direct_system() = extractFiles() && "xdirect_install_system \"$installDir\" \"dummy\" \"$AppApkPath\"".sh().isSuccess
 
     protected fun secondSlot() =
-        findSecondary() && extractFiles() && patchBoot() && flashBoot() && postOTA()
+        findSecondary() && extractFiles() && print_title_delta() && patchBoot() && flashBoot() && postOTA()
 
-    protected fun fixEnv() = extractFiles() && "fix_env $installDir".sh().isSuccess
+    protected fun fixEnv() = extractFiles() && "fix_env \"$installDir\" \"$AppApkPath\"".sh().isSuccess
 
     protected fun uninstall() = "run_uninstaller $AppApkPath".sh().isSuccess
 
@@ -481,6 +491,13 @@ abstract class MagiskInstaller(
         logs: MutableList<String>
     ) : MagiskInstaller(console, logs) {
         override suspend fun operations() = direct()
+    }
+
+    class Direct_system(
+        console: MutableList<String>,
+        logs: MutableList<String>
+    ) : MagiskInstaller(console, logs) {
+        override suspend fun operations() = direct_system()
     }
 
     class Emulator(

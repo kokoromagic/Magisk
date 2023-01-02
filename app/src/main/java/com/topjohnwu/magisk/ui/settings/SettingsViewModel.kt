@@ -60,12 +60,19 @@ class SettingsViewModel : BaseViewModel(), BaseSettingsItem.Handler {
 
         // Magisk
         if (Info.env.isActive) {
-            list.addAll(listOf(
-                Magisk,
-                SystemlessHosts
-            ))
-            if (Const.Version.atLeast_24_0()) {
-                list.addAll(listOf(Zygisk, DenyList, DenyListConfig))
+            val is_delta = Shell.cmd("is_delta").exec().isSuccess;
+            val use_full_magisk = Shell.cmd("use_full_magisk").exec().isSuccess;
+            if (use_full_magisk){
+                list.addAll(listOf(
+                    Magisk,
+                    SystemlessHosts
+                ))
+                if (Const.Version.atLeast_24_0()) {
+                    list.add(Zygisk)
+                    if (is_delta){
+                        list.addAll(listOf(NewZygisk, AntiBLoop, CoreOnly, MagiskHideClass, DenyList, SuList, DenyListConfig, CleanHideList))
+                    }
+                }
             }
         }
 
@@ -101,6 +108,7 @@ class SettingsViewModel : BaseViewModel(), BaseSettingsItem.Handler {
             Theme -> SettingsFragmentDirections.actionSettingsFragmentToThemeFragment().navigate()
             DenyListConfig -> SettingsFragmentDirections.actionSettingsFragmentToDenyFragment().navigate()
             SystemlessHosts -> createHosts()
+            CleanHideList -> clean_HideList()
             Hide, Restore -> withInstallPermission(andThen)
             AddShortcut -> AddHomeIconEvent().publish()
             else -> andThen()
@@ -113,6 +121,8 @@ class SettingsViewModel : BaseViewModel(), BaseSettingsItem.Handler {
             is Hide -> viewModelScope.launch { HideAPK.hide(view.activity, item.value) }
             Restore -> viewModelScope.launch { HideAPK.restore(view.activity) }
             Zygisk -> if (Zygisk.mismatch) SnackbarEvent(R.string.reboot_apply_change).publish()
+            NewZygisk -> if (NewZygisk.mismatch) SnackbarEvent(R.string.reboot_apply_change).publish()
+            SuList -> if (SuList.mismatch) SnackbarEvent(R.string.reboot_apply_change).publish()
             else -> Unit
         }
     }
@@ -134,6 +144,12 @@ class SettingsViewModel : BaseViewModel(), BaseSettingsItem.Handler {
     private fun createHosts() {
         Shell.cmd("add_hosts_module").submit {
             Utils.toast(R.string.settings_hosts_toast, Toast.LENGTH_SHORT)
+        }
+    }
+
+    private fun clean_HideList() {
+        Shell.cmd("clean_hidelist").submit {
+            Utils.toast(R.string.settings_clean_hidelist_toast, Toast.LENGTH_SHORT)
         }
     }
 }

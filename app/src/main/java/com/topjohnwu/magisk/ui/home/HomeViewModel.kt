@@ -23,6 +23,7 @@ import com.topjohnwu.magisk.utils.Utils
 import com.topjohnwu.magisk.utils.asText
 import com.topjohnwu.superuser.Shell
 import kotlin.math.roundToInt
+import com.topjohnwu.magisk.core.Const
 
 class HomeViewModel(
     private val svc: NetworkService
@@ -45,6 +46,7 @@ class HomeViewModel(
         get() = when {
             Info.isRooted && Info.env.isUnsupported -> State.OUTDATED
             !Info.env.isActive -> State.INVALID
+            Const.APP_IS_CANARY && Info.env.versionString != BuildConfig.VERSION_NAME -> State.OUTDATED
             Info.env.versionCode < BuildConfig.VERSION_CODE -> State.OUTDATED
             else -> State.UP_TO_DATE
         }
@@ -86,6 +88,7 @@ class HomeViewModel(
         Info.getRemote(svc)?.apply {
             appState = when {
                 BuildConfig.VERSION_CODE < magisk.versionCode -> State.OUTDATED
+                Const.APP_IS_CANARY && BuildConfig.VERSION_NAME != magisk.version -> State.OUTDATED
                 else -> State.UP_TO_DATE
             }
 

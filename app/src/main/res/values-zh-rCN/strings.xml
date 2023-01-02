@@ -238,4 +238,48 @@
     <string name="reboot_apply_change">重启后生效</string>
     <string name="restore_app_confirmation">即将把隐藏的 Magisk 应用恢复回原始应用，是否继续？</string>
 
+    <!--Delta-->
+    <string name="direct_install_system">安装至系统分区</string>
+    <string name="reboot_core_only">重启到 核心模式</string>
+    <string name="settings_magiskhide_title">MagiskHide</string> 
+    <string name="settings_magiskhide_summary">隐藏 Magisk</string>
+    <string name="settings_unload_magisk_title">禁用 Magisk</string>
+    <string name="settings_unload_magisk_summary">临时停止 Magisk 守护进程并还原 Magisk 做出的更改</string>
+    <string name="settings_unload_magisk_toast">Magisk 已被临时禁用，重启手机后恢复</string>
+    <string name="settings_riru_title">Riru Core</string>
+    <string name="settings_riru_summary">添加 Riru 模块</string>
+    <string name="settings_riru_toast">Riru 模块已添加</string>
+    <string name="settings_magiskhide_dualspace_summary">为多开空间内的所有进程添加 MagiskHide</string>
+    <string name="settings_magiskhide_dualspace_title">MagiskHide 多开配置</string>
+    <string name="settings_hidelist_config_summary">选择需要加入隐藏列表的进程</string>
+    <string name="settings_hidelist_config_title">配置 MagiskHide</string>
+    <string name="settings_magiskhide_whitelist_summary">为所有（除之前授予过超级用户之外）的应用隐藏 Magisk。启用本功能可能导致系统卡顿或更严重的问题，请谨慎开启</string>
+    <string name="settings_magiskhide_whitelist_title">MagiskHide 白名单模式</string>
+    <string name="settings_anti_bootloop_summary">Zygote 进程多次启动失败时重启至核心模式</string>
+    <string name="settings_anti_bootloop_title">Bootloop 保护</string>
+    <string name="settings_coreonly_summary">仅核心功能，例如 MagiskSU (即 Root 权限) 和 MagiskHide 可用，不加载任何模块。开启本开关并重启手机后可激活核心模式</string>
+    <string name="settings_coreonly_title">核心模式</string>
+    <string name="settings_magiskhide_whitelist_summary2">强制 MagiskHide 处理除超级用户列表外的所有应用（仅用于调试目的）</string>
+    <string name="settings_magiskhide_whitelist_title2">全局 MagiskHide</string>
+    <string name="settings_clean_hidelist_summary">删除隐藏列表中所有不存在和未安装的应用</string>
+    <string name="settings_clean_hidelist_title">清理隐藏列表</string>
+    <string name="settings_clean_hidelist_toast">隐藏列表已清理</string>
+    <string name="settings_sulist">超级用户列表</string>
+    <string name="settings_sulist_config_summary">选择需要访问超级用户的进程</string>
+    <string name="settings_sulist_config_title">配置超级用户列表</string>
+    <string name="settings_sulist_enforced">超级用户列表已强制开启</string>
+    <string name="settings_sulist_error_magiskhide">此功能需要开启 Magisk Hide</string>
+    <string name="settings_sulist_error_zygisk">此功能与 Zygisk 不共存</string>
+    <string name="settings_sulist_summary">仅超级用户列表内的进程可以访问 Magisk</string>
+    <string name="settings_sulist_title">强制使用超级用户列表</string>
+    <string name="new_zygisk_loader">新的 Zygisk 加载方式</string>
+    <string name="settings_new_zygisk_loader_summary">使用新的 Zygisk 加载方式，此功能为实验性功能，可能会破坏部分模块的正常工作</string>
+    <string name="settings_logcat_monitor_no_need">Zygisk 开启时无需使用本功能</string>
+    <string name="settings_logcat_monitor_summary">使用 logcat 而非 ptrace 监视应用进程的创建，logcat 比 ptrace 更难检测但不可靠</string>
+    <string name="settings_logcat_monitor_title">logcat 监视</string>
+
+
+
+
+
 </resources>

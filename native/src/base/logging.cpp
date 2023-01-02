@@ -11,7 +11,10 @@
 
 using namespace std;
 
+bool logging_muted = false;
+
 static int fmt_and_log_with_rs(LogLevel level, const char *fmt, va_list ap) {
+    if (logging_muted) return 0;
     char buf[4096];
     int ret = vssprintf(buf, sizeof(buf), fmt, ap);
     log_with_rs(level, rust::Str(buf, ret));

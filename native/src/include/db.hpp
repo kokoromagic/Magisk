@@ -38,8 +38,11 @@ constexpr const char *DB_SETTING_KEYS[] = {
     "root_access",
     "multiuser_mode",
     "mnt_ns",
-    "denylist",
-    "zygisk"
+    "hide",
+    "zygisk",
+    "sulist",
+    "anti_bootloop",
+    "new_zygisk"
 };
 
 // Settings key indices
@@ -48,7 +51,10 @@ enum {
     SU_MULTIUSER_MODE,
     SU_MNT_NS,
     DENYLIST_CONFIG,
-    ZYGISK_CONFIG
+    ZYGISK_CONFIG,
+    WHITELIST_CONFIG,
+    ANTI_BOOTLOOP,
+    NEW_ZYGISK_CONFIG
 };
 
 // Values for root_access

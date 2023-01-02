@@ -16,6 +16,7 @@ struct Applet {
 constexpr Applet applets[] = {
     { "su", su_client_main },
     { "resetprop", resetprop_main },
+    { "magiskhide", denylist_cli },
 };
 
 constexpr Applet private_applets[] = {
@@ -31,11 +32,6 @@ int main(int argc, char *argv[]) {
     init_argv0(argc, argv);
 
     string_view argv0 = basename(argv[0]);
-
-    // app_process is actually not an applet
-    if (argv0.starts_with("app_process")) {
-        return app_process_main(argc, argv);
-    }
 
     umask(0);
 

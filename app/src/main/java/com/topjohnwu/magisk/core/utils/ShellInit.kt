@@ -78,6 +78,8 @@ class ShellInit : Shell.Initializer() {
         Info.vbmeta = getBool("VBMETAEXIST")
         Info.isAB = getBool("ISAB")
         Info.crypto = getVar("CRYPTOTYPE")
+        Info.allowSystemMagisk = getBool("ALLOWSYSTEMINSTALL")
+        Info.sulist = getBool("SULISTMODE")
 
         // Default presets
         Config.recovery = getBool("RECOVERYMODE")

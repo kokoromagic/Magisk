@@ -232,4 +232,30 @@
     <string name="reboot_apply_change">Reinicie para aplicar as mudanças</string>
     <string name="restore_app_confirmation">Isso irá restaurar o app oculto do Magisk de volta para o app original. Deseja realmente fazer isso?</string>
 
+    <!--Delta-->
+    <string name="direct_install_system">Instalação direta na partição sistema</string>
+    <string name="reboot_core_only">Reiniciar em modo somente Núcleo</string>
+    <string name="settings_hidelist_config_title">Configurações do MagiskHide</string>
+    <string name="settings_hidelist_config_summary">Selecione os processos a serem incluídos na lista de ocultação</string>
+    <string name="settings_magiskhide_title">MagiskHide</string>
+    <string name="settings_magiskhide_summary">Ocultar o Magisk de várias formas de detecção</string>
+    <string name="settings_unload_magisk_title">Desativar o Magisk</string>
+    <string name="settings_unload_magisk_summary">Temporariamente desativa o Magisk e reverte todas as suas modificações</string>
+    <string name="settings_unload_magisk_toast">O Magisk foi desativado temporariamente. Reinicie o para restaurar o Magisk</string>
+    <string name="settings_riru_title">Riru core</string>
+    <string name="settings_riru_summary">Adicionar o módulo Riru core</string>
+    <string name="settings_riru_toast">O Riru core foi Adicionado à lista de Módulos</string>
+    <string name="settings_magiskhide_whitelist_title">MagiskHide Whitelist</string>
+    <string name="settings_magiskhide_whitelist_summary">Esconde o Magisk de todas as aplicações exceto as que adquiriram privilégios root previamente</string>
+    <string name="settings_magiskhide_dualspace_title">MagiskHide Dualspace</string>
+    <string name="settings_magiskhide_dualspace_summary">Esconde o Magisk de todas as aplicações no perfil de trabalho</string>
+    <string name="settings_sulist_title">Habilitar a SuList</string>
+    <string name="settings_sulist">SuList</string>
+    <string name="settings_sulist_summary">Magisk será visível somente para processos listados na SuList</string>
+    <string name="settings_sulist_config_title">Configurar a SuList</string>
+    <string name="settings_sulist_config_summary">Selecione os processos a serem inclusos na SuList</string>
+    <string name="settings_sulist_error_zygisk">Esta ferramenta não pode coexistir com o Zygisk</string>
+    <string name="settings_sulist_error_magiskhide">Esta ferramenta necessita que o MagiskHide esteja habilitado</string>
+    <string name="settings_sulist_enforced">A SuList está habilitada</string>
+
 </resources>

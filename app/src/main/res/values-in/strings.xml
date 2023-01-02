@@ -236,6 +236,37 @@
     <string name="add_shortcut_msg">Setelah menyembunyikan aplikasi ini, nama dan ikonnya mungkin sulit dikenali. Apakah Anda ingin menambahkan pintasan cantik ke layar utama?</string>
     <string name="app_not_found">Tidak ditemukan aplikasi untuk menangani tindakan ini</string>
     <string name="reboot_apply_change">Mulai ulang untuk menerapkan perubahan</string>
-    <string name="restore_app_confirmation">Ini akan mengembalikan aplikasi tersembunyi kembali ke aplikasi asli. Apakah Anda benar-benar ingin melakukan ini?</string>
+    <string name="restore_app_confirmation">Ini akan mengembalikan aplikasi tersembunyi kembali ke aplikasi asli. Apakah Anda benar-benar ingin melakukan ini?</string>  
 
+    <!--Delta-->
+    <string name="direct_install_system">Langsung pasang pada partisi sistem</string>
+    <string name="reboot_core_only">Mulai ulang ke mode hanya Inti</string>
+    <string name="settings_magiskhide_title">MagiskHide</string> 
+    <string name="settings_magiskhide_summary">Sembunyikan Magisk dari segala bentuk pendeteksian</string>
+    <string name="settings_unload_magisk_title">Nonaktifkan Magisk</string>
+    <string name="settings_unload_magisk_summary">Menghentikan Magisk daemon secara sementara dan mengembalikan semua bentuk modifikasi dari Magisk</string>
+    <string name="settings_unload_magisk_toast">Magisk telah dinonaktifkan secara sementara. Mulai ulang untuk mengembalikan Magisk</string>
+    <string name="settings_hidelist_config_title">Konfigurasi MagiskHide</string>
+    <string name="settings_hidelist_config_summary">Pilih proses yang akan disertakan pada MagiskHide</string>
+    <string name="settings_anti_bootloop_title">Proteksi dari Bootloop</string>
+    <string name="settings_anti_bootloop_summary">Otomatis mulai ulang ke mode hanya Inti jika proses zygote gagal memulai dalam beberapa kali</string>
+    <string name="settings_coreonly_title">Mode hanya Inti</string>
+    <string name="settings_coreonly_summary">Mengaktifkan mode yang hanya menjalankan MagiskSU (Akses root) dan MagiskHide, tidak ada modul yang dijalankan di mode ini. Mulai ulang diperlukan untuk menerapkan perubahan</string>
+    <string name="settings_clean_hidelist_title">Bersihkan daftar Konfigurasi</string>
+    <string name="settings_clean_hidelist_summary">Menghapus daftar Konfigurasi untuk aplikasi yang telah dicopot atau tidak terpasang pada perangkat, baik untuk MagiskHide atau Daftar Su</string>
+    <string name="settings_clean_hidelist_toast">Konfigurasi MagiskHide &amp; Daftar Su telah dibersihkan</string>
+    <string name="settings_sulist_title">Paksa mode Daftar Su</string>
+    <string name="settings_sulist">Daftar Su</string>
+    <string name="settings_sulist_summary">Mengaktifkan mode yang dimana Magisk hanya akan dimuat pada aplikasi yang telah terpilih di Konfigurasi Daftar Su dan yang telah diberikan izin Superuser</string>
+    <string name="settings_sulist_config_title">Konfigurasi Daftar Su</string>
+    <string name="settings_sulist_config_summary">Pilih proses yang akan disertakan pada Daftar Su</string>
+    <string name="settings_sulist_error_zygisk">Fitur ini tidak dapat dinyalakan bersamaan dengan Zygisk</string>
+    <string name="settings_sulist_error_magiskhide">Fitur ini memerlukan MagiskHide dalam keadaan aktif</string>
+    <string name="settings_sulist_enforced">Mode Daftar Su aktif</string>
+    <string name="new_zygisk_loader">Pemuat Zygisk baru</string>
+    <string name="settings_new_zygisk_loader_summary">Menggunakan cara baru untuk memuat Zygisk. Fitur ini masih bersifat eksperimental dan dapat menyebabkan modul dengan metode Hooking tidak bekerja</string>
+    <string name="settings_logcat_monitor_title">Pemantauan Logcat</string>
+    <string name="settings_logcat_monitor_summary">Mendeteksi proses aplikasi melalui logcat daripada ptrace. Logcat sulit dideteksi namun tidak dapat bekerja lebih baik daripada ptrace</string>
+    <string name="settings_logcat_monitor_no_need">Tidak diperlukan apabila Zygisk sudah aktif</string>
+ 
 </resources>

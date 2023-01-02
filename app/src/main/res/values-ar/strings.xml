@@ -191,4 +191,39 @@
     <string name="authenticate">تصديق</string>
     <string name="unsupport_magisk_title">إصدار مـاجـيسك غير مدعوم</string>
 
+    <!--Delta-->
+    <string name="direct_install_system">تثبيت مباشرة إلى أقسام النظام</string>
+    <string name="reboot_core_only">إعادة التشغيل إلى الوضع الأساسي فقط</string>
+    <string name="settings_hidelist_config_title">تعديل إخفاء Magisk</string>
+    <string name="settings_hidelist_config_summary">حدد العمليات التي سيتم تضمينها في قائمة التطبيقات المخفية</string>
+    <string name="settings_magiskhide_title">إخفاء Magisk</string>
+    <string name="settings_magiskhide_summary">إخفاء Magisk من مختلف أشكال الأكتشاف</string>
+    <string name="settings_unload_magisk_title">تعطيل Magisk</string>
+    <string name="settings_unload_magisk_summary">تعطيل جميع إعدادات وتعديلات Magisk بشكل مؤقت</string>
+    <string name="settings_unload_magisk_toast">تم تعطيل Magisk مؤقتًا. أعد التشغيل لاستعادة Magisk</string>
+    <string name="settings_riru_title">أساسيات Riru</string>
+    <string name="settings_riru_summary">يضيف وحدة Riru Core</string>
+    <string name="settings_riru_toast">تمت إضافة وحدة Riru Core</string>
+    <string name="settings_magiskhide_whitelist_title">إخفاء Magisk كليا</string>
+    <string name="settings_magiskhide_whitelist_title2">إخفاء Magisk كليا</string>
+    <string name="settings_magiskhide_whitelist_summary">يمكن فقط للتطبيقات التي تم منحها صلاحيات الجذر الوصول إلى Magisk. تمكين هذا الخيار قد يؤدي إلى عدم استقرار النظام وحتى أسوأ. يرجى تمكين هذا الخيار فقط إذا لزم الأمر.</string>
+    <string name="settings_magiskhide_whitelist_summary2">(للتصحيح فقط) يتعامل إخفاء إجباري لـ  Magisk مع جميع التطبيقات باستثناء التطبيقات الموجودة في قائمة SuList</string>
+    <string name="settings_magiskhide_dualspace_title">إخفاء Magisk عن التطبيقات المزدوجة</string>
+    <string name="settings_magiskhide_dualspace_summary">إخفاء Magisk من جميع التطبيقات المزدوجة</string>
+    <string name="settings_anti_bootloop_title">حماية من الـBootloop</string>
+    <string name="settings_anti_bootloop_summary">أعد التشغيل في الوضع الأساسي فقط إذا فشل الهاتف عن الإقلاع عدة مرات</string>
+    <string name="settings_coreonly_title">الوضع الأساسي فقط</string>
+    <string name="settings_coreonly_summary">تتوفر الميزات الأساسية فقط مثل MagiskSU (الوصول إلى الجذر) وإخفاء Magisk ولن يتم تحميل أي وحدات في الوضع الأساسي فقط. تتطلب إعادة تشغيل الهاتف.</string>
+    <string name="settings_clean_hidelist_title">تنظيف القائمة</string>
+    <string name="settings_clean_hidelist_summary">قم بإزالة جميع التطبيقات غير الموجودة وغير المثبتة من قائمة الإخفاء</string>
+    <string name="settings_clean_hidelist_toast">تم التنظيف بنجاح</string>
+    <string name="settings_sulist_title">فرض SuList</string>
+    <string name="settings_sulist">SuList</string>
+    <string name="settings_sulist_summary">Magisk مرئي فقط للعمليات على sulist</string>
+    <string name="settings_sulist_config_title">تعديل SuList</string>
+    <string name="settings_sulist_config_summary">حدد العمليات التي سيتم تضمينها في sulist</string>
+    <string name="settings_sulist_error_zygisk">This feature cannot coexist with zygisk</string>
+    <string name="settings_sulist_error_magiskhide">تحتاج هذه الميزة إلى تمكين إخفاء Magisk</string>
+    <string name="settings_sulist_enforced">يتم فرض SuList</string>
+
 </resources>

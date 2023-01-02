@@ -235,4 +235,17 @@
     <string name="reboot_apply_change">Riavvia per applicare le modifiche</string>
     <string name="restore_app_confirmation">L\'app nascosta verrà sostituita con la versione originale. Sei sicuro di voler continuare?</string>
 
+    <!--Delta-->
+    <string name="direct_install_system">Installa direttamente nella partizione del sistema</string>
+    <string name="reboot_core_only">Riavvia in modalità core-only</string>
+    <string name="settings_magiskhide_title">MagiskHide</string> 
+    <string name="settings_magiskhide_summary">Nascondi Magisk da diverse forme di rilevamento</string>
+    <string name="settings_unload_magisk_title">Disabilita Magisk</string>
+    <string name="settings_unload_magisk_summary">Ferma temporaneamente il Magisk daemon e ripristina tutte le modifiche di magisk</string>
+    <string name="settings_unload_magisk_toast">Magisk è stato temporaneamente disabilitato. Riavvia per ripristinare Magisk</string>
+    <string name="settings_riru_title">Riru core</string>
+    <string name="settings_riru_summary">Aggiungi il modulo del Riru core</string>
+    <string name="settings_riru_toast">Modulo del Riru core aggiunto</string>
+
+
 </resources>

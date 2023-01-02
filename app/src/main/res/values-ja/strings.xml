@@ -238,4 +238,39 @@
     <string name="reboot_apply_change">再起動して変更を適用</string>
     <string name="restore_app_confirmation">隠しアプリを元のアプリへと戻します。続行しますか?</string>
 
+    <!--Delta-->
+    <string name="direct_install_system">システムパーティションに直接インストール</string>
+    <string name="reboot_core_only">core-onlyモードへ再起動</string>
+    <string name="settings_hidelist_config_title">Magisk Hideを構成</string>
+    <string name="settings_hidelist_config_summary">hidelist に含めるプロセスを選択します</string>
+    <string name="settings_magiskhide_title">MagiskHide</string>
+    <string name="settings_magiskhide_summary">Magiskを様々な形で検知されないようにします</string>
+    <string name="settings_unload_magisk_title">Magiskを無効化</string>
+    <string name="settings_unload_magisk_summary">Magisk daemonを一時的に停止し、すべてのmagiskの修正を元に戻します</string>
+    <string name="settings_unload_magisk_toast">Magiskは一時的に無効になっています。再起動するとMagiskが復活します</string>
+    <string name="settings_riru_title">Riru core</string>
+    <string name="settings_riru_summary">Riru codeモジュールを追加</string>
+    <string name="settings_riru_toast">Riru core moduleを追加しました</string>
+    <string name="settings_magiskhide_whitelist_title">MagiskHide ホワイトリスト</string>
+    <string name="settings_magiskhide_whitelist_title2">MagiskHideAll</string>
+    <string name="settings_magiskhide_whitelist_summary">事前にroot権限を付与されたアプリのみMagiskにアクセス可能になります。このオプションを有効にすると、システムが不安定になり、さらに悪化する可能性があります。このオプションは必要な場合のみ有効にしてください</string>
+    <string name="settings_magiskhide_whitelist_summary2">(For debugging only) 強制的にMagiskHideでスーパーユーザーリスト以外のアプリを処理する</string>
+    <string name="settings_magiskhide_dualspace_title">MagiskHide デュアルスペース</string>
+    <string name="settings_magiskhide_dualspace_summary">デュアルスペースですべてのアプリからMagiskを隠す</string>
+    <string name="settings_anti_bootloop_title">ブートループプロテクション</string>
+    <string name="settings_anti_bootloop_summary">zygoteプロセスの起動に何度も失敗した場合、core-onlyモードへと再起動します</string>
+    <string name="settings_coreonly_title">Core-only モード</string>
+    <string name="settings_coreonly_summary">MagiskSU（Rootアクセス）、MagiskHideなどのコア機能のみ利用可能で、Core-onlyモードではモジュールはロードされません。反映させるためには再起動が必要です</string>
+    <string name="settings_clean_hidelist_title">hidelistのクリーンアップ</string>
+    <string name="settings_clean_hidelist_summary">hidelistから存在しないアプリやアンインストールされたアプリをすべて削除します</string>
+    <string name="settings_clean_hidelist_toast">Hidelistはクリーンアップされました</string>
+    <string name="settings_sulist_title">SuListを適用</string>
+    <string name="settings_sulist">SuList</string>
+    <string name="settings_sulist_summary">Magiskはsulist上のプロセスにのみ表示されます</string>
+    <string name="settings_sulist_config_title">SuListを構成</string>
+    <string name="settings_sulist_config_summary">SuListに含めるプロセスを選択します</string>
+    <string name="settings_sulist_error_zygisk">この機能はzygiskと共存できません</string>
+    <string name="settings_sulist_error_magiskhide">この機能を使用するにはMagiskHideが有効になっている必要があります</string>
+    <string name="settings_sulist_enforced">SuListは適用されています</string>
+
 </resources>

@@ -238,4 +238,27 @@
     <string name="reboot_apply_change">Перезагрузите устройство для применения изменений</string>
     <string name="restore_app_confirmation">Это действие восстановит пересобранное для скрытия приложение к исходному состоянию. Вы действительно хотите продолжить?</string>
 
+    <string name="direct_install_system">Установка напрямую в раздел system</string>
+    <string name="reboot_core_only">Перезагрузиться в режим core-only</string>
+    <string name="settings_hidelist_config_title">Настройка MagiskHide</string>
+    <string name="settings_hidelist_config_summary">Отметьте процессы для включения в hidelist</string>
+    <string name="settings_magiskhide_summary">Скрыть Magisk от различных форм обнаружения</string>
+    <string name="settings_unload_magisk_title">Отключить Magisk</string>
+    <string name="settings_unload_magisk_summary">Временно остановить демон Magisk и откатить все модификации</string>
+    <string name="settings_unload_magisk_toast">Magisk был временно отключен. Перезагрузитесь для восстановления</string>
+    <string name="settings_anti_bootloop_title">Защита от Bootloop</string>
+    <string name="settings_anti_bootloop_summary">Загрузиться в режим core-only если zygote не запускается</string>
+    <string name="settings_coreonly_title">Режим Core-only</string>
+    <string name="settings_coreonly_summary">В режиме Core-only доступны только основные функции, как MagiskSU (Root доступ) и MagiskHide; модули загружены не будут. Для применения необходима перезагрузка</string>
+    <string name="settings_clean_hidelist_title">Почистить hidelist</string>
+    <string name="settings_clean_hidelist_summary">Убрать несуществующие и удалённые приложения из hidelist</string>
+    <string name="settings_clean_hidelist_toast">Hidelist почищен</string>
+    <string name="settings_sulist_title">Активировать SuList</string>
+    <string name="settings_sulist_summary">Magisk будет доступен только процессам в SuList</string>
+    <string name="settings_sulist_config_title">Настройка SuList</string>
+    <string name="settings_sulist_config_summary">Отметьте процессы для включения в SuList</string>
+    <string name="settings_sulist_error_zygisk">Функция не работает вместе с Zygisk</string>
+    <string name="settings_sulist_error_magiskhide">Для этой фунцкии необходимо включить MagiskHide</string>
+    <string name="settings_sulist_enforced">SuList активирован</string>
+
 </resources>

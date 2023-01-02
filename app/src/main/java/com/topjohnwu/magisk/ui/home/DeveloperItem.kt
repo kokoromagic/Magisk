@@ -24,6 +24,14 @@ private interface RikkaImpl : Dev {
     override val name get() = "RikkaW"
 }
 
+private interface MaruAuthorImpl : Dev {
+    override val name get() = "5ec1cff"
+}
+
+private interface HuskyImpl : Dev {
+    override val name get() = "HuskyDG"
+}
+
 sealed class DeveloperItem : Dev {
 
     abstract val items: List<IconLink>
@@ -59,6 +67,20 @@ sealed class DeveloperItem : Dev {
             listOf<IconLink>(
                 object : IconLink.Twitter() { override val name = "rikkawww" },
                 object : IconLink.Github.User(), RikkaImpl {}
+            )
+    }
+
+    object MaruAuthor : DeveloperItem(), MaruAuthorImpl {
+        override val items =
+            listOf<IconLink>(
+                object : IconLink.Github.User(), MaruAuthorImpl {}
+            )
+    }
+
+    object Husky : DeveloperItem(), HuskyImpl {
+        override val items =
+            listOf<IconLink>(
+                object : IconLink.Github.User(), HuskyImpl {}
             )
     }
 }

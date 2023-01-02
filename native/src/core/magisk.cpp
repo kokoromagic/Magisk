@@ -1,5 +1,8 @@
 #include <sys/mount.h>
 #include <libgen.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #include <base.hpp>
 #include <magisk.hpp>
@@ -10,6 +13,16 @@
 #include "core.hpp"
 
 using namespace std;
+
+static void install_applet(const char *path){
+    string s;
+    for (int i = 0; applet_names[i]; ++i){
+        s = string(path) + "/" + string(applet_names[i]);
+        symlink("./magisk", s.data());
+    }
+    s = string(path) + "/supolicy";
+    symlink("./magiskpolicy", s.data());
+}
 
 [[noreturn]] static void usage() {
     fprintf(stderr,
@@ -25,6 +38,7 @@ Options:
    --list                    list all available applets
    --remove-modules [-n]     remove all modules, reboot if -n is not provided
    --install-module ZIP      install a module zip file
+   --install [PATH]          install applets into PATH
 
 Advanced Options (Internal APIs):
    --daemon                  manually start magisk daemon
@@ -37,7 +51,7 @@ Advanced Options (Internal APIs):
    --clone SRC DEST          clone SRC to DEST
    --sqlite SQL              exec SQL commands to Magisk database
    --path                    print Magisk tmpfs mount path
-   --denylist ARGS           denylist config CLI
+   --hide ARGS               MagiskHide config CLI
 
 Available applets:
 )EOF");
@@ -49,6 +63,22 @@ Available applets:
 }
 
 int magisk_main(int argc, char *argv[]) {
+    if (argc >= 2 && argv[1] == "--auto-selinux"sv) {
+        if (selinux_enabled()) {
+            int secontext_fd = xopen("/proc/self/attr/current", O_RDWR);
+            if (secontext_fd >= 0 && (
+                write(secontext_fd, "u:r:" SEPOL_PROC_DOMAIN ":s0", sizeof("u:r:" SEPOL_PROC_DOMAIN ":s0")) > 0 ||
+                // if selinux cannot be changed to u:r:magisk:s0, try u:r:su:s0
+                write(secontext_fd, "u:r:su:s0", sizeof("u:r:su:s0")) > 0)) {
+                char current_con[128];
+                xread(secontext_fd, current_con, sizeof(current_con));
+                fprintf(stderr, "SeLinux context: %s\n", current_con);
+            }
+            close(secontext_fd);
+        }
+        argc--;
+        argv++;
+    }
     if (argc < 2)
         usage();
     if (argv[1] == "-c"sv) {
@@ -73,6 +103,34 @@ int magisk_main(int argc, char *argv[]) {
         return 0;
     } else if (argv[1] == "--unlock-blocks"sv) {
         unlock_blocks();
+        return 0;
+    } else if (argv[1] == "--mount-sbin"sv) {
+        int ret = mount_sbin();
+        return ret;
+    } else if (argc > 2 && argv[1] == "--setup-sbin"sv) {
+        if (mount_sbin()!=0) return -1;
+        // copy all binaries to sbin
+        const char *bins[] = { "magisk32", "magisk64", "magiskpolicy", "stub.apk", nullptr };
+        for (int i=0;bins[i];i++){
+       	    string src = string(argv[2]) + "/"s + string(bins[i]);
+       	    string dest = "/sbin/"s + string(bins[i]);
+       	    if (access(src.data(), F_OK)==0){
+       	        cp_afc(src.data(), dest.data());
+       	        chmod(dest.data(), 0755);
+       	    }
+        }
+#ifdef __LP64__
+        symlink("./magisk64", "/sbin/magisk");
+#else
+        symlink("./magisk32", "/sbin/magisk");
+#endif
+        install_applet("/sbin");
+        return 0;
+    } else if (argv[1] == "--install"sv) {
+        if (argc >= 3)
+            install_applet(argv[2]);
+        else
+            install_applet("/sbin");
         return 0;
     } else if (argv[1] == "--restorecon"sv) {
         restorecon();
@@ -102,6 +160,8 @@ int magisk_main(int argc, char *argv[]) {
         close(connect_daemon(MainRequest::ZYGOTE_RESTART));
         return 0;
     } else if (argv[1] == "--denylist"sv) {
+        return 1;
+    } else if (argv[1] == "--hide"sv) {
         return denylist_cli(argc - 1, argv + 1);
     } else if (argc >= 3 && argv[1] == "--sqlite"sv) {
         int fd = connect_daemon(MainRequest::SQLITE_CMD);
@@ -143,3 +203,25 @@ int magisk_main(int argc, char *argv[]) {
 #endif
     usage();
 }
+
+
+bool check_envpath(const char* path){
+    char buf[4098];
+    const char *envpath = getenv("PATH");
+    if (envpath == nullptr)
+        return false;
+    int n=0;
+    for (int i=0; i <= strlen(envpath); i++) {
+        if (envpath[i] == ':' || envpath[i] == '\0'){
+            buf[n]='\0';
+            if (strcmp(buf, path) == 0)
+                return true;
+            n=0;
+        } else {
+            buf[n] = envpath[i];
+            n++;
+        }
+    }
+    return false;
+}
+

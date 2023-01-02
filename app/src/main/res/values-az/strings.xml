@@ -139,4 +139,26 @@
     <!-- MagiskHide -->
     <string name="show_system_app">Sistem tətbiqlərini göstər</string>
 
+    <!--Delta-->
+    <string name="direct_install_system">Sistem bölməsinə birbaşa quraşdırma</string>
+    <string name="reboot_core_only">Yalnız əsas rejimə yenidən başladın</string>
+    <string name="settings_hidelist_config_title">MagiskHide-ı konfiqurasiya edin</string>
+    <string name="settings_hidelist_config_summary">Gizlətmə siyahısına daxil ediləcək prosesləri seçin</string>
+    <string name="settings_magiskhide_title">MagiskHide</string>
+    <string name="settings_magiskhide_summary">Magisk-i müxtəlif aşkarlama formalarından gizləyin</string>
+    <string name="settings_unload_magisk_title">Magisk-i söndürün</string>
+    <string name="settings_unload_magisk_summary">Magisk demonunu müvəqqəti dayandırın və bütün magisk dəyişikliklərini geri qaytarın</string>
+    <string name="settings_unload_magisk_toast">Magisk müvəqqəti olaraq deaktiv edilib. Magisk-i bərpa etmək üçün yenidən başladın</string>
+    <string name="settings_riru_title">Riru nüvəsi</string>
+    <string name="settings_riru_summary">Riru kod modulunu əlavə edin</string>
+    <string name="settings_riru_toast">Riru əsas modulu əlavə edildi</string>
+    <string name="settings_magiskhide_whitelist_title">Magisk Ağ Siyahısını Gizlət</string>
+    <string name="settings_magiskhide_whitelist_summary">Yalnız əvvəllər kök imtiyazları verilmiş proqramlar Magisk-ə daxil ola bilər. Bu seçimi aktivləşdirmək sistemi qeyri-sabit və daha da pis vəziyyətə gətirə bilər. Zəhmət olmasa bu seçimi yalnız lazım olduqda aktivləşdirin.</string>
+    <string name="settings_magiskhide_dualspace_title">MagiskHide DualSpace</string>
+    <string name="settings_magiskhide_dualspace_summary">Magisk-i ikili məkanda bütün proqramlardan gizlədin</string>
+    <string name="settings_anti_bootloop_title">Bootloop qorunması</string>
+    <string name="settings_anti_bootloop_summary">Ziqot prosesi dəfələrlə başlamazsa, yalnız əsas rejimdə yenidən başladın</string>
+    <string name="settings_coreonly_title">Yalnız əsas rejim</string>
+    <string name="settings_coreonly_summary">Yalnız MagiskSU (Kök girişi) və MagiskHide kimi əsas xüsusiyyətlər mövcuddur və heç bir modul yalnız Core rejimində yüklənməyəcək. Effektiv olmaq üçün yenidən yükləmə tələb olunur.</string>
+
 </resources>

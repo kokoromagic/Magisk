@@ -5,6 +5,10 @@
 #include <libgen.h>
 #include <set>
 #include <string>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <errno.h>
+#include <sys/vfs.h>
 
 #include <magisk.hpp>
 #include <db.hpp>
@@ -15,7 +19,108 @@
 
 #include "core.hpp"
 
+#define COUNT_FAILBOOT "/cache/.magisk_checkboot"
+
+#define VLOGD(tag, from, to) LOGD("%-8s: %s <- %s\n", tag, to, from)
+
 using namespace std;
+
+#define FIX_MIRRORS 1
+
+#define TST_RAMFS_MAGIC    0x858458f6
+#define TST_TMPFS_MAGIC    0x01021994
+#define TST_OVERLAYFS_MAGIC 0x794c7630
+
+bool is_rootfs()
+{
+    const char *path= "/";
+    struct statfs s;
+    statfs(path, &s);
+    
+    switch (s.f_type) {
+    case TST_TMPFS_MAGIC:
+    case TST_RAMFS_MAGIC:
+    case TST_OVERLAYFS_MAGIC:
+        return true;
+    default:
+        return false;
+    }
+}
+
+int ztrigger_count = 0;
+static bool bootloop_protect = false;
+
+
+static const char *preinit_part[]={
+        PREINIT_PARTS,
+        "/mnt/vendor/persist",
+        nullptr
+    };
+
+
+static bool is_persist_access(const char *file){
+    for (int i=0;preinit_part[i];i++) {
+        string sfile = string(preinit_part[i]) + "/" + file;
+        if (access(sfile.data(), F_OK) == 0) {
+            LOGD("daemon: found trigger file [%s]\n", sfile.data());
+            return true;
+        }
+    }
+    return false;
+}
+
+static void create_persist_file(const char *file){
+    for (int i=0;preinit_part[i];i++) {
+        string sfile = string(preinit_part[i]) + "/" + file;
+        LOGD("daemon: create trigger file [%s]\n", sfile.data());
+        close(xopen(sfile.data(), O_RDONLY | O_CREAT, 0));
+    }
+}
+
+static void remove_persist_access(const char *file){
+    for (int i=0;preinit_part[i];i++) {
+        string sfile = string(preinit_part[i]) + "/" + file;
+        if (access(sfile.data(), F_OK) == 0) {
+            LOGD("daemon: remove trigger file [%s]\n", sfile.data());
+            rm_rf(sfile.data());
+        }
+    }
+}
+
+void reboot_coreonly(){
+    create_persist_file(".disable_all");
+    LOGI("** Reboot to recovery");
+    exec_command_sync("/system/bin/reboot", "recovery");
+}
+
+bool check_bootloop(const char *name, const char *filename, int max)
+{
+    int n=1;
+    if (access(filename, F_OK) != 0) {
+        // not exist, we need create file with initial value
+        FILE *ztrigger=fopen(filename, "wb");
+        if (ztrigger == NULL) return false; // failed
+        fwrite(&n,1,sizeof(int),ztrigger);
+        fclose(ztrigger);
+    }
+    FILE *ztrigger=fopen(filename, "rb");
+    if (ztrigger == NULL) return false; // failed
+    fread(&n, 1, sizeof(int), ztrigger);
+    fclose(ztrigger);
+    // current number here
+        if (n >= max) {
+            LOGI("anti_bootloop: %s reachs %d times, restart!\n", name, max);
+            reboot_coreonly();
+        } else LOGI("%s count = %d\n", name, n);
+    
+    ztrigger=fopen(filename, "wb");
+    if (ztrigger == NULL) return false; // failed
+    n++; // increase the number
+    fwrite(&n, 1, sizeof(int), ztrigger);
+    fclose(ztrigger);
+    return true;
+}
+
 
 // Boot stage state
 enum : int {
@@ -29,54 +134,257 @@ enum : int {
 static int boot_state = FLAG_NONE;
 
 bool zygisk_enabled = false;
+bool sulist_enabled = false;
+bool new_zygisk_enabled = false;
+
+static const char *F2FS_SYSFS_PATH = nullptr;
 
 /*********
  * Setup *
  *********/
+ 
+ 
+void recreate_sbin_v2(const char *mirror, bool use_bind_mount) {
+    auto dp = xopen_dir(mirror);
+    int src = dirfd(dp.get());
+    char buf[4096];
+    char mbuf[4096];
+    for (dirent *entry; (entry = xreaddir(dp.get()));) {
+        string sbin_path = "/sbin/"s + entry->d_name;
+        struct stat st;
+        fstatat(src, entry->d_name, &st, AT_SYMLINK_NOFOLLOW);
+        sprintf(buf, "%s/%s", mirror, entry->d_name);
+        sprintf(mbuf, "%s/%s", MAGISKTMP.data(), entry->d_name);
+        if (access(mbuf, F_OK) == 0) continue;
+        if (S_ISLNK(st.st_mode)) {
+            xreadlinkat(src, entry->d_name, buf, sizeof(buf));
+            xsymlink(buf, sbin_path.data());
+            VLOGD("create", buf, sbin_path.data());
+        } else {
+            if (use_bind_mount) {
+                auto mode = st.st_mode & 0777;
+                // Create dummy
+                if (S_ISDIR(st.st_mode))
+                    xmkdir(sbin_path.data(), mode);
+                else
+                    close(xopen(sbin_path.data(), O_CREAT | O_WRONLY | O_CLOEXEC, mode));
 
-static bool mount_mirror(const std::string_view from, const std::string_view to) {
-    return !xmkdirs(to.data(), 0755) &&
-           // recursively bind mount to mirror dir, rootfs will fail before 3.12 kernel
-           // because of MS_NOUSER
-           !mount(from.data(), to.data(), nullptr, MS_BIND | MS_REC, nullptr) &&
-           // make mirror dir as a private mount so that it won't be affected by magic mount
-           !xmount(nullptr, to.data(), nullptr, MS_PRIVATE | MS_REC, nullptr);
+                bind_mount_(buf, sbin_path.data());
+            } else {
+                xsymlink(buf, sbin_path.data());
+                VLOGD("create", buf, sbin_path.data());
+            }
+        }
+    }
 }
 
-static void mount_mirrors() {
-    LOGI("* Mounting mirrors\n");
+string rootmnt_dir;
 
-    // Bind remount module root to clear nosuid
-    if (access(SECURE_DIR, F_OK) == 0 || (SDK_INT < 24 && xmkdir(SECURE_DIR, 0700))) {
-        auto dest = MAGISKTMP + "/" MODULEMNT;
-        xmount(MODULEROOT, dest.data(), nullptr, MS_BIND, nullptr);
-        xmount(nullptr, dest.data(), nullptr, MS_REMOUNT | MS_BIND, nullptr);
-        xmount(nullptr, dest.data(), nullptr, MS_PRIVATE, nullptr);
-        chmod(SECURE_DIR, 0700);
-        restorecon();
+bool mount_correct(const std::string_view dev, const std::string_view dir,
+    const std::string_view root, const std::string_view type, int flags = 0)
+{
+    char *ranc = random_strc(20);
+    string root_mnt = rootmnt_dir + "/" + ranc;
+    xmkdirs(root_mnt.data(), 0755);
+    delete ranc;
+    const char *init_mnt = (root == "/"sv)? dir.data(): root_mnt.data();
+    // first mount the device
+    if (mount(dev.data(), init_mnt, type.data(), flags, nullptr) ||
+        xmount("", init_mnt, nullptr, MS_PRIVATE, nullptr))
+        return false;
+    if (root != "/"sv){
+        // re-bind mount
+        string mnt_dir = root_mnt + string(root);
+        if (xmount(mnt_dir.data(), dir.data(), nullptr, MS_BIND, nullptr)){
+            return false;
+        }
     }
+    LOGD("mount: %s (%s)\n", dir.data(), type.data());
+    return true;
+}
 
-    // Prepare worker
-    auto worker_dir = MAGISKTMP + "/" WORKERDIR;
-    xmount("worker", worker_dir.data(), "tmpfs", 0, "mode=755");
-    xmount(nullptr, worker_dir.data(), nullptr, MS_PRIVATE, nullptr);
+bool mount_recreate(const std::string_view from, const std::string_view to){
+    return !xmount(from.data(), to.data(), nullptr, MS_BIND, nullptr) &&
+           !xmount("", to.data(), nullptr, MS_PRIVATE, nullptr);
+}
 
-    // Recursively bind mount / to mirror dir
-    if (auto mirror_dir = MAGISKTMP + "/" MIRRDIR; !mount_mirror("/", mirror_dir)) {
-        LOGI("fallback to mount subtree\n");
-        // rootfs may fail, fallback to bind mount each mount point
-        set<string, greater<>> mounted_dirs {{ MAGISKTMP }};
-        for (const auto &info: parse_mount_info("self")) {
-            if (info.type == "rootfs"sv) continue;
-            // the greatest mount point that less than info.target, which is possibly a parent
-            if (auto last_mount = mounted_dirs.upper_bound(info.target);
-                last_mount != mounted_dirs.end() && info.target.starts_with(*last_mount + '/')) {
+void mount_mirrors() {
+    rootmnt_dir = MAGISKTMP + "/" INTLROOT "/rootmnt";
+    xmkdirs(rootmnt_dir.data(), 0755);
+    xmount("tmpfs", rootmnt_dir.data(), "tmpfs", 0, nullptr);
+
+    string mirror_dir = MAGISKTMP + "/" MIRRDIR;
+    string block_dir = "/dev";
+    string system_mirror = mirror_dir + "/system";
+    string worker_dir = MAGISKTMP + "/" WORKERDIR;
+    mkdirs(worker_dir.data(), 0755);
+    xmount(worker_dir.data(), worker_dir.data(), nullptr, MS_BIND, nullptr);
+    xmount("", worker_dir.data(), nullptr, MS_PRIVATE, nullptr);
+    const char *include_parts[] = { MIRRORS, "/mnt/vendor/persist", nullptr };
+
+    std::vector<string> mounted_dirs;
+    std::vector<mount_info> mount_info;
+    // trim mountinfo
+    do {
+        auto current_mount_info = parse_mount_info("self");
+        std::vector<string> mountpoint;
+        for (auto &info : reversed(current_mount_info)){
+            if (info.target != "/") {
+                for (auto &s : mountpoint)
+                    if (s == info.target)
+                        goto next_mountpoint;
+                for (int i = 0; include_parts[i] != nullptr; i++){
+                    if (info.target == include_parts[i] || 
+                        info.target.starts_with(std::string(include_parts[i]) + "/")){
+                        goto add_mountpoint;
+                    }
+                }
                 continue;
             }
-            if (mount_mirror(info.target, mirror_dir + info.target)) {
-                LOGD("%-8s: %s <- %s\n", "rbind", (mirror_dir + info.target).data(), info.target.data());
-                mounted_dirs.insert(info.target);
+            add_mountpoint:
+            mount_info.emplace_back(info);
+            mountpoint.emplace_back(info.target);
+            next_mountpoint:
+            continue;
+        }
+    } while(false);
+
+    bool rootdir_mounted = false;
+    for (auto &info : reversed(mount_info)) {
+        const char *mnt_dir = info.target.data();
+        const char *mnt_type = info.type.data();
+        const char *mnt_opts = info.fs_option.data();
+        const char *mnt_root = info.root.data();
+        struct stat st{};
+        string src;
+        int flags = 0;
+        string dest = mirror_dir + mnt_dir;
+        auto opts = split_ro(mnt_opts, ",");
+            for (string_view s : opts) {
+                if (s == "ro") {
+                    flags |= MS_RDONLY;
+                    break;
+                }
             }
+            do {
+                char *ranc = random_strc(get_random(4,12));
+                src = block_dir + "/" + ranc;
+                delete ranc;
+            } while (access(src.data(),F_OK) == 0);
+            if (lstat(mnt_dir, &st) != 0 ||
+                // skip underlying mount
+                st.st_dev != info.device ||
+                // only mount /data, skip any mountpoint under /data
+                string(mnt_dir).starts_with("/data/") ||
+                // skip mount vfat
+                mnt_type == "vfat"sv)
+                continue;
+#if FIX_MIRRORS
+            if (rootdir_mounted && info.target.starts_with("/system/")){
+                if (major(st.st_dev) > 0)
+                    goto setup_mount_dev;
+                goto recreate_mnt;
+            }
+#endif
+            for (const auto &dir : mounted_dirs) {
+#if FIX_MIRRORS
+                if (info.target.starts_with(dir + "/")){
+                    if (major(st.st_dev) > 0)
+                        goto setup_mount_dev;
+                    goto recreate_mnt;
+                }
+#endif
+                if (string_view(mnt_dir) == dir) {
+                    // Already mounted
+                    goto next;
+                }
+            }
+            // handle nodev partitions like overlayfs /system
+            if (major(st.st_dev) == 0){
+                if (mnt_dir == "/"sv) {
+                    if (mnt_type == "rootfs"sv || mnt_type == "tmpfs"sv)
+                        continue;
+                    // overlayfs root directory ?
+                    dest = mirror_dir + "/system_root";
+                    xmkdir(dest.data(), 0755);
+                    if (mount_recreate(mnt_dir, dest)){
+                        LOGD("mount: %s (%s)\n", dest.data(), mnt_type);
+                        if (!symlink("./system_root/system", system_mirror.data()))
+                            LOGD("symlink: %s\n", system_mirror.data());
+                        rootdir_mounted = true;
+                        goto add_mounted_dir;
+                    } else {
+                        rm_rf(dest.data());
+                    }
+                } else {
+                    dest = mirror_dir + mnt_dir;
+                    xmkdir(dest.data(), 0755);
+                    if (mount_recreate(mnt_dir, dest)) {
+                        LOGD("mount: %s (%s)\n", dest.data(), mnt_type);
+                    }
+                }
+                continue;
+            }
+
+            // setup mirror partitions as usual
+            if (mnt_dir == "/mnt/vendor/persist"sv) {
+                dest = mirror_dir + "/persist";
+                mknod(src.data(), S_IFBLK | 0600, st.st_dev);
+                xmkdir(dest.data(), 0755);
+                if (mount_correct(src.data(), dest.data(), mnt_root, mnt_type, flags)){
+                    mounted_dirs.emplace_back("/mnt/vendor/persist");
+                    mounted_dirs.emplace_back("/persist");
+                }
+                goto on_success;
+            }
+            if (mnt_dir == "/"sv) {
+                dest = mirror_dir + "/system_root";
+                mknod(src.data(), S_IFBLK | 0600, st.st_dev);
+                xmkdir(dest.data(), 0755);
+                if (mount_correct(src.data(), dest.data(), mnt_root, mnt_type, flags)){
+                    if (!symlink("./system_root/system", system_mirror.data()))
+                        LOGD("symlink: %s\n", system_mirror.data());
+                    rootdir_mounted = true;
+                    goto add_mounted_dir;
+                }
+                goto on_success;
+            }
+            xmkdir(dest.data(), 0755);
+            setup_mount_dev:
+            mknod(src.data(), S_IFBLK | 0600, st.st_dev);
+            if (mount_correct(src.data(), dest.data(), mnt_root, mnt_type, flags)){
+                goto add_mounted_dir;
+            }
+
+            recreate_mnt:
+            if (mount_recreate(mnt_dir, dest))
+                LOGD("mount: %s (%s)\n", dest.data(), mnt_type);
+            continue;
+
+        add_mounted_dir:
+            mounted_dirs.emplace_back(mnt_dir);
+        on_success:
+            rm_rf(src.data());
+        next:
+            continue;
+    }
+    umount2(rootmnt_dir.data(), MNT_DETACH);
+    rmdir(rootmnt_dir.data());
+    for (const char *part : { SPEC_PARTS }){
+        string dest = mirror_dir + part;
+        string src = string("./system") + part;
+        if (access(dest.data(), F_OK) != 0 && access(part, F_OK) == 0 && !symlink(src.data(), dest.data())) {
+            LOGD("symlink: %s\n", dest.data());
+        }
+    }
+
+    //LOGI("* Mounting module root\n");
+    if (access(SECURE_DIR, F_OK) == 0 || (SDK_INT < 24 && xmkdir(SECURE_DIR, 0700))) {
+        auto src = MAGISKTMP + "/" MIRRDIR "/" MODULEROOT;
+        auto dest = MAGISKTMP + "/" MODULEMNT; xmkdir(dest.data(), 0700); 
+        if (mount_recreate(src, dest)) {
+            restorecon();
+            chmod(SECURE_DIR, 0700);
         }
     }
 }
@@ -95,8 +403,8 @@ static bool magisk_env() {
 
     // Alternative binaries paths
     const char *alt_bin[] = { "/cache/data_adb/magisk", "/data/magisk", buf };
+    struct stat st{};
     for (auto alt : alt_bin) {
-        struct stat st{};
         if (lstat(alt, &st) == 0) {
             if (S_ISLNK(st.st_mode)) {
                 unlink(alt);
@@ -111,6 +419,7 @@ static bool magisk_env() {
     rm_rf("/cache/data_adb");
 
     // Directories in /data/adb
+    if (!is_dir_exist(MODULEROOT)) rm_rf(MODULEROOT);
     xmkdir(DATABIN, 0755);
     xmkdir(MODULEROOT, 0755);
     xmkdir(SECURE_DIR "/post-fs-data.d", 0755);
@@ -141,6 +450,27 @@ void reboot() {
         exec_command_sync("/system/bin/reboot");
 }
 
+static bool core_only(bool rm_trigger = false){
+    if (is_persist_access(".disable_magisk")){
+        if (rm_trigger){
+            remove_persist_access(".disable_magisk");
+        }
+        return true;
+    }
+    return false;
+}
+
+
+static bool should_skip_all(){
+    if (is_persist_access(".disable_all")){
+        remove_persist_access(".disable_all");
+        rm_rf(COUNT_FAILBOOT);
+        return true;
+    }
+    return false;
+}
+    
+
 static bool check_data() {
     bool mnt = false;
     file_readline("/proc/mounts", [&](string_view s) {
@@ -166,6 +496,34 @@ static bool check_data() {
     return true;
 }
 
+static bool system_lnk(const char *path){
+    char buff[4098];
+    ssize_t len = readlink(path, buff, sizeof(buff)-1);
+    if (len != -1) {
+        return true;
+    }
+    return false;
+}
+
+static void simple_mount(const string &sdir, const string &ddir = "") {
+    auto dir = xopen_dir(sdir.data());
+    if (!dir) return;
+    for (dirent *entry; (entry = xreaddir(dir.get()));) {
+        string src = sdir + "/" + entry->d_name;
+        string dest = ddir + "/" + entry->d_name;
+        if (access(dest.data(), F_OK) == 0 && !system_lnk(dest.data())) {
+            if (entry->d_type == DT_LNK) continue;
+            else if (entry->d_type == DT_DIR) {
+                // Recursive
+                simple_mount(src, dest);
+            } else {
+                LOGD("bind_mnt: %s <- %s\n", dest.data(), src.data());
+                xmount(src.data(), dest.data(), nullptr, MS_BIND, nullptr);
+            }
+        }
+    }
+}
+
 void unlock_blocks() {
     int fd, dev, OFF = 0;
 
@@ -183,6 +541,32 @@ void unlock_blocks() {
             close(fd);
         }
     }
+}
+
+
+int mount_sbin(){
+    if (is_rootfs()){
+        if (xmount(nullptr, "/", nullptr, MS_REMOUNT, nullptr) != 0) return -1;
+        mkdir("/sbin", 0750);
+        rm_rf("/root");
+        mkdir("/root", 0750);
+        clone_attr("/sbin", "/root");
+        link_path("/sbin", "/root");
+        if (tmpfs_mount("tmpfs", "/sbin") != 0) return -1;
+        setfilecon("/sbin", "u:object_r:rootfs:s0");
+        recreate_sbin_v2("/root", false);
+        xmount(nullptr, "/", nullptr, MS_REMOUNT | MS_RDONLY, nullptr);
+    } else {
+        if (tmpfs_mount("tmpfs", "/sbin") != 0) return -1;
+        setfilecon("/sbin", "u:object_r:rootfs:s0");
+        xmkdir("/sbin/" INTLROOT, 0755);
+        xmkdir("/sbin/" MIRRDIR, 0755);
+        xmkdir("/sbin/" MIRRDIR "/system_root", 0755);
+        xmount("/", "/sbin/" MIRRDIR "/system_root", nullptr, MS_BIND, nullptr);
+        recreate_sbin_v2("/sbin/" MIRRDIR "/system_root/sbin", true);
+        umount2("/sbin/" MIRRDIR "/system_root", MNT_DETACH);
+    }
+    return 0;
 }
 
 #define test_bit(bit, array) (array[bit / 8] & (1 << (bit % 8)))
@@ -232,6 +616,96 @@ static bool check_key_combo() {
     return true;
 }
 
+#define F2FS_DEF_CP_INTERVAL "60"
+#define F2FS_TUNE_CP_INTERVAL "200"
+#define F2FS_DEF_GC_THREAD_URGENT_SLEEP_TIME "500"
+#define F2FS_TUNE_GC_THREAD_URGENT_SLEEP_TIME "50"
+#define BLOCK_SYSFS_PATH "/sys/block"
+#define TUNE_DISCARD_MAX_BYTES "134217728"
+
+static inline bool tune_f2fs_target(const char *device) {
+    // Tune only SCSI (UFS), eMMC, NVMe and virtual devices
+    return !strncmp(device, "sd", 2) ||
+           !strncmp(device, "mmcblk", 6) ||
+           !strncmp(device, "nvme", 4) ||
+           !strncmp(device, "vd", 2) ||
+           !strncmp(device, "xvd", 3);
+}
+
+static void __tune_f2fs(const char *dir, const char *device, const char *node,
+                        const char *def, const char *val, bool wr_only) {
+    char path[128], buf[32];
+    int flags = F_OK | R_OK | W_OK;
+
+    sprintf(path, "%s/%s/%s", dir, device, node);
+    chmod(path, 0644);
+
+    if (wr_only)
+        flags &= ~R_OK;
+    if (access(path, flags) != 0)
+        return;
+
+    int fd = xopen(path, wr_only ? O_WRONLY : O_RDWR);
+    if (fd < 0)
+        return;
+
+    if (!wr_only) {
+        ssize_t len;
+        len = xread(fd, buf, sizeof(buf));
+        if (buf[len - 1] == '\n')
+            buf[len - 1] = '\0';
+        if (strncmp(buf, def, len)) {
+            // Something else changed this node from the kernel's default.
+            // Pass.
+            LOGD("tune_f2fs: skip node %s\n", node);
+            close(fd);
+            return;
+        }
+    }
+
+    xwrite(fd, val, strlen(val));
+    close(fd);
+
+    LOGD("tune_f2fs: %s -> %s\n", path, val);
+}
+
+static void tune_f2fs() {
+    // Check f2fs sys path
+    if (access("/sys/fs/f2fs", F_OK) == 0)
+        F2FS_SYSFS_PATH = "/sys/fs/f2fs";
+    else if (access("/sys/fs/f2fs_dev", F_OK) == 0)
+        F2FS_SYSFS_PATH = "/sys/fs/f2fs_dev";
+    else {
+        LOGD("tune_f2fs: /sys/fs/f2fs is not found, skip tuning!\n");
+        return;
+    }
+    LOGI("tune_f2fs: %s\n", F2FS_SYSFS_PATH);
+    // Tune f2fs sysfs node
+    if (auto dir = xopen_dir(F2FS_SYSFS_PATH); dir) {
+        for (dirent *entry; (entry = readdir(dir.get()));) {
+            if (entry->d_name == "."sv || entry->d_name == ".."sv || !tune_f2fs_target(entry->d_name))
+                continue;
+
+            __tune_f2fs(F2FS_SYSFS_PATH, entry->d_name, "cp_interval",
+                F2FS_DEF_CP_INTERVAL, F2FS_TUNE_CP_INTERVAL, false);
+            __tune_f2fs(F2FS_SYSFS_PATH, entry->d_name, "gc_urgent_sleep_time",
+                F2FS_DEF_GC_THREAD_URGENT_SLEEP_TIME, F2FS_TUNE_GC_THREAD_URGENT_SLEEP_TIME, false);
+        }
+    }
+
+    // Tune block discard limit
+    if (auto dir = xopen_dir(BLOCK_SYSFS_PATH); dir) {
+        for (dirent *entry; (entry = readdir(dir.get()));) {
+            if (entry->d_name == "."sv || entry->d_name == ".."sv || !tune_f2fs_target(entry->d_name))
+                continue;
+
+            __tune_f2fs(BLOCK_SYSFS_PATH, entry->d_name, "queue/discard_max_bytes",
+                nullptr, TUNE_DISCARD_MAX_BYTES, true);
+        }
+    }
+}
+
+
 /***********************
  * Boot Stage Handlers *
  ***********************/
@@ -246,9 +720,18 @@ static void post_fs_data() {
 
     LOGI("** post-fs-data mode running\n");
 
+    db_settings dbs;
+    get_db_settings(dbs, ANTI_BOOTLOOP);
+    bool coreonly_mode = core_only(false);
+    bootloop_protect = dbs[ANTI_BOOTLOOP];
+
+    LOGI("* Unlock device blocks\n");
     unlock_blocks();
+    LOGI("* Mount mirrors\n");
     mount_mirrors();
     prune_su_access();
+
+    LOGI("PATH=[%s]\n", getenv("PATH"));
 
     if (access(SECURE_DIR, F_OK) != 0) {
         LOGE(SECURE_DIR " is not present, abort\n");
@@ -261,16 +744,41 @@ static void post_fs_data() {
     }
 
     if (getprop("persist.sys.safemode", true) == "1" ||
-        getprop("ro.sys.safemode") == "1" || check_key_combo()) {
+        getprop("ro.sys.safemode") == "1" || check_key_combo() || should_skip_all()) {
         boot_state |= FLAG_SAFE_MODE;
+        LOGI("** Safe mode triggered\n");
         // Disable all modules and denylist so next boot will be clean
         disable_modules();
         disable_deny();
+        prepare_modules();
     } else {
-        exec_common_scripts("post-fs-data");
-        db_settings dbs;
         get_db_settings(dbs, ZYGISK_CONFIG);
+        get_db_settings(dbs, WHITELIST_CONFIG);
+        get_db_settings(dbs, DENYLIST_CONFIG);
+        get_db_settings(dbs, NEW_ZYGISK_CONFIG);
+
+        if(coreonly_mode){
+            LOGI("** Core-only mode, ignore modules\n");
+            // Core-only mode only disable modules
+            boot_state |= FLAG_SAFE_MODE;
+            disable_modules();
+            // we still allow zygisk
+            zygisk_enabled = dbs[ZYGISK_CONFIG];
+            new_zygisk_enabled = dbs[NEW_ZYGISK_CONFIG];
+            sulist_enabled = dbs[DENYLIST_CONFIG] && dbs[WHITELIST_CONFIG];
+            initialize_denylist();
+            prepare_modules();
+            goto early_abort;
+        }
+        if (bootloop_protect) {
+            if (!check_bootloop("boot_record", COUNT_FAILBOOT,3))
+                LOGE("cannot record boot\n");
+        }
+        exec_common_scripts("post-fs-data");
+
         zygisk_enabled = dbs[ZYGISK_CONFIG];
+        sulist_enabled = dbs[DENYLIST_CONFIG] && dbs[WHITELIST_CONFIG];
+        new_zygisk_enabled = dbs[NEW_ZYGISK_CONFIG];
         initialize_denylist();
         handle_modules();
     }
@@ -297,6 +805,8 @@ static void boot_complete() {
     setup_logfile(false);
 
     LOGI("** boot-complete triggered\n");
+    rm_rf(COUNT_FAILBOOT);
+    tune_f2fs();
 
     // At this point it's safe to create the folder
     if (access(SECURE_DIR, F_OK) != 0)
@@ -328,5 +838,16 @@ void boot_stage_handler(int code) {
         break;
     default:
         __builtin_unreachable();
+    }
+}
+
+void perform_check_bootloop() {
+    db_settings dbs;
+    get_db_settings(dbs, ANTI_BOOTLOOP);
+    if (((boot_state & FLAG_BOOT_COMPLETE) == 0 && bootloop_protect)){
+        ztrigger_count++;
+        if (ztrigger_count >= 8){
+            reboot_coreonly();
+        }
     }
 }

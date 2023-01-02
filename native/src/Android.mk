@@ -29,6 +29,7 @@ LOCAL_SRC_FILES := \
     core/scripting.cpp \
     core/restorecon.cpp \
     core/module.cpp \
+    core/patchlib.cpp \
     core/logging.cpp \
     core/thread.cpp \
     resetprop/persist.cpp \
@@ -61,8 +62,10 @@ LOCAL_SRC_FILES := init/preload.c
 include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
+LOCAL_STATIC_LIBRARIES := libbase
 LOCAL_MODULE := zygisk-ld
-LOCAL_SRC_FILES := zygisk/loader.c
+LOCAL_SRC_FILES := zygisk/loader.cpp
+LOCAL_LDLIBS := -llog
 include $(BUILD_SHARED_LIBRARY)
 
 endif

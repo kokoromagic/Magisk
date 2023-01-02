@@ -1,5 +1,6 @@
 #include <cinttypes>
 #include <base.hpp>
+#include <sys/stat.h>
 
 #include "zygisk.hpp"
 #include <lsplt.hpp>
@@ -32,8 +33,23 @@ void unmap_all(const char *name) {
     }
 }
 
-void remap_all(const char *name) {
+void fakemap_file(const char *name) {
     auto maps = find_maps(name);
+    remap_all(name);
+    for (auto &info : maps) {
+        //void *addr = reinterpret_cast<void *>(info.start);
+        size_t size = info.end - info.start;
+        int fd = open(name, O_RDONLY);
+        if (fd >= 0) {
+            xmmap(nullptr, size, info.perms, MAP_PRIVATE, fd, info.offset);
+            close(fd);
+        } else {
+            LOGE("open %s failed\n", name);
+        }
+    }
+}
+
+static void remap_maps(vector<lsplt::MapInfo> maps) {
     for (auto &info : maps) {
         void *addr = reinterpret_cast<void *>(info.start);
         size_t size = info.end - info.start;
@@ -45,6 +61,26 @@ void remap_all(const char *name) {
         mremap(copy, size, size, MREMAP_MAYMOVE | MREMAP_FIXED, addr);
         mprotect(addr, size, info.perms);
     }
+}
+
+void remap_all(const char *name) {
+    auto maps = find_maps(name);
+    remap_maps(maps);
+}
+
+void hide_from_maps() {
+    auto maps = lsplt::MapInfo::Scan();
+    struct stat data_st;
+    if (stat("/data", &data_st))
+        return;
+    for (auto iter = maps.begin(); iter != maps.end();) {
+        if (!string(iter->path).starts_with("/") || string(iter->path).starts_with("/data/") || iter->dev != data_st.st_dev) {
+            iter = maps.erase(iter);
+        } else {
+            ++iter;
+        }
+    }
+    remap_maps(maps);
 }
 
 uintptr_t get_function_off(int pid, uintptr_t addr, char *lib) {

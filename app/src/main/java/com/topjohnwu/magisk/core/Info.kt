@@ -30,12 +30,15 @@ object Info {
     @JvmField var isSAR = false
     var isAB = false
     @JvmField val isZygiskEnabled = System.getenv("ZYGISK_ENABLED") == "1"
+    @JvmField val isNewZygiskEnabled = System.getenv("NEW_ZYGISK_ENABLED") == "1"
     @JvmStatic val isFDE get() = crypto == "block"
     @JvmField var ramdisk = false
     @JvmField var vbmeta = false
     var crypto = ""
     var noDataExec = false
     var isRooted = false
+    var allowSystemMagisk = false
+    var sulist = false
 
     @JvmField var hasGMS = true
     val isSamsung = Build.MANUFACTURER.equals("samsung", ignoreCase = true)

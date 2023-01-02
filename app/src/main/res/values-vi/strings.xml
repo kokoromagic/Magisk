@@ -95,10 +95,11 @@
     <string name="show_os_app">Hiển thị các ứng dụng hệ điều hành</string>
     <string name="hide_filter_hint">Lọc theo tên</string>
     <string name="hide_search">Tìm kiếm</string>
+    
 
     <!--Module-->
     <string name="no_info_provided">(Không cung cấp thông tin)</string>
-    <string name="reboot_userspace">Khởi động lại</string>
+    <string name="reboot_userspace">Khởi động lại không gian người dùng</string>
     <string name="reboot_recovery">Khởi động lại vào Recovery Mode</string>
     <string name="reboot_bootloader">Khởi động lại vào Bootloader</string>
     <string name="reboot_download">Khởi động lại vào Download</string>
@@ -236,5 +237,41 @@
     <string name="app_not_found">Không tìm thấy ứng dụng nào để xử lý hành động này</string>
     <string name="reboot_apply_change">Khởi động lại để áp dụng các thay đổi</string>
     <string name="restore_app_confirmation">Điều này sẽ khôi phục ứng dụng ẩn về nguyên bản. Bạn chắc chắn muốn làm điều này chứ?</string>
+
+    <!--Delta-->
+    <string name="direct_install_system">Cài đặt trực tiếp vào phân vùng hệ thống</string>
+    <string name="settings_hidelist_config_title">Cấu hình MagiskHide</string>
+    <string name="settings_hidelist_config_summary">Chọn các quy trình cần được đưa vào danh sách ẩn</string>
+    <string name="reboot_core_only">Khởi động lại vào chế độ chỉ lõi</string>
+    <string name="settings_magiskhide_summary">Ẩn Magisk khỏi nhiều loại phương thức phát hiện</string>
+    <string name="settings_unload_magisk_title">Vô hiệu hóa Magisk</string>
+    <string name="settings_unload_magisk_summary">Tạm thời dừng tiến trình nền Magisk và hoàn nguyên mọi sửa đổi bởi Magisk</string>
+    <string name="settings_unload_magisk_toast">Magisk đã bị vô hiệu hóa, khởi động lại để khôi phục Magisk</string>
+    <string name="settings_riru_title">Riru core</string>
+    <string name="settings_riru_summary">Thêm mô-đun Riru core</string>
+    <string name="settings_riru_toast">Đã thêm mô-đun Riru core</string>
+    <string name="settings_magiskhide_dualspace_summary">Ẩn Magisk khỏi tất cả các ứng dụng trong không gian kép</string>
+    <string name="settings_magiskhide_whitelist_summary">Chỉ những ứng dụng đã được cấp đặc quyền root mới có thể truy cập Magisk.  Kích hoạt tùy chọn này có thể làm cho hệ thống không ổn định và thậm chí còn tồi tệ hơn. Vui lòng chỉ bật tùy chọn này nếu cần thiết.</string>
+    <string name="settings_anti_bootloop_title">Bảo vệ Bootloop</string>
+    <string name="settings_anti_bootloop_summary">Tự khởi động vào chế độ chỉ lõi khi zygote không thể khởi động nhiều lần</string>
+    <string name="settings_coreonly_title">Chế độ chỉ lõi</string>
+    <string name="settings_coreonly_summary">Chỉ có các tính năng cốt lõi như MagiskSU (Quyền truy cập Root) và MagiskHide và sẽ không có mô-đun nào hoạt động ở chế độ Chỉ lõi. Bắt buộc phải khởi động lại để có hiệu lực.</string>
+    <string name="settings_magiskhide_whitelist_summary2">(Chỉ dành cho gỡ lỗi) Buộc MagiskHide xử lý tất cả các ứng dụng ngoại trừ các ứng dụng nằm trong danh sách superuser</string>
+    <string name="settings_clean_hidelist_title">Làm sạch danh sách ẩn</string>
+    <string name="settings_clean_hidelist_summary">Loại bỏ các ứng dụng không tồn tại hoặc đã bị gỡ bỏ khỏi danh sách ẩn</string>
+    <string name="settings_clean_hidelist_toast">Danh sách ẩn đã được làm sạch</string>
+    <string name="settings_sulist_title">Thực thi SuList</string>
+    <string name="settings_sulist">SuList</string>
+    <string name="settings_sulist_summary">Magisk chỉ hiển thị cho các tiến trình nằm trong SuList</string>
+    <string name="settings_sulist_config_title">Định cấu hình SuList</string>
+    <string name="settings_sulist_config_summary">Chọn các quy trình cần được đưa vào SuList</string>
+    <string name="settings_sulist_error_zygisk">Tính năng này không hỗ trợ zygisk</string>
+    <string name="settings_sulist_error_magiskhide">Tính năng này cần MagiskHide phải được bật</string>
+    <string name="settings_sulist_enforced">SuList đang thực thi</string>
+    <string name="new_zygisk_loader">Trình tải Zygisk mới</string>
+    <string name="settings_new_zygisk_loader_summary">Sử dụng cách mới để tải Zygisk. Tính năng này chỉ là thử nghiệm và nó có thể phá vỡ hooking module</string>
+    <string name="settings_logcat_monitor_title">Theo dõi logcat</string>
+    <string name="settings_logcat_monitor_summary">Theo dõi logcat thay vì ptrace Zygote để phát hiện các ứng dụng khởi động. Ít bị phát hiện hơn nhưng không tin cậy.</string>
+    <string name="settings_logcat_monitor_no_need">No need when Zygisk is enabled</string>
 
 </resources>

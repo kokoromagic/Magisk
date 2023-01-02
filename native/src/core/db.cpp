@@ -117,6 +117,9 @@ db_settings::db_settings() {
     data[SU_MNT_NS] = NAMESPACE_MODE_REQUESTER;
     data[DENYLIST_CONFIG] = false;
     data[ZYGISK_CONFIG] = false;
+    data[WHITELIST_CONFIG] = false;
+    data[ANTI_BOOTLOOP] = false;
+    data[NEW_ZYGISK_CONFIG] = false;
 }
 
 int db_settings::get_idx(string_view key) const {
@@ -243,7 +246,6 @@ static char *open_and_init_db(sqlite3 *&db) {
     }
     if (ver == 10) {
         sqlite3_exec(db,
-                "DROP TABLE IF EXISTS hidelist;"
                 "DELETE FROM settings WHERE key='magiskhide';",
                 nullptr, nullptr, &err);
         err_ret(err);
@@ -276,6 +278,11 @@ static char *open_and_init_db(sqlite3 *&db) {
         sqlite3_exec(db, query, nullptr, nullptr, &err);
         err_ret(err);
     }
+    sqlite3_exec(db, "REPLACE INTO settings (key,value) VALUES('denylist',0);"
+                     "CREATE TABLE IF NOT EXISTS hidelist "
+                "(package_name TEXT, process TEXT, PRIMARY KEY(package_name, process));"
+                     "CREATE TABLE IF NOT EXISTS sulist "
+                "(package_name TEXT, process TEXT, PRIMARY KEY(package_name, process));", nullptr, nullptr, &err);
     return nullptr;
 }
 
