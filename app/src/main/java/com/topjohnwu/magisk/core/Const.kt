@@ -15,7 +15,8 @@ object Const {
         else Build.SUPPORTED_32_BIT_ABIS.firstOrNull()
 
     // Paths
-    const val MAGISK_PATH  = "/data/adb/modules"
+    lateinit var MAGISKTMP: String
+    val MAGISK_PATH get() = "$MAGISKTMP/modules"
     const val TMPDIR = "/dev/tmp"
     const val MAGISK_LOG = "/cache/magisk.log"
 
