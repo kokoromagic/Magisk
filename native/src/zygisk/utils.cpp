@@ -68,21 +68,6 @@ void remap_all(const char *name) {
     remap_maps(maps);
 }
 
-void hide_from_maps() {
-    auto maps = lsplt::MapInfo::Scan();
-    struct stat data_st;
-    if (stat("/data", &data_st))
-        return;
-    for (auto iter = maps.begin(); iter != maps.end();) {
-        if (!string(iter->path).starts_with("/") || string(iter->path).starts_with("/data/") || iter->dev != data_st.st_dev) {
-            iter = maps.erase(iter);
-        } else {
-            ++iter;
-        }
-    }
-    remap_maps(maps);
-}
-
 uintptr_t get_function_off(int pid, uintptr_t addr, char *lib) {
     for (auto &info : lsplt::MapInfo::Scan()) {
         if (addr >= info.start && addr < info.end) {

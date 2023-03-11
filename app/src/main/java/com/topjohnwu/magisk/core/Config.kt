@@ -46,7 +46,6 @@ object Config : PreferenceConfig, DBConfig {
         const val KEYSTORE = "keystore"
         const val SULIST = "sulist"
         const val ANTIBOOTLOOP = "anti_bootloop"
-        const val NEW_ZYGISK_LOADER = "new_zygisk"
 
         // prefs
         const val SU_REQUEST_TIMEOUT = "su_request_timeout"
@@ -171,7 +170,6 @@ object Config : PreferenceConfig, DBConfig {
     var antiBLoop by BoolDBPropertyNoWrite(Key.ANTIBOOTLOOP, false)
     var suManager by dbStrings(Key.SU_MANAGER, "", true)
     var keyStoreRaw by dbStrings(Key.KEYSTORE, "", true)
-	var newzygisk by dbSettings(Key.NEW_ZYGISK_LOADER, false);
 
     private const val SU_FINGERPRINT = "su_fingerprint"
 

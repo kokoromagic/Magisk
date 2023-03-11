@@ -29,7 +29,6 @@ LOCAL_SRC_FILES := \
     core/scripting.cpp \
     core/restorecon.cpp \
     core/module.cpp \
-    core/patchlib.cpp \
     core/logging.cpp \
     core/thread.cpp \
     resetprop/persist.cpp \

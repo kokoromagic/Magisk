@@ -21,8 +21,6 @@ using namespace std;
 
 static bool log_enabled = true;
 
-void zygisk_patch_libanroid_runtime();
-
 #define VLOGD(tag, from, to) if (log_enabled) LOGD("%-8s: %s <- %s\n", tag, to, from)
 
 #define DVLOGD(tag, target) if (log_enabled) LOGD("%-8s: %s\n", tag, target)
@@ -431,11 +429,7 @@ void load_modules() {
     }
 
     if (zygisk_enabled) {
-        if (new_zygisk_enabled) {
-            zygisk_patch_libanroid_runtime();
-        } else {
-            zygisk_patch_props();
-        }
+        zygisk_patch_props();
     }
 
     log_enabled = false;

@@ -69,7 +69,7 @@ class SettingsViewModel : BaseViewModel(), BaseSettingsItem.Handler {
                 if (Const.Version.atLeast_24_0()) {
                     list.add(Zygisk)
                     if (is_delta){
-                        list.addAll(listOf(NewZygisk, AntiBLoop, CoreOnly, MagiskHideClass, DenyList, SuList, DenyListConfig, CleanHideList))
+                        list.addAll(listOf(AntiBLoop, CoreOnly, MagiskHideClass, DenyList, SuList, DenyListConfig, CleanHideList))
                     }
                 }
             }
@@ -120,7 +120,6 @@ class SettingsViewModel : BaseViewModel(), BaseSettingsItem.Handler {
             is Hide -> viewModelScope.launch { HideAPK.hide(view.activity, item.value) }
             Restore -> viewModelScope.launch { HideAPK.restore(view.activity) }
             Zygisk -> if (Zygisk.mismatch) SnackbarEvent(R.string.reboot_apply_change).publish()
-            NewZygisk -> if (NewZygisk.mismatch) SnackbarEvent(R.string.reboot_apply_change).publish()
             SuList -> if (SuList.mismatch) SnackbarEvent(R.string.reboot_apply_change).publish()
             else -> Unit
         }

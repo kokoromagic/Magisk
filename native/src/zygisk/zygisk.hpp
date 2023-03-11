@@ -14,8 +14,6 @@ extern std::string orig_native_bridge;
 extern std::string nb_replace_lib;
 extern std::string nb_replace_bak;
 
-extern bool new_zygisk_enabled;
-
 namespace ZygiskRequest {
 enum : int {
     SETUP,
@@ -43,12 +41,6 @@ void unmap_all(const char *name);
 
 // Remap all matching pages with anonymous pages
 void remap_all(const char *name);
-
-// Fake/clone matching pages with same info
-void fakemap_file(const char *name);
-
-// Hide magisk module from maps
-void hide_from_maps();
 
 // Get library name + offset (from start of ELF), given function address
 uintptr_t get_function_off(int pid, uintptr_t addr, char *lib);

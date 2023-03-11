@@ -237,30 +237,9 @@ object Zygisk : BaseSettingsItem.Toggle() {
             DenyList.notifyPropertyChanged(BR.title)
             DenyList.notifyPropertyChanged(BR.description)
             DenyListConfig.refresh()
-            NewZygisk.refresh()
         }
     val mismatch get() = value != Info.isZygiskEnabled
 }
-
-
-object NewZygisk : BaseSettingsItem.Toggle() {
-    override val title = R.string.new_zygisk_loader.asText()
-    override val description get() =
-        if (mismatch) R.string.reboot_apply_change.asText()
-        else R.string.settings_new_zygisk_loader_summary.asText()
-    override var value
-        get() = Config.newzygisk
-        set(value) {
-            Config.newzygisk = value
-            notifyPropertyChanged(BR.description)
-        }
-    val mismatch get() = value != Info.isNewZygiskEnabled
-    
-    override fun refresh() {
-        isEnabled = Config.zygisk
-    }
-}
-
 
 object DenyList : BaseSettingsItem.Toggle() {
     override val title = R.string.settings_magiskhide_title.asText()
