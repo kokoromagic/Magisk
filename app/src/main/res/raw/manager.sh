@@ -406,8 +406,6 @@ tr -dc A-Za-z0-9 </dev/urandom | head -c $(($FROM+$(($RANDOM%$(($TO-$FROM+1)))))
 
 magiskrc(){
 local MAGISKTMP="/sbin"
-local pfs_svc="$(random_str 9 16)"
-local ls_svc="$(random_str 9 16)"
 
 # use "magisk --auto-selinux" to automatically switching selinux state
 
@@ -424,20 +422,12 @@ on post-fs-data
     mkdir $MAGISKTMP/.magisk/block 700
     copy $MAGISKSYSTEMDIR/config $MAGISKTMP/.magisk/config
     rm /dev/.magisk_unblock
-    start $pfs_svc
+    exec u:r:su:s0 root root -- $MAGISKTMP/magisk --auto-selinux --post-fs-data
     wait /dev/.magisk_unblock 40
     rm /dev/.magisk_unblock
 
-service $pfs_svc $MAGISKTMP/magisk --auto-selinux --post-fs-data
-    user root
-    seclabel u:r:su:s0
-    oneshot
-
-service $ls_svc $MAGISKTMP/magisk --auto-selinux --service
-    class late_start
-    user root
-    seclabel u:r:su:s0
-    oneshot
+on nonencrypted
+    exec u:r:su:s0 root root -- $MAGISKTMP/magisk --auto-selinux --service
 
 on property:sys.boot_completed=1
     mkdir /data/adb/magisk 755
