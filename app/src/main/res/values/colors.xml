@@ -16,4 +16,5 @@
     <color name="error">#ba1a1a</color>
     <color name="on_error">#ffffff</color>
     <color name="request_dialog">@android:color/system_neutral2_100</color>
+
 </resources>

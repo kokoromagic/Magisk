@@ -18,7 +18,7 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
-        style="@style/WidgetFoundation.Card.Shadowless"
+        style="@style/Widget.Material3.CardView.Filled"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="false"
@@ -41,19 +41,20 @@
                 android:nextFocusRight="@id/hide_expand_icon"
                 android:onClick="@{item::toggleExpand}">
 
-                <ProgressBar
-                    style="@style/WidgetFoundation.ProgressBar"
+                <com.google.android.material.progressindicator.LinearProgressIndicator
                     gone="@{item.checkedPercent == 0}"
                     android:layout_width="match_parent"
+                    android:layout_height="4dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="top"
                     android:progress="@{item.checkedPercent}" />
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/hide_icon"
-                    style="@style/WidgetFoundation.Image"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:layout_margin="@dimen/l1"
                     android:src="@{item.info.iconImage}"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -62,7 +63,7 @@
                     app:layout_constraintVertical_bias="0"
                     tools:src="@drawable/ic_launcher" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/hide_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -70,8 +71,7 @@
                     android:ellipsize="middle"
                     android:singleLine="true"
                     android:text="@{item.info.label}"
-                    android:textAppearance="@style/AppearanceFoundation.Body"
-                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
                     app:layout_constraintBottom_toTopOf="@+id/hide_package"
                     app:layout_constraintEnd_toStartOf="@+id/hide_expand_icon"
                     app:layout_constraintStart_toEndOf="@+id/hide_icon"
@@ -79,13 +79,12 @@
                     app:layout_constraintVertical_chainStyle="packed"
                     tools:text="@string/magisk" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/hide_package"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@{item.info.packageName}"
-                    android:textSize="14sp"
-                    android:textAppearance="@style/AppearanceFoundation.Tiny.Secondary"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/hide_name"
                     app:layout_constraintStart_toStartOf="@+id/hide_name"
@@ -97,7 +96,7 @@
                     state="@={item.state}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/l1"
+                    android:layout_marginEnd="18dp"
                     android:minWidth="0dp"
                     android:minHeight="0dp"
                     android:nextFocusLeft="@id/hide_expand"

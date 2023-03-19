@@ -16,7 +16,6 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
-        style="@style/WidgetFoundation.Card.Shadowless"
         isEnabled="@{item.enabled}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,63 +23,66 @@
         android:clickable="@{item.enabled}"
         android:focusable="@{item.enabled}"
         android:onClick="@{(view) -> item.onPressed(view, handler)}"
-        tools:layout_gravity="center"
-        app:cardBackgroundColor="@color/color_card_background_color_selector">
+        app:strokeWidth="0dp"
+        app:cardCornerRadius="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
             android:paddingStart="@{item.icon == 0 ? @dimen/l1 : 0}"
-            android:paddingEnd="@dimen/l1">
+            android:paddingEnd="@{item.showSwitch == false ? @dimen/l1 : 0}"
+            android:paddingTop="@dimen/l1"
+            android:paddingBottom="@dimen/l1">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/icon"
                 style="@style/WidgetFoundation.Icon"
                 gone="@{item.icon == 0}"
+                android:layout_marginStart="@dimen/l_50"
+                android:layout_marginEnd="@dimen/l_50"
                 android:background="@null"
                 app:srcCompat="@{item.icon}"
                 tools:srcCompat="@drawable/ic_fingerprint" />
 
             <LinearLayout
-                android:layout_width="280dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:paddingTop="@dimen/l1"
-                android:paddingBottom="@dimen/l1">
+                android:orientation="vertical">
 
-                <TextView
+
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/title"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="start"
                     android:text="@{item.title}"
-                    android:textAppearance="@style/AppearanceFoundation.Body"
-                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                     tools:lines="1"
                     tools:text="@tools:sample/lorem/random" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/materialTextView"
                     gone="@{item.description.empty}"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
                     android:text="@{item.description}"
-                    android:textAppearance="@style/AppearanceFoundation.Caption.Variant"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:textColor="?android:textColorSecondary"
                     tools:lines="2"
                     tools:text="@tools:sample/lorem/random" />
 
             </LinearLayout>
 
             <com.google.android.material.materialswitch.MaterialSwitch
-                android:id="@+id/selector_indicator"
                 goneUnless="@{item.showSwitch}"
                 isEnabled="@{item.enabled}"
+                android:id="@+id/selector_indicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/l1"
+                android:layout_marginEnd="@dimen/l1"
                 android:checked="@{item.checked}"
                 android:focusable="@{item.enabled}"
                 android:onCheckedChanged="@{(v, c) -> item.onToggle(v, handler, c)}" />

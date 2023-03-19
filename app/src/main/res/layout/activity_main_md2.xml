@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_scrollFlags="noScroll"
-                app:subtitleTextAppearance="@style/AppearanceFoundation.Body"
+                app:subtitleTextAppearance="@style/TextAppearance.Material3.TitleLarge"
                 app:titleTextAppearance="@style/AppearanceFoundation.Title"
                 tools:layout_marginTop="24dp"
                 tools:title="Home" />
@@ -62,9 +62,9 @@
             android:paddingBottom="0dp"
             app:fitsSystemWindowsInsets="start|end|bottom"
             app:itemHorizontalTranslationEnabled="false"
-            app:itemTextAppearanceActive="@style/AppearanceFoundation.Body"
-            app:itemTextAppearanceInactive="@style/AppearanceFoundation.Body"
-            app:labelVisibilityMode="labeled"
+            app:itemTextAppearanceActive="@style/TextAppearance.Material3.TitleSmall"
+            app:itemTextAppearanceInactive="@style/TextAppearance.Material3.TitleSmall"
+            app:labelVisibilityMode="selected"
             app:menu="@menu/menu_bottom_nav" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

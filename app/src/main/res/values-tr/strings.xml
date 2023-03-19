@@ -21,11 +21,14 @@
 
     <string name="home_notice_content">Magisk\'i SADECE resmi github sayfasından indirin. Başka kaynaklardaki dosyalar kötücül olabilir!</string>
     <string name="home_support_title">Bizi Destekleyin</string>
+    <string name="home_follow_title">Bizi Takip Edin</string>
+    <string name="home_follow_and_support_title">Bizi Destekleyin ve Takip Edin</string>
     <string name="home_item_source">Kaynak</string>
     <string name="home_support_content">Magisk özgür ve açık kaynaklıdır ve her zaman da öyle kalacaktır. Ancak küçük bir bağış göndererek bize önem verdiğinizi gösterebilirsiniz.</string>
     <string name="home_installed_version">Yüklü</string>
     <string name="home_latest_version">Güncel</string>
     <string name="invalid_update_channel">Geçersiz Güncelleme Kanalı</string>
+    <string name="uninstall">Kaldır</string>
     <string name="uninstall_magisk_title">Magisk\'i Kaldır</string>
     <string name="uninstall_magisk_msg">Tüm modüller devre dışı bırakılacak/kaldırılacak!\nRoot erişimi kaldırılacak!\nVerileriniz şifrelenmemişse potansiyel olarak şifrelenecek!</string>
 

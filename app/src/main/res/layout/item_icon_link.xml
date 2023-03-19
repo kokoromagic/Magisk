@@ -22,13 +22,15 @@
         android:clickable="true"
         android:focusable="true"
         android:minWidth="48dp"
+        android:minHeight="48dp"
         android:onClick="@{() -> viewModel.onLinkPressed(item.link)}"
         android:padding="@dimen/l_50"
         tools:layout_gravity="center">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/developer_link"
-            style="@style/WidgetFoundation.Image.Small"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_gravity="center"
             app:srcCompat="@{item.icon}"
             app:tint="?colorOnSurface"

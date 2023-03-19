@@ -1,7 +1,6 @@
 package com.topjohnwu.magisk.ui.home
 
 import com.topjohnwu.magisk.R
-import com.topjohnwu.magisk.core.Const
 import com.topjohnwu.magisk.databinding.RvItem
 
 interface Dev {
@@ -40,6 +39,10 @@ private interface HcatImpl : Dev {
     override val name get() = "HardcodedCat"
 }
 
+private interface OnurImpl : Dev {
+    override val name get() = "ripsivis"
+}
+
 sealed class DeveloperItem : Dev {
 
     abstract val items: List<IconLink>
@@ -47,25 +50,27 @@ sealed class DeveloperItem : Dev {
 
     object John : DeveloperItem(), JohnImpl {
         override val items =
-            listOf(
+            listOf<IconLink>(
+                object : IconLink.GitHub.User(), JohnImpl {},
                 object : IconLink.Twitter(), JohnImpl {},
-                IconLink.Github.Project
+                object : IconLink.Patreon(), JohnImpl {},
+                object : IconLink.PayPal() { override val name = "magiskdonate" }
             )
     }
 
     object Vvb : DeveloperItem(), VvbImpl {
         override val items =
             listOf<IconLink>(
-                object : IconLink.Twitter(), VvbImpl {},
-                object : IconLink.Github.User(), VvbImpl {}
+                object : IconLink.GitHub.User(), VvbImpl {},
+                object : IconLink.Twitter(), VvbImpl {}
             )
     }
 
     object YU : DeveloperItem(), YUImpl {
         override val items =
             listOf<IconLink>(
+                object : IconLink.GitHub.User(), YUImpl {},
                 object : IconLink.Twitter() { override val name = "shanasaimoe" },
-                object : IconLink.Github.User(), YUImpl {},
                 object : IconLink.Sponsor(), YUImpl {}
             )
     }
@@ -73,36 +78,45 @@ sealed class DeveloperItem : Dev {
     object Rikka : DeveloperItem(), RikkaImpl {
         override val items =
             listOf<IconLink>(
-                object : IconLink.Twitter() { override val name = "rikkawww" },
-                object : IconLink.Github.User(), RikkaImpl {}
+                object : IconLink.GitHub.User(), RikkaImpl {},
+                object : IconLink.Twitter() { override val name = "rikkawww" }
             )
     }
 
     object MaruAuthor : DeveloperItem(), MaruAuthorImpl {
         override val items =
             listOf<IconLink>(
-                object : IconLink.Github.User(), MaruAuthorImpl {}
+                object : IconLink.GitHub.User(), MaruAuthorImpl {}
             )
     }
 
     object Husky : DeveloperItem(), HuskyImpl {
         override val items =
             listOf<IconLink>(
-                object : IconLink.Github.User(), HuskyImpl {}
+                object : IconLink.GitHub.User(), HuskyImpl {},
+                object : IconLink.PayPal(), HuskyImpl {}
             )
     }
 
     object Dng : DeveloperItem(), DngImpl {
         override val items =
             listOf<IconLink>(
-                object : IconLink.Github.User(), DngImpl {}
+                object : IconLink.GitHub.User(), DngImpl {}
             )
     }
 
     object Hcat : DeveloperItem(), HcatImpl {
         override val items =
             listOf<IconLink>(
-                object : IconLink.Github.User(), HcatImpl {}
+                object : IconLink.GitHub.User(), HcatImpl {}
+            )
+    }
+
+    object Onur : DeveloperItem(), OnurImpl {
+        override val items =
+            listOf<IconLink>(
+                object : IconLink.GitHub.User(), OnurImpl {},
+                object : IconLink.Twitter(), OnurImpl {}
             )
     }
 }
@@ -119,16 +133,12 @@ sealed class IconLink : RvItem() {
         override val icon get() = R.drawable.ic_paypal
         override val title get() = R.string.paypal
         override val link get() = "https://paypal.me/$name"
-
-        object Project : PayPal() {
-            override val name: String get() = "huskydg"
-        }
     }
 
-    object Patreon : IconLink() {
+    abstract class Patreon : IconLink(), Dev {
         override val icon get() = R.drawable.ic_patreon
         override val title get() = R.string.patreon
-        override val link get() = Const.Url.PATREON_URL
+        override val link get() = "https://www.patreon.com/$name"
     }
 
     abstract class Twitter : IconLink(), Dev {
@@ -137,16 +147,12 @@ sealed class IconLink : RvItem() {
         override val link get() = "https://twitter.com/$name"
     }
 
-    abstract class Github : IconLink() {
+    abstract class GitHub : IconLink() {
         override val icon get() = R.drawable.ic_github
         override val title get() = R.string.github
 
-        abstract class User : Github(), Dev {
+        abstract class User : GitHub(), Dev {
             override val link get() = "https://github.com/$name"
-        }
-
-        object Project : Github() {
-            override val link get() = Const.Url.SOURCE_CODE_URL
         }
     }
 

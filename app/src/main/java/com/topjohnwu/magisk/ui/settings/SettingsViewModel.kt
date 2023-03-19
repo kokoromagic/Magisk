@@ -121,6 +121,7 @@ class SettingsViewModel : BaseViewModel(), BaseSettingsItem.Handler {
             Restore -> viewModelScope.launch { HideAPK.restore(view.activity) }
             Zygisk -> if (Zygisk.mismatch) SnackbarEvent(R.string.reboot_apply_change).publish()
             SuList -> if (SuList.mismatch) SnackbarEvent(R.string.reboot_apply_change).publish()
+            CoreOnly -> if (CoreOnly.mismatch) SnackbarEvent(R.string.reboot_apply_change).publish()
             else -> Unit
         }
     }

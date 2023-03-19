@@ -18,20 +18,12 @@
         tools:layout="@layout/fragment_home_md2">
 
         <action
-            android:id="@+id/action_homeFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment"
-            app:enterAnim="@anim/fragment_enter"
-            app:exitAnim="@anim/fragment_exit"
-            app:popEnterAnim="@anim/fragment_enter_pop"
-            app:popExitAnim="@anim/fragment_exit_pop" />
-
-        <action
             android:id="@+id/action_homeFragment_to_installFragment"
             app:destination="@id/installFragment"
             app:enterAnim="@anim/fragment_enter"
             app:exitAnim="@anim/fragment_exit"
-            app:popEnterAnim="@anim/fragment_enter_pop"
-            app:popExitAnim="@anim/fragment_exit_pop" />
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
 
     </fragment>
 
@@ -82,16 +74,16 @@
             app:destination="@id/themeFragment"
             app:enterAnim="@anim/fragment_enter"
             app:exitAnim="@anim/fragment_exit"
-            app:popEnterAnim="@anim/fragment_enter_pop"
-            app:popExitAnim="@anim/fragment_exit_pop" />
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
 
         <action
             android:id="@+id/action_settingsFragment_to_denyFragment"
             app:destination="@id/denyFragment"
             app:enterAnim="@anim/fragment_enter"
             app:exitAnim="@anim/fragment_exit"
-            app:popEnterAnim="@anim/fragment_enter_pop"
-            app:popExitAnim="@anim/fragment_exit_pop" />
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
 
     </fragment>
 
@@ -138,6 +130,15 @@
     <action
         android:id="@+id/action_moduleFragment"
         app:destination="@id/modulesFragment"
+        app:enterAnim="@anim/fragment_enter"
+        app:exitAnim="@anim/fragment_exit"
+        app:popEnterAnim="@anim/fragment_enter_pop"
+        app:popExitAnim="@anim/fragment_exit_pop"
+        app:popUpTo="@id/homeFragment" />
+
+    <action
+        android:id="@+id/action_settingsFragment"
+        app:destination="@id/settingsFragment"
         app:enterAnim="@anim/fragment_enter"
         app:exitAnim="@anim/fragment_exit"
         app:popEnterAnim="@anim/fragment_enter_pop"

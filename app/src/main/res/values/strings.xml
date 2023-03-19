@@ -23,11 +23,13 @@
     <string name="home_notice_content">Download Magisk ONLY from the official GitHub page. Files from unknown sources can be malicious!</string>
     <string name="home_support_title">Support Us</string>
     <string name="home_follow_title">Follow Us</string>
+    <string name="home_follow_and_support_title">Follow &amp; Support Us</string>
     <string name="home_item_source">Source</string>
     <string name="home_support_content">Magisk is, and always will be, free, and open source. You can however show us that you care by making a donation.</string>
     <string name="home_installed_version">Installed</string>
     <string name="home_latest_version">Latest</string>
     <string name="invalid_update_channel">Invalid Update Channel</string>
+    <string name="uninstall">Uninstall</string>
     <string name="uninstall_magisk_title">Uninstall Magisk</string>
     <string name="uninstall_magisk_msg">All modules will be disabled/removed!\nRoot will be removed!\nAny internal storage unencrypted through the use of Magisk will be re-encrypted!</string>
 
@@ -262,7 +264,7 @@
     <string name="settings_anti_bootloop_title">Bootloop Protection</string>
     <string name="settings_anti_bootloop_summary">Reboot into core-only mode if zygote process failed to start for many times</string>
     <string name="settings_coreonly_title">Core-only mode</string>
-    <string name="settings_coreonly_summary">Only core features such as MagiskSU (Root access) and MagiskHide are available and no modules will load in Core-only mode. Reboot is required to take effect.</string>
+    <string name="settings_coreonly_summary">Only core features such as MagiskSU (root access) and MagiskHide are available and no modules will load in this mode.</string>
     <string name="settings_clean_hidelist_title">Clean up hide list</string>
     <string name="settings_clean_hidelist_summary">Remove all non-existing and uninstalled apps from hidelist</string>
     <string name="settings_clean_hidelist_toast">Hidelist is now clean</string>

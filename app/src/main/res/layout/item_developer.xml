@@ -20,16 +20,24 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:paddingStart="@dimen/l1"
-        android:paddingEnd="@dimen/l1">
+        android:layout_marginTop="@dimen/l_50"
+        android:layout_marginBottom="@dimen/l_50" >
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/l_75"
             android:text="@{item.handle}"
-            android:textAppearance="@style/AppearanceFoundation.Caption"
-            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
             tools:text="\@topjohnwu" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/l_25"
+            android:text="•"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+            android:textSize="18sp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             app:items="@{item.items}"

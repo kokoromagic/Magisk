@@ -45,6 +45,7 @@ object Config : PreferenceConfig, DBConfig {
         const val SU_MANAGER = "requester"
         const val KEYSTORE = "keystore"
         const val SULIST = "sulist"
+        const val COREONLY = "coreonly"
         const val ANTIBOOTLOOP = "anti_bootloop"
 
         // prefs
@@ -167,6 +168,7 @@ object Config : PreferenceConfig, DBConfig {
     var zygisk by dbSettings(Key.ZYGISK, false)
     var denyList by BoolDBPropertyNoWrite(Key.DENYLIST, false)
     var sulist by BoolDBPropertyNoWrite(Key.SULIST, false)
+    var coreonly by BoolDBPropertyNoWrite(Key.COREONLY, false)
     var antiBLoop by BoolDBPropertyNoWrite(Key.ANTIBOOTLOOP, false)
     var suManager by dbStrings(Key.SU_MANAGER, "", true)
     var keyStoreRaw by dbStrings(Key.KEYSTORE, "", true)

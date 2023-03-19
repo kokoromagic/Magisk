@@ -27,6 +27,10 @@
             android:clipToPadding="false"
             android:orientation="vertical"
             android:paddingTop="@dimen/internal_action_bar_size"
+            android:fadeScrollbars="true"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            android:paddingBottom="50dp"
             app:fitsSystemWindowsInsets="top|bottom"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:layout_marginTop="24dp"
@@ -36,7 +40,7 @@
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/snackbar_container"
             android:layout_width="match_parent"
-            android:layout_height="709dp"
+            android:layout_height="match_parent"
             app:fitsSystemWindowsInsets="top|bottom" />
     </FrameLayout>
 

@@ -56,7 +56,9 @@
         <item name="cardElevation">@dimen/l2</item>
     </style>
 
-    <style name="WidgetFoundation.Card.Elevated" parent="WidgetFoundation.Card.Elevated.V21"/>
+    <style name="WidgetFoundation.Card.Elevated" parent="WidgetFoundation.Card.Elevated.V21">
+        <item name="cardBackgroundColor" />
+    </style>
 
     <style name="WidgetFoundation.Card.Elevated.Dialog" parent="WidgetFoundation.Card.Elevated.V21">
         <item name="android:colorBackground">?colorSurfaceVariant</item>
@@ -89,11 +91,27 @@
         <item name="android:textColor">?colorPrimary</item>
     </style>
 
+    <style name="WidgetFoundation.Button.Outlined.Error" parent="WidgetFoundation.Button.Outlined">
+        <item name="iconTint">@color/color_error_transient</item>
+        <item name="strokeColor">@color/color_error_transient</item>
+        <item name="android:textColor">@color/color_error_transient</item>
+    </style>
+
+    <style name="WidgetFoundation.Button.IconButton.Outlined" parent="Widget.Material3.Button.IconButton.Outlined">
+        <item name="strokeColor">?colorPrimary</item>
+    </style>
+
     <style name="WidgetFoundation.Button.Text" parent="Widget.Material3.Button.TextButton">
         <item name="android:textStyle">bold</item>
         <item name="iconGravity">textStart</item>
         <item name="iconPadding">@dimen/l_50</item>
         <item name="tint">#BD1C1C</item>
+    </style>
+
+    <style name="WidgetFoundation.Button.Text.Error" parent="WidgetFoundation.Button.Text">
+        <item name="iconTint">@color/color_error_transient</item>
+        <item name="strokeColor">@color/color_error_transient</item>
+        <item name="android:textColor">@color/color_error_transient</item>
     </style>
 
     <style name="WidgetFoundation.Button.Text.OnPrimary">

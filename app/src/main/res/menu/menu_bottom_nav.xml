@@ -3,27 +3,32 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <item
-        android:id="@+id/homeFragment"
-        android:icon="@drawable/ic_home_md2"
-        android:title="@string/section_home"
-        tools:showAsAction="always" />
+        android:id="@+id/logFragment"
+        android:icon="@drawable/ic_bug_md2"
+        android:title="@string/logs"
+        tools:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/superuserFragment"
         android:icon="@drawable/ic_superuser_md2"
         android:title="@string/superuser"
-        tools:showAsAction="always" />
+        tools:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/logFragment"
-        android:icon="@drawable/ic_bug_md2"
-        android:title="@string/logs"
-        tools:showAsAction="always" />
-
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_home_md2"
+        android:title="@string/section_home"
+        tools:showAsAction="ifRoom" />
     <item
         android:id="@+id/modulesFragment"
         android:icon="@drawable/ic_module_md2"
         android:title="@string/modules"
-        tools:showAsAction="always" />
+        tools:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/ic_settings_md2"
+        android:title="@string/settings"
+        tools:showAsAction="ifRoom" />
 
 </menu>

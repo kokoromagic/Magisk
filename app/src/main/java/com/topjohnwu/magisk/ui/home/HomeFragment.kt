@@ -35,15 +35,6 @@ class HomeFragment : BaseFragment<FragmentHomeMd2Binding>() {
         savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-
-        // If titles are squished, hide icons
-        with(binding.homeMagiskWrapper) {
-            checkTitle(homeMagiskTitle)
-        }
-        with(binding.homeManagerWrapper) {
-            checkTitle(homeManagerTitle)
-        }
-
         return binding.root
     }
 
@@ -55,8 +46,6 @@ class HomeFragment : BaseFragment<FragmentHomeMd2Binding>() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_settings ->
-                HomeFragmentDirections.actionHomeFragmentToSettingsFragment().navigate()
             R.id.action_reboot -> activity?.let { RebootEvent.inflateMenu(it).show() }
             else -> return super.onOptionsItemSelected(item)
         }

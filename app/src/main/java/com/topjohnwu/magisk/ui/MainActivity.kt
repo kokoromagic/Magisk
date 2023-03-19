@@ -79,7 +79,8 @@ class MainActivity : SplashActivity<ActivityMainMd2Binding>() {
                 R.id.homeFragment,
                 R.id.modulesFragment,
                 R.id.superuserFragment,
-                R.id.logFragment -> true
+                R.id.logFragment,
+                R.id.settingsFragment -> true
                 else -> false
             }
 
@@ -155,7 +156,7 @@ class MainActivity : SplashActivity<ActivityMainMd2Binding>() {
         return when (name) {
             Const.Nav.SUPERUSER -> MainDirections.actionSuperuserFragment()
             Const.Nav.MODULES -> MainDirections.actionModuleFragment()
-            Const.Nav.SETTINGS -> HomeFragmentDirections.actionHomeFragmentToSettingsFragment()
+            Const.Nav.SETTINGS -> MainDirections.actionSettingsFragment()
             else -> null
         }
     }
@@ -166,6 +167,7 @@ class MainActivity : SplashActivity<ActivityMainMd2Binding>() {
             R.id.modulesFragment -> MainDirections.actionModuleFragment()
             R.id.superuserFragment -> MainDirections.actionSuperuserFragment()
             R.id.logFragment -> MainDirections.actionLogFragment()
+            R.id.settingsFragment -> MainDirections.actionSettingsFragment()
             else -> null
         }
     }

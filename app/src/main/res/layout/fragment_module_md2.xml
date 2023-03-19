@@ -26,6 +26,9 @@
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:orientation="vertical"
+            android:fadeScrollbars="true"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
             android:paddingTop="@dimen/internal_action_bar_size"
             android:paddingBottom="@dimen/internal_action_bar_size"
             android:layout_marginBottom="@dimen/l3"
@@ -40,34 +43,36 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 goneUnless="@{viewModel.loading}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/loading"
-                android:textAppearance="@style/AppearanceFoundation.Title"
+                android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
                 android:textStyle="bold" />
 
-            <ProgressBar
-                style="@style/WidgetFoundation.ProgressBar.Indeterminate"
+            <com.google.android.material.progressindicator.LinearProgressIndicator
                 goneUnless="@{viewModel.loading}"
-                android:layout_marginTop="@dimen/l1" />
+                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_marginTop="@dimen/l_50"
+                android:indeterminate="true" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 gone="@{viewModel.loading || viewModel.items.size() != 0 }"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/module_empty"
-                android:textAppearance="@style/AppearanceFoundation.Title"
+                android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
         <include
-            android:id="@+id/module_download"
             layout="@layout/item_module_download"
-            viewModel="@{viewModel}"/>
+            viewModel="@{viewModel}"
+            android:id="@+id/module_download" />
 
     </FrameLayout>
-
 
 </layout>

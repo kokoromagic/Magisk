@@ -18,15 +18,12 @@ class SettingsFragment : BaseFragment<FragmentSettingsMd2Binding>() {
 
     override fun onStart() {
         super.onStart()
-
         activity?.title = resources.getString(R.string.settings)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.settingsList.apply {
-            addEdgeSpacing(bottom = R.dimen.l1)
-            addItemSpacing(R.dimen.l1, R.dimen.l_50, R.dimen.l1)
             fixEdgeEffect()
         }
     }

@@ -40,7 +40,6 @@ object Const {
     }
 
     object Url {
-        const val PATREON_URL = "https://www.patreon.com/topjohnwu"
         const val SOURCE_CODE_URL = "https://github.com/topjohnwu/Magisk"
 
         val CHANGELOG_URL = if (APP_IS_CANARY) Info.remote.magisk.note
