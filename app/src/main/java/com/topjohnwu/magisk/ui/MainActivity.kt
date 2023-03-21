@@ -132,7 +132,7 @@ class MainActivity : SplashActivity<ActivityMainMd2Binding>() {
     fun setDisplayHomeAsUpEnabled(isEnabled: Boolean) {
         binding.mainToolbar.startAnimations()
         when {
-            isEnabled -> binding.mainToolbar.setNavigationIcon(R.drawable.ic_back_md2)
+            isEnabled -> binding.mainToolbar.setNavigationIcon(R.drawable.ic_back)
             else -> binding.mainToolbar.navigationIcon = null
         }
     }

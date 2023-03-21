@@ -4,30 +4,30 @@
 
     <item
         android:id="@+id/logFragment"
-        android:icon="@drawable/ic_bug_md2"
+        android:icon="@drawable/ic_bug"
         android:title="@string/logs"
         tools:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/superuserFragment"
-        android:icon="@drawable/ic_superuser_md2"
+        android:icon="@drawable/ic_superuser"
         android:title="@string/superuser"
         tools:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/homeFragment"
-        android:icon="@drawable/ic_home_md2"
+        android:icon="@drawable/ic_home"
         android:title="@string/section_home"
         tools:showAsAction="ifRoom" />
     <item
         android:id="@+id/modulesFragment"
-        android:icon="@drawable/ic_module_md2"
+        android:icon="@drawable/ic_module"
         android:title="@string/modules"
         tools:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/settingsFragment"
-        android:icon="@drawable/ic_settings_md2"
+        android:icon="@drawable/ic_settings"
         android:title="@string/settings"
         tools:showAsAction="ifRoom" />
 

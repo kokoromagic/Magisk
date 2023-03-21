@@ -25,7 +25,7 @@
 
         <include
             android:id="@+id/log_track_container"
-            bullet="@{item.item.action ? R.drawable.ic_check_md2 : R.drawable.ic_close_md2}"
+            bullet="@{item.item.action ? R.drawable.ic_check : R.drawable.ic_close}"
             isBottom="@{item.isBottom}"
             isSelected="@{!item.item.action}"
             isTop="@{item.isTop}"

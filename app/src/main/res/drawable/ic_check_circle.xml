@@ -5,12 +5,12 @@
 
     <item
         android:id="@+id/checked"
-        android:drawable="@drawable/ic_check_circle_checked_md2"
+        android:drawable="@drawable/ic_check_circle_checked"
         android:state_selected="true" />
 
     <item
         android:id="@+id/unchecked"
-        android:drawable="@drawable/ic_check_circle_unchecked_md2" />
+        android:drawable="@drawable/ic_check_circle_unchecked" />
 
     <transition
         android:drawable="@drawable/avd_circle_check_from_filled"

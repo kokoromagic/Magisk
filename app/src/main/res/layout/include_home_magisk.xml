@@ -109,7 +109,7 @@
                     android:layout_gravity="end"
                     android:onClick="@{() -> viewModel.onMagiskPressed()}"
                     android:text="@string/update"
-                    app:icon="@drawable/ic_update_md2" />
+                    app:icon="@drawable/ic_update" />
 
                 <com.google.android.material.button.MaterialButton
                     style="@style/Widget_Rip.Material3.Button.OutlinedButton.Icon2"
@@ -132,7 +132,7 @@
                 android:layout_margin="?dialogPreferredPadding"
                 android:onClick="@{() -> viewModel.onDeletePressed()}"
                 android:text="@string/uninstall"
-                app:icon="@drawable/ic_delete_md2"
+                app:icon="@drawable/ic_delete"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/home_magisk_barrier"/>
 
@@ -243,7 +243,7 @@
                     android:layout_gravity="end"
                     android:onClick="@{() -> viewModel.onManagerPressed()}"
                     android:text="@string/update"
-                    app:icon="@drawable/ic_update_md2" />
+                    app:icon="@drawable/ic_update" />
 
                 <com.google.android.material.button.MaterialButton
                     style="@style/Widget_Rip.Material3.Button.OutlinedButton.Icon2"

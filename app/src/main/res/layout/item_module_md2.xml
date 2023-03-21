@@ -37,7 +37,7 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 gone="@{!item.removed &amp;&amp; !item.updated}"
-                srcCompat="@{item.removed ? R.drawable.ic_delete_md2 : (item.updated ? R.drawable.ic_update_md2 : 0)}"
+                srcCompat="@{item.removed ? R.drawable.ic_delete : (item.updated ? R.drawable.ic_update : 0)}"
                 android:id="@+id/module_state_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -52,7 +52,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="?colorOnSurface"
-                tools:srcCompat="@drawable/ic_update_md2" />
+                tools:srcCompat="@drawable/ic_update" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -143,11 +143,11 @@
                     android:focusable="true"
                     android:onClick="@{() -> viewModel.downloadPressed(item.item.updateInfo)}"
                     android:text="@string/update"
-                    app:icon="@drawable/ic_update_md2"
+                    app:icon="@drawable/ic_update"
                     app:layout_constraintBottom_toBottomOf="@+id/module_remove"
                     app:layout_constraintEnd_toStartOf="@+id/module_remove"
                     app:layout_constraintTop_toTopOf="@+id/module_remove"
-                    app:srcCompat="@drawable/ic_download_md2" />
+                    app:srcCompat="@drawable/ic_download" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/module_remove"
@@ -160,11 +160,11 @@
                     android:focusable="true"
                     android:onClick="@{() -> item.delete()}"
                     android:text="@{item.removed ? @string/module_state_restore : @string/module_state_remove}"
-                    app:icon="@{item.removed ? @drawable/ic_restart : @drawable/ic_delete_md2}"
+                    app:icon="@{item.removed ? @drawable/ic_restart : @drawable/ic_delete}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/module_divider"
-                    tools:icon="@drawable/ic_delete_md2"
+                    tools:icon="@drawable/ic_delete"
                     tools:text="Remove" />
 
                 <androidx.constraintlayout.widget.Barrier

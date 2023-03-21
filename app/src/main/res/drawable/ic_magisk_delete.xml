@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/collapsed"
-        android:drawable="@drawable/ic_delete_md2"
+        android:drawable="@drawable/ic_delete"
         android:state_selected="true" />
 
     <item

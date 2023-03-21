@@ -146,7 +146,7 @@ object DownloadPath : BaseSettingsItem.Input() {
         }
 
     override val title = R.string.settings_download_path_title.asText()
-    override val icon = R.drawable.ic_download_md2
+    override val icon = R.drawable.ic_download
     override val description get() = MediaStoreUtils.fullPath(value).asText()
 
     override var inputResult: String = value
@@ -168,7 +168,7 @@ object UpdateChannel : BaseSettingsItem.Selector() {
         }
 
     override val title = R.string.settings_update_channel_title.asText()
-    override val icon = R.drawable.ic_merge_type_24
+    override val icon = R.drawable.ic_merge_type
 
     override val entryRes = R.array.update_channel
     override fun entries(res: Resources): Array<String> {
@@ -182,7 +182,7 @@ object UpdateChannel : BaseSettingsItem.Selector() {
 
 object UpdateChannelUrl : BaseSettingsItem.Input() {
     override val title = R.string.settings_update_custom.asText()
-    override val icon = R.drawable.ic_add_link_24
+    override val icon = R.drawable.ic_add_link
     override val description get() = value.asText()
     override var value
         get() = Config.customChannelUrl
@@ -205,14 +205,14 @@ object UpdateChannelUrl : BaseSettingsItem.Input() {
 
 object UpdateChecker : BaseSettingsItem.Toggle() {
     override val title = R.string.settings_check_update_title.asText()
-    override val icon = R.drawable.ic_cached_24
+    override val icon = R.drawable.ic_cached
     override val description = R.string.settings_check_update_summary.asText()
     override var value by Config::checkUpdate
 }
 
 object DoHToggle : BaseSettingsItem.Toggle() {
     override val title = R.string.settings_doh_title.asText()
-    override val icon = R.drawable.outline_dns_24
+    override val icon = R.drawable.ic_dns
     override val description = R.string.settings_doh_description.asText()
     override var value by Config::doh
 }
@@ -235,7 +235,7 @@ object MagiskHideClass : BaseSettingsItem.Section() {
 
 object Zygisk : BaseSettingsItem.Toggle() {
     override val title = R.string.zygisk.asText()
-    override val icon = R.drawable.outline_account_tree_24
+    override val icon = R.drawable.ic_account_tree
     override val description get() =
         if (mismatch) R.string.reboot_apply_change.asText()
         else R.string.settings_zygisk_summary.asText()
@@ -280,7 +280,7 @@ object DenyList : BaseSettingsItem.Toggle() {
 
 object AntiBLoop : BaseSettingsItem.Toggle() {
     override val title = R.string.settings_anti_bootloop_title.asText()
-    override val icon = R.drawable.ic_lock_reset_24
+    override val icon = R.drawable.ic_lock_reset
     override val description get() = R.string.settings_anti_bootloop_summary.asText()
 
     override var value = Config.antiBLoop
@@ -300,7 +300,7 @@ object AntiBLoop : BaseSettingsItem.Toggle() {
 
 object CoreOnly : BaseSettingsItem.Toggle() {
     override val title = R.string.settings_coreonly_title.asText()
-    override val icon = R.drawable.outline_blur_circular_24
+    override val icon = R.drawable.ic_blur_circular
     override val description get() =
         if (mismatch) R.string.reboot_apply_change.asText()
         else R.string.settings_coreonly_summary.asText()
@@ -372,7 +372,7 @@ object DenyListConfig : BaseSettingsItem.Blank() {
 
 object CleanHideList : BaseSettingsItem.Blank() {
     override val title = R.string.settings_clean_hidelist_title.asText()
-    override val icon = R.drawable.ic_cleaning_services
+    override val icon = R.drawable.ic_clear_all
     override val description = R.string.settings_clean_hidelist_summary.asText()
 }
 
@@ -380,6 +380,7 @@ object CleanHideList : BaseSettingsItem.Blank() {
 
 object Tapjack : BaseSettingsItem.Toggle() {
     override val title = R.string.settings_su_tapjack_title.asText()
+    override val icon = R.drawable.ic_sms_failed
     override val description = R.string.settings_su_tapjack_summary.asText()
     override var value by Config::suTapjack
 }

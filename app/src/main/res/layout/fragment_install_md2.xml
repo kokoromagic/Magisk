@@ -57,7 +57,7 @@
                             style="@style/WidgetFoundation.Icon"
                             isSelected="@{viewModel.step > 0}"
                             android:layout_marginStart="@dimen/l_25"
-                            app:srcCompat="@drawable/ic_check_circle_md2" />
+                            app:srcCompat="@drawable/ic_check_circle" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -162,7 +162,7 @@
                             style="@style/WidgetFoundation.Icon"
                             isSelected="@{viewModel.step > 1}"
                             android:layout_marginStart="@dimen/l_25"
-                            app:srcCompat="@drawable/ic_check_circle_md2" />
+                            app:srcCompat="@drawable/ic_check_circle" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -182,7 +182,7 @@
                             android:layout_height="wrap_content"
                             android:onClick="@{() -> viewModel.install()}"
                             android:text="@string/install_start"
-                            app:icon="@drawable/ic_forth_md2"
+                            app:icon="@drawable/ic_forth"
                             app:iconGravity="textEnd" />
 
                     </LinearLayout>

@@ -58,7 +58,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_back_md2" />
+                app:srcCompat="@drawable/ic_back" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -70,7 +70,7 @@
                         android:layout_height="wrap_content"
                         android:onClick="@{() -> viewModel.hideNotice()}"
                         android:contentDescription="@string/hide"
-                        app:icon="@drawable/ic_close_md2" />
+                        app:icon="@drawable/ic_close" />
 
                 </LinearLayout>
 
