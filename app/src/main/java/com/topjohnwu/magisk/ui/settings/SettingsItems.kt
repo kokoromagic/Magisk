@@ -29,14 +29,6 @@ import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-//// --- Customization
-//
-//object Customization : BaseSettingsItem.Section() {
-//    override val title = R.string.settings_customization.asText()
-//}
-
-
-
 object Theme : BaseSettingsItem.Blank() {
     override val icon = R.drawable.ic_paint
     override val title = R.string.section_theme.asText()

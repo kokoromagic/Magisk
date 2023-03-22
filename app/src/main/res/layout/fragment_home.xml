@@ -35,11 +35,11 @@
             android:orientation="vertical">
 
             <com.google.android.material.card.MaterialCardView
-                style="@style/Widget_Rip.Material3.CardView.Outlined2"
+                style="@style/Widget.Material3.CardView.Filled"
                 goneUnless="@{viewModel.noticeVisible}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/l1"
+                android:layout_marginBottom="@dimen/l_75"
                 android:focusable="false"
                 app:cardBackgroundColor="?colorPrimary">
 
@@ -82,7 +82,7 @@
                 android:id="@+id/home_magisk_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/l1" />
+                android:layout_marginBottom="@dimen/l_75" />
 
             <com.google.android.material.card.MaterialCardView
                 style="@style/Widget_Rip.Material3.CardView.Outlined2"
