@@ -9,13 +9,13 @@
         android:id="@+id/denyFragment"
         android:name="com.topjohnwu.magisk.ui.deny.DenyListFragment"
         android:label="DenyListFragment"
-        tools:layout="@layout/fragment_deny_md2" />
+        tools:layout="@layout/fragment_deny" />
 
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.topjohnwu.magisk.ui.home.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home_md2">
+        tools:layout="@layout/fragment_home">
 
         <action
             android:id="@+id/action_homeFragment_to_installFragment"
@@ -31,7 +31,7 @@
         android:id="@+id/flashFragment"
         android:name="com.topjohnwu.magisk.ui.flash.FlashFragment"
         android:label="FlashFragment"
-        tools:layout="@layout/fragment_flash_md2">
+        tools:layout="@layout/fragment_flash">
 
         <argument
             android:name="action"
@@ -49,25 +49,25 @@
         android:id="@+id/installFragment"
         android:name="com.topjohnwu.magisk.ui.install.InstallFragment"
         android:label="InstallFragment"
-        tools:layout="@layout/fragment_install_md2" />
+        tools:layout="@layout/fragment_install" />
 
     <fragment
         android:id="@+id/logFragment"
         android:name="com.topjohnwu.magisk.ui.log.LogFragment"
         android:label="LogFragment"
-        tools:layout="@layout/fragment_log_md2" />
+        tools:layout="@layout/fragment_log" />
 
     <fragment
         android:id="@+id/modulesFragment"
         android:name="com.topjohnwu.magisk.ui.module.ModuleFragment"
         android:label="ModuleFragment"
-        tools:layout="@layout/fragment_module_md2" />
+        tools:layout="@layout/fragment_module" />
 
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.topjohnwu.magisk.ui.settings.SettingsFragment"
         android:label="SettingsFragment"
-        tools:layout="@layout/fragment_settings_md2">
+        tools:layout="@layout/fragment_settings">
 
         <action
             android:id="@+id/action_settingsFragment_to_themeFragment"
@@ -91,7 +91,7 @@
         android:id="@+id/superuserFragment"
         android:name="com.topjohnwu.magisk.ui.superuser.SuperuserFragment"
         android:label="SuperuserFragment"
-        tools:layout="@layout/fragment_superuser_md2" />
+        tools:layout="@layout/fragment_superuser" />
 
     <fragment
         android:id="@+id/themeFragment"

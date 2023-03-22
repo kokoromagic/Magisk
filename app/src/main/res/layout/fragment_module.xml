@@ -34,7 +34,7 @@
             android:layout_marginBottom="@dimen/l3"
             app:fitsSystemWindowsInsets="top|bottom"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_module_md2" />
+            tools:listitem="@layout/item_module" />
 
         <LinearLayout
             android:layout_width="match_parent"

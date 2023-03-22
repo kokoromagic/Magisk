@@ -20,7 +20,7 @@ abstract class MarkDownDialog : DialogEvent() {
     @CallSuper
     override fun build(dialog: MagiskDialog) {
         with(dialog) {
-            val view = LayoutInflater.from(context).inflate(R.layout.markdown_window_md2, null)
+            val view = LayoutInflater.from(context).inflate(R.layout.markdown_window, null)
             setView(view)
             val tv = view.findViewById<TextView>(R.id.md_txt)
             activity.lifecycleScope.launch {

@@ -30,7 +30,7 @@
             app:invisible="@{viewModel.loading}"
             app:items="@{viewModel.items}"
             app:extraBindings="@{viewModel.extraBindings}"
-            tools:listitem="@layout/item_hide_md2"
+            tools:listitem="@layout/item_hide"
             tools:paddingTop="40dp" />
 
         <LinearLayout

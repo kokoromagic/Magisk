@@ -27,7 +27,7 @@
             android:paddingTop="@dimen/internal_action_bar_size"
             app:fitsSystemWindowsInsets="top|bottom"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_log_access_md2"
+            tools:listitem="@layout/item_log_access"
             tools:paddingTop="24dp" />
 
         <FrameLayout

@@ -9,16 +9,16 @@ import androidx.core.view.isVisible
 import com.topjohnwu.magisk.R
 import com.topjohnwu.magisk.arch.BaseFragment
 import com.topjohnwu.magisk.arch.viewModel
-import com.topjohnwu.magisk.databinding.FragmentLogMd2Binding
+import com.topjohnwu.magisk.databinding.FragmentLogBinding
 import com.topjohnwu.magisk.ui.MainActivity
 import com.topjohnwu.magisk.utils.MotionRevealHelper
 import rikka.recyclerview.addEdgeSpacing
 import rikka.recyclerview.addItemSpacing
 import rikka.recyclerview.fixEdgeEffect
 
-class LogFragment : BaseFragment<FragmentLogMd2Binding>() {
+class LogFragment : BaseFragment<FragmentLogBinding>() {
 
-    override val layoutRes = R.layout.fragment_log_md2
+    override val layoutRes = R.layout.fragment_log
     override val viewModel by viewModel<LogViewModel>()
     override val snackbarView: View?
         get() = if (isMagiskLogVisible) binding.logFilterSuperuser.snackbarContainer
@@ -60,7 +60,7 @@ class LogFragment : BaseFragment<FragmentLogMd2Binding>() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_log_md2, menu)
+        inflater.inflate(R.menu.menu_log, menu)
         actionSave = menu.findItem(R.id.action_save)?.also {
             it.isVisible = !isMagiskLogVisible
         }
@@ -77,7 +77,7 @@ class LogFragment : BaseFragment<FragmentLogMd2Binding>() {
     }
 
 
-    override fun onPreBind(binding: FragmentLogMd2Binding) = Unit
+    override fun onPreBind(binding: FragmentLogBinding) = Unit
 
     override fun onBackPressed(): Boolean {
         if (binding.logFilter.isVisible) {

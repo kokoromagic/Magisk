@@ -33,7 +33,7 @@
                 app:items="@{viewModel.items}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                tools:listitem="@layout/item_console_md2" />
+                tools:listitem="@layout/item_console" />
 
         </HorizontalScrollView>
 

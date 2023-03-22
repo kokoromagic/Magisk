@@ -9,12 +9,12 @@ import com.topjohnwu.magisk.arch.BaseFragment
 import com.topjohnwu.magisk.arch.viewModel
 import com.topjohnwu.magisk.core.Info
 import com.topjohnwu.magisk.core.download.DownloadService
-import com.topjohnwu.magisk.databinding.FragmentHomeMd2Binding
+import com.topjohnwu.magisk.databinding.FragmentHomeBinding
 import com.topjohnwu.magisk.events.RebootEvent
 
-class HomeFragment : BaseFragment<FragmentHomeMd2Binding>() {
+class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
-    override val layoutRes = R.layout.fragment_home_md2
+    override val layoutRes = R.layout.fragment_home
     override val viewModel by viewModel<HomeViewModel>()
 
     override fun onStart() {
@@ -39,7 +39,7 @@ class HomeFragment : BaseFragment<FragmentHomeMd2Binding>() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_home_md2, menu)
+        inflater.inflate(R.menu.menu_home, menu)
         if (!Info.isRooted)
             menu.removeItem(R.id.action_reboot)
     }

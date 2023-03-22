@@ -5,14 +5,14 @@ import android.view.View
 import com.topjohnwu.magisk.R
 import com.topjohnwu.magisk.arch.BaseFragment
 import com.topjohnwu.magisk.arch.viewModel
-import com.topjohnwu.magisk.databinding.FragmentSuperuserMd2Binding
+import com.topjohnwu.magisk.databinding.FragmentSuperuserBinding
 import rikka.recyclerview.addEdgeSpacing
 import rikka.recyclerview.addItemSpacing
 import rikka.recyclerview.fixEdgeEffect
 
-class SuperuserFragment : BaseFragment<FragmentSuperuserMd2Binding>() {
+class SuperuserFragment : BaseFragment<FragmentSuperuserBinding>() {
 
-    override val layoutRes = R.layout.fragment_superuser_md2
+    override val layoutRes = R.layout.fragment_superuser
     override val viewModel by viewModel<SuperuserViewModel>()
 
     override fun onStart() {
@@ -30,6 +30,6 @@ class SuperuserFragment : BaseFragment<FragmentSuperuserMd2Binding>() {
         }
     }
 
-    override fun onPreBind(binding: FragmentSuperuserMd2Binding) {}
+    override fun onPreBind(binding: FragmentSuperuserBinding) {}
 
 }

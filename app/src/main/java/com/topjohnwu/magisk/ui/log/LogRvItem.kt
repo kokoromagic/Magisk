@@ -14,7 +14,7 @@ class LogRvItem(
     override val item: SuLog
 ) : ObservableDiffRvItem<LogRvItem>(), RvContainer<SuLog> {
 
-    override val layoutRes = R.layout.item_log_access_md2
+    override val layoutRes = R.layout.item_log_access
 
     val date = item.time.toTime(timeDateFormat)
 

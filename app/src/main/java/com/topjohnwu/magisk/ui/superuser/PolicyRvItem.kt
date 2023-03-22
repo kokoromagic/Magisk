@@ -18,7 +18,7 @@ class PolicyRvItem(
     val appName: String
 ) : ObservableDiffRvItem<PolicyRvItem>(), RvContainer<SuPolicy> {
 
-    override val layoutRes = R.layout.item_policy_md2
+    override val layoutRes = R.layout.item_policy
 
     val title get() = if (isSharedUid) "[SharedUID] $appName" else appName
 

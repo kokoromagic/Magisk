@@ -115,7 +115,7 @@
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="2"
-                tools:listitem="@layout/item_hide_process_md2" />
+                tools:listitem="@layout/item_hide_process" />
 
         </LinearLayout>
 
