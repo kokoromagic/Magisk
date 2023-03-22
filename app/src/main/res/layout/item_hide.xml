@@ -22,7 +22,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="false"
-        tools:layout_gravity="center"
         app:cardBackgroundColor="@color/color_card_background_color_selector"
         tools:layout_marginBottom="@dimen/l1">
 
@@ -85,6 +84,7 @@
                     android:layout_height="wrap_content"
                     android:text="@{item.info.packageName}"
                     android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    android:layout_marginTop="@dimen/l_25"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/hide_name"
                     app:layout_constraintStart_toStartOf="@+id/hide_name"
