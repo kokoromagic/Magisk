@@ -103,9 +103,16 @@ class MainActivity : SplashActivity<ActivityMainBinding>() {
         binding.mainNavigation.setOnItemReselectedListener {
             // https://issuetracker.google.com/issues/124538620
         }
+
         binding.mainNavigation.menu.apply {
-            findItem(R.id.superuserFragment)?.isEnabled = Utils.showSuperUser()
-            findItem(R.id.modulesFragment)?.isEnabled = Info.env.isActive && LocalModule.loaded()
+            findItem(R.id.superuserFragment)?.apply {
+                isEnabled = Utils.showSuperUser()
+                isVisible = isEnabled
+            }
+            findItem(R.id.modulesFragment)?.apply {
+                isEnabled = Info.env.isActive && LocalModule.loaded()
+                isVisible = isEnabled
+            }
         }
 
         val section =
