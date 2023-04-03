@@ -29,10 +29,16 @@ import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-object Theme : BaseSettingsItem.Blank() {
-    override val icon = R.drawable.ic_paint
-    override val title = R.string.section_theme.asText()
-}
+//// --- Customization
+//
+//object Customization : BaseSettingsItem.Section() {
+//    override val title = R.string.settings_customization.asText()
+//}
+//
+//object Theme : BaseSettingsItem.Blank() {
+//    override val icon = R.drawable.ic_paint
+//    override val title = R.string.section_theme.asText()
+//}
 
 // --- App
 
@@ -399,7 +405,7 @@ object Superuser : BaseSettingsItem.Section() {
 
 object AccessMode : BaseSettingsItem.Selector() {
     override val title = R.string.superuser_access.asText()
-    override val icon = R.drawable.ic_terminal
+    override val icon = R.drawable.ic_numbers
     override val entryRes = R.array.su_access
     override var value by Config::rootMode
 }

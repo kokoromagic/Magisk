@@ -32,8 +32,9 @@
             android:gravity="center_vertical"
             android:paddingStart="@{item.icon == 0 ? @dimen/l1 : 0}"
             android:paddingEnd="@{item.showSwitch == false ? @dimen/l1 : 0}"
-            android:paddingTop="@dimen/l1"
-            android:paddingBottom="@dimen/l1">
+            android:paddingTop="@{item.description.empty == false ? @dimen/l1 : 0}"
+            android:paddingBottom="@{item.description.empty == false ? @dimen/l1 : 0}" >
+            <!-- Preview is problematic, just use @dimen/l1 for preview of padding top and bottom -->
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/icon"
@@ -62,7 +63,7 @@
                     tools:text="@tools:sample/lorem/random" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/materialTextView"
+                    android:id="@+id/description_container"
                     gone="@{item.description.empty}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -39,23 +39,23 @@ class SettingsViewModel : BaseViewModel(), BaseSettingsItem.Handler {
     private fun createItems(): List<BaseSettingsItem> {
         val context = AppContext
         val hidden = context.packageName != BuildConfig.APPLICATION_ID
-        // Customization
-        val list = mutableListOf(
-            Theme, Language
-        )
-        list.remove(Theme)
-        if (isRunningAsStub && ShortcutManagerCompat.isRequestPinShortcutSupported(context))
-            list.add(AddShortcut)
-
         // Manager
-        list.addAll(listOf(
+        val list = mutableListOf(
             AppSettings,
-            UpdateChannel, UpdateChannelUrl, DoHToggle, UpdateChecker, DownloadPath
-        ))
+            Language, UpdateChannel, UpdateChannelUrl, DoHToggle, UpdateChecker, DownloadPath
+        )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 &&
-                Info.env.isActive && Const.USER_ID == 0) {
+            Info.env.isActive && Const.USER_ID == 0) {
             if (hidden) list.add(Restore) else list.add(Hide)
         }
+
+        // Customization
+//        list.addAll(listOf(
+//            Customization,
+//            Theme
+//        ))
+        if (isRunningAsStub && ShortcutManagerCompat.isRequestPinShortcutSupported(context))
+            list.add(AddShortcut)
 
         // Magisk
         if (Info.env.isActive) {
