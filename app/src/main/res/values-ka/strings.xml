@@ -48,7 +48,6 @@
     <string name="flash_screen_title">ინსტალაცია</string>
 
     <!--Superuser-->
-    <string name="su_request_title">სუპერმომხმარებლის ნებართვის მოთხოვნა</string>
     <string name="touch_filtered_warning">სხვა აპი ხელს უშლის Magisk-ს თქვენი პასუხის დადასტურებაში</string>
     <string name="deny">აკრძალვა</string>
     <string name="prompt">კითხვა</string>

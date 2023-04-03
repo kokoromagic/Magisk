@@ -47,7 +47,6 @@
     <string name="flash_screen_title">Installatie</string>
 
     <!--Superuser-->
-    <string name="su_request_title">Superuserverzoek</string>
     <string name="deny">Weigeren</string>
     <string name="prompt">Vraag</string>
     <string name="grant">Toestaan</string>

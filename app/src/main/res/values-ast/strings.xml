@@ -47,7 +47,6 @@
     <string name="reboot_delay_toast">Reaniciando en 5 segundos…</string>
     <string name="flash_screen_title">Instalación</string>
     <!--Superuser-->
-    <string name="su_request_title">Solicitú de superusuariu</string>
     <string name="touch_filtered_warning">Como una aplicación torga la solicitú de superusuariu, Magisk nun pue verificar la to rempuesta</string>
     <string name="deny">Negar</string>
     <string name="prompt">Entrugar</string>

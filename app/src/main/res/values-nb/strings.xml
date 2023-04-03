@@ -48,7 +48,6 @@
     <string name="flash_screen_title">Installasjon</string>
 
     <!--Superuser-->
-    <string name="su_request_title">Superbrukerforespørsel</string>
     <string name="touch_filtered_warning">Fordi et program tilslører en superbrukerforespørsel kan ikke Magisk bekrefte</string>
     <string name="deny">Avslå</string>
     <string name="prompt">Spør</string>

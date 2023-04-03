@@ -108,7 +108,6 @@
     <string name="isolate_summary">Hər bir root sessyasının ayrılmış adlarfəzası olacaq.</string>
 
     <!--Superuser-->
-    <string name="su_request_title">Superuser Tələbi</string>
     <string name="deny">Ləğv et</string>
     <string name="prompt">Yönləndir</string>
     <string name="grant">Təmin et</string>

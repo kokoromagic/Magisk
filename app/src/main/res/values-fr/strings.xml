@@ -51,7 +51,6 @@
     <string name="flash_screen_title">Installation</string>
 
     <!--Superuser-->
-    <string name="su_request_title">Demande d’accès super‑utilisateur</string>
     <string name="touch_filtered_warning">Magisk ne peut vérifier votre réponse parce qu’une application masque une requête de super‑utilisateur</string>
     <string name="deny">Refuser</string>
     <string name="prompt">Demander</string>

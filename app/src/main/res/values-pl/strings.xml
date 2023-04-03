@@ -50,7 +50,6 @@
     <string name="flash_screen_title">Instalacja</string>
 
     <!--Superuser-->
-    <string name="su_request_title">Żądanie dostępu do Superusera</string>
     <string name="touch_filtered_warning">Ponieważ zapytanie o Superuser aplikacji jest przysłonięte, Magisk nie może zweryfikować twojej odpowiedzi.</string>
     <string name="deny">Odmów</string>
     <string name="prompt">Zapytaj</string>

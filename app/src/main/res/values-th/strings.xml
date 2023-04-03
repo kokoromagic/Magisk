@@ -109,7 +109,6 @@
     <string name="isolate_summary">Each root session will have its own isolated namespace.</string>
 
     <!--Superuser-->
-    <string name="su_request_title">การขอเข้าถึง Superuser</string>
     <string name="deny">ปฏิเสธ</string>
     <string name="prompt">ถาม</string>
     <string name="grant">อนุญาต</string>

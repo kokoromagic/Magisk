@@ -51,7 +51,6 @@
     <string name="flash_screen_title">Instalimi</string>
 
     <!--Superuser-->
-    <string name="su_request_title">Kërkesë nga superpërdoruesi</string>
     <string name="touch_filtered_warning">Për shkak se një aplikacion po errëson një kërkesë të superpërdoruesit, Magisk nuk mund të verifikojë përgjigjen tuaj</string>
     <string name="deny">Refuzo</string>
     <string name="prompt">Pyet</string>

@@ -116,7 +116,6 @@
     <string name="isolate_summary">Секоја рут сесија ќе има свој изолиран именски простор.</string>
 
     <!--Superuser-->
-    <string name="su_request_title">Супер-корисник барање</string>
     <string name="deny">Одбиј</string>
     <string name="prompt">Прашај</string>
     <string name="grant">Одобри</string>

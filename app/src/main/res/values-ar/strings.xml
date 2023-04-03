@@ -46,7 +46,6 @@
     <string name="flash_screen_title">التثبيت</string>
 
     <!--Superuser-->
-    <string name="su_request_title">طلبات صلاحية الروت</string>
     <string name="deny">رفض</string>
     <string name="prompt">طلب</string>
     <string name="grant">سماح</string>

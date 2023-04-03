@@ -47,7 +47,6 @@
     <string name="flash_screen_title">Installation</string>
 
     <!--Superuser-->
-    <string name="su_request_title">Superuser-förfrågan</string>
     <string name="touch_filtered_warning">Eftersom en app döljer, eller ritar över en begäran om superuser, så kan inte Magisk verifera ditt svar</string>
     <string name="deny">Neka</string>
     <string name="prompt">Fråga</string>

@@ -51,7 +51,6 @@
     <string name="flash_screen_title">इंस्टॉलेशन</string>
 
     <!--Superuser-->
-    <string name="su_request_title">सुपरयूज़र अनुरोध</string>
     <string name="touch_filtered_warning">चूंकि एक ऐप सुपरयूज़र अनुरोध को अस्पष्ट कर रहा है, इसलिए मैजिस्क आपकी प्रतिक्रिया को सत्यापित नहीं कर सकता</string>
     <string name="deny">इंकार करें</string>
     <string name="prompt">संकेत दिखाएँ</string>

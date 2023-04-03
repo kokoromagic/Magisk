@@ -51,7 +51,6 @@
     <string name="flash_screen_title">স্থাপন</string>
 
     <!--Superuser-->
-    <string name="su_request_title">সুপার ইউজার অনুরোধ/স্ট্রিং</string>
     <string name="touch_filtered_warning">যেহেতু একটি অ্যাপ সুপার ব্যবহারকারীর অনুরোধকে অস্পষ্ট করছে, ম্যাজিস্ক আপনার প্রতিক্রিয়া যাচাই করতে পারে না</string>
     <string name="deny">অস্বীকার করুন</string>
     <string name="prompt">শীঘ্র</string>

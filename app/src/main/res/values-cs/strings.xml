@@ -47,7 +47,6 @@
     <string name="flash_screen_title">Instalace</string>
 
     <!--Superuser-->
-    <string name="su_request_title">Požadavek SuperUser</string>
     <string name="touch_filtered_warning">Protože aplikace zavírá požadavek SuperUser, Magisk nemůže ověřit Vaši odpověď</string>
     <string name="deny">Zakázat</string>
     <string name="prompt">Zeptat se</string>

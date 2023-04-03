@@ -51,7 +51,6 @@
     <string name="flash_screen_title">安裝</string>
 
     <!--Superuser-->
-    <string name="su_request_title">超級使用者要求</string>
     <string name="touch_filtered_warning">由於某個應用程式遮蔽了超級使用者要求的視窗，因此 Magisk 無法驗證您的回應</string>
     <string name="deny">拒絕</string>
     <string name="prompt">提示</string>

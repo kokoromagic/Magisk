@@ -47,7 +47,6 @@
     <string name="flash_screen_title">התקנה</string>
 
     <!--Superuser-->
-    <string name="su_request_title">בקשות משתמש על</string>
     <string name="touch_filtered_warning">מכיוון שיישום מסתיר בקשה של משתמש על, Magisk לא יכול לאמת את תגובתך</string>
     <string name="deny">דחה</string>
     <string name="prompt">מיידי</string>

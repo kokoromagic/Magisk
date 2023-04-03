@@ -47,7 +47,6 @@
     <string name="flash_screen_title">Instalacija</string>
 
     <!--Superuser-->
-    <string name="su_request_title">Superuser zahtjev</string>
     <string name="deny">Odbij</string>
     <string name="prompt">Upit</string>
     <string name="grant">Odobri</string>

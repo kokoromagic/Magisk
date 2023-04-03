@@ -51,7 +51,6 @@
     <string name="flash_screen_title">ഇൻസ്റ്റലേഷൻ</string>
 
     <!--Superuser-->
-    <string name="su_request_title">സൂപ്പർയൂസർ അഭ്യർത്ഥന</string>
     <string name="touch_filtered_warning">ഒരു ആപ്പ് ഒരു സൂപ്പർയൂസർ അഭ്യർത്ഥന മറയ്ക്കുന്നതിനാൽ, മജിസ്‌ക്-ന് നിങ്ങളുടെ പ്രതികരണം പരിശോധിക്കാൻ കഴിയില്ല</string>
     <string name="deny">നിഷേധിക്കുക</string>
     <string name="prompt">പ്രോംപ്റ്റ്</string>

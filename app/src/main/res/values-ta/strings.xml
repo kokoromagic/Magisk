@@ -48,7 +48,6 @@
     <string name="flash_screen_title">நிறுவல்</string>
 
     <!--Superuser-->
-    <string name="su_request_title">சூப்பர் யூசர் கோரிக்கை</string>
     <string name="touch_filtered_warning">ஒரு பயன்பாடு ஒரு சூப்பர் யூசர் கோரிக்கையை மறைப்பதால், மேகிஸ்கால் உங்கள் பதிலைச் சரிபார்க்க முடியாது</string>
     <string name="deny">மறு</string>
     <string name="prompt">உடனடி</string>

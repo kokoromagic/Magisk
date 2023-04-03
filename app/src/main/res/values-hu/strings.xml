@@ -51,7 +51,6 @@
     <string name="flash_screen_title">Telepítés</string>
 
     <!--Superuser-->
-    <string name="su_request_title">Superuser kérés</string>
     <string name="touch_filtered_warning">Mivel egy alkalmazás eltakar egy Superuser kérést, a Magisk nem tudja ellenőrizni a válaszod</string>
     <string name="deny">Elutasít</string>
     <string name="prompt">Kérdés</string>

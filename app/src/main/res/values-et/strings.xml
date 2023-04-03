@@ -50,7 +50,6 @@
     <string name="flash_screen_title">Installimine</string>
 
     <!--Superuser-->
-    <string name="su_request_title">Superkasutaja taotlus</string>
     <string name="touch_filtered_warning">Kuna rakendus varjab superkasutaja päringut, ei saa Magisk sinu vastust kinnitada</string>
     <string name="deny">Keela</string>
     <string name="prompt">Küsi</string>

@@ -51,7 +51,6 @@
     <string name="flash_screen_title">Instalación</string>
 
     <!--Superuser-->
-    <string name="su_request_title">Petición de superusuario</string>
     <string name="touch_filtered_warning">Como otra app está escondiendo la solicitud de superusuario, Magisk no puede verificar tu respuesta</string>
     <string name="deny">Denegar</string>
     <string name="prompt">Preguntar</string>

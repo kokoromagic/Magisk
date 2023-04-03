@@ -50,7 +50,6 @@
     <string name="flash_screen_title">Instalação</string>
 
     <!--Superuser-->
-    <string name="su_request_title">Solicitação de SuperUsuário</string>
     <string name="touch_filtered_warning">Devido um app estar obscurecendo a solicitação de SuperUsuário, o Magisk não pode conferir suas resposta</string>
     <string name="deny">Negar</string>
     <string name="prompt">Perguntar</string>

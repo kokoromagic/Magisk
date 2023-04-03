@@ -51,7 +51,6 @@
     <string name="flash_screen_title">Instalasi</string>
 
     <!--Superuser-->
-    <string name="su_request_title">Permintaan superuser</string>
     <string name="touch_filtered_warning">Karena terdapat aplikasi yang menghalangi dialog permintaan superuser, Magisk tidak dapat memverifikasi respons Anda</string>
     <string name="deny">Tolak</string>
     <string name="prompt">Ajukan</string>

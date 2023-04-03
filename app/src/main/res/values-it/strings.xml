@@ -51,7 +51,6 @@
     <string name="flash_screen_title">Installazione</string>
 
     <!--Superuser-->
-    <string name="su_request_title">Richiesta di accesso root</string>
     <string name="touch_filtered_warning">Magisk non può verificare la tua risposta perché un\'app sta oscurando una richiesta di accesso root</string>
     <string name="deny">Nega</string>
     <string name="prompt">Chiedi</string>

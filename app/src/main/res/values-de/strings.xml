@@ -51,7 +51,6 @@
     <string name="flash_screen_title">Installieren</string>
 
     <!--Superuser-->
-    <string name="su_request_title">Superuser-Anfrage</string>
     <string name="touch_filtered_warning">Weil eine App eine Superuser-Anfrage verdeckt, kann Magisk deine Antwort nicht verifizieren</string>
     <string name="deny">Verweigern</string>
     <string name="prompt">Fragen</string>

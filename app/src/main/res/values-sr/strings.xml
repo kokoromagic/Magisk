@@ -93,7 +93,6 @@
     <string name="isolate_summary">Свака коренска сесија ће имати свој изоловани простор именовања</string>
 
     <!--Superuser-->
-    <string name="su_request_title">Супер-кориснички захтев</string>
     <string name="deny">Забрани</string>
     <string name="prompt">Захтев</string>
     <string name="grant">Дозволи</string>

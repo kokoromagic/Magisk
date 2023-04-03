@@ -46,7 +46,6 @@
     <string name="flash_screen_title">ਇੰਸਟਾਲੇਸ਼ਨ</string>
 
     <!--Superuser-->
-    <string name="su_request_title">ਸੁਪਰਯੂਜ਼ਰ ਮੰਗ</string>
     <string name="deny">ਇਨਕਾਰ ਕਰੋ</string>
     <string name="prompt">ਸੰਕੇਤ ਦਿਖਾਓ</string>
     <string name="grant">ਆਗਿਆ ਦਿਓ</string>

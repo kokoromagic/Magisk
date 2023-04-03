@@ -51,7 +51,6 @@
     <string name="flash_screen_title">Instalare</string>
 
     <!--Superuser-->
-    <string name="su_request_title">Cerere de superutilizator</string>
     <string name="touch_filtered_warning">Deoarece o aplicație ascunde o cerere de superutilizator, Magisk nu îți poate verifica răspunsul</string>
     <string name="deny">Refuză</string>
     <string name="prompt">Solicită</string>

@@ -50,7 +50,6 @@
     <string name="flash_screen_title">설치과정</string>
 
     <!--Superuser-->
-    <string name="su_request_title">슈퍼유저 요청</string>
     <string name="touch_filtered_warning">앱이 슈퍼유저 요청을 가려, Magisk에서 응답을 확인할 수 없습니다.</string>
     <string name="deny">일괄 거부</string>
     <string name="prompt">수동 허가</string>

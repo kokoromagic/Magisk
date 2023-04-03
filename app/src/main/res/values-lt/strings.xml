@@ -103,7 +103,6 @@
     <string name="isolate_summary">Kiekviena root sesija turi savo izoliuotą vardų sritį</string>
 
     <!--Superuser-->
-    <string name="su_request_title">Supervartotojo prašymas</string>
     <string name="deny">Atmesti</string>
     <string name="prompt">Klausti</string>
     <string name="grant">Suteikti(a)</string>

@@ -46,7 +46,6 @@
     <string name="flash_screen_title">نصب و راه اندازی</string>
 
     <!--Superuser-->
-    <string name="su_request_title">درخواست کاربر روت</string>
     <string name="deny">رد کردن</string>
     <string name="prompt">درخواست کردن</string>
     <string name="grant">اجازه دادن</string>

@@ -108,7 +108,6 @@
     <string name="isolate_summary">Всички сесии с руут достъп имат собствени именни пространства.</string>
 
     <!--Superuser-->
-    <string name="su_request_title">Запитване за Superuser достъп</string>
     <string name="deny">Отказ</string>
     <string name="prompt">Запитване</string>
     <string name="grant">Разрешаване</string>

@@ -51,7 +51,6 @@
     <string name="flash_screen_title">Inštalácia</string>
 
     <!--Superuser-->
-    <string name="su_request_title">Požiadavka superužívateľa</string>
     <string name="touch_filtered_warning">Pretože aplikácia zakrýva požiadavku superužívateľa, Magisk nemôže overiť vašu odpoveď</string>
     <string name="deny">Zamietnuť</string>
     <string name="prompt">Výzva</string>

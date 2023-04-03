@@ -51,7 +51,6 @@
     <string name="flash_screen_title">安装</string>
 
     <!--Superuser-->
-    <string name="su_request_title">超级用户请求</string>
     <string name="touch_filtered_warning">由于某个应用遮挡了超级用户请求界面，因此 Magisk 无法验证您的回应</string>
     <string name="deny">拒绝</string>
     <string name="prompt">提示</string>

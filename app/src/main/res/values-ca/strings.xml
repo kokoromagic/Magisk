@@ -48,7 +48,6 @@
     <string name="flash_screen_title">Instal·lació</string>
 
     <!--Superuser-->
-    <string name="su_request_title">Petició de superusuari</string>
     <string name="touch_filtered_warning">Com que una aplicació està ofuscant la petició de superusuari, Magisk no pot verificar la seva resposta</string>
     <string name="deny">Denegar</string>
     <string name="prompt">Preguntar</string>
