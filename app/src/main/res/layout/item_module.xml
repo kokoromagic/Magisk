@@ -85,7 +85,6 @@
                     android:duplicateParentState="true"
                     android:text="@{@string/module_version_author(item.item.version, item.item.author)}"
                     android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                    android:textColor="?android:textColorSecondary"
                     app:layout_constraintEnd_toEndOf="@+id/module_title"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@+id/module_title"
@@ -117,7 +116,6 @@
                     android:maxLines="5"
                     android:text="@{item.item.description}"
                     android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                    android:textColor="?android:textColorSecondary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/module_version_author"
@@ -134,7 +132,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     style="@style/Widget.Material3.Button.TextButton.Icon"
-                    goneUnless="@{item.showUpdate}"
+                    gone="@{item.updateReady != true}"
                     android:id="@+id/module_update"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -182,6 +180,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/l1"
                     android:layout_marginEnd="@dimen/l_50"
+                    android:layout_marginTop="@dimen/l_50"
+                    android:layout_marginBottom="@dimen/l_50"
                     android:text="@{item.noticeText}"
                     android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                     android:textColor="@color/color_error_transient"
