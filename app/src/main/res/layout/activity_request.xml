@@ -42,7 +42,7 @@
                     android:src="@drawable/ic_numbers" />
 
                 <View
-                    android:background="@android:color/darker_gray"
+                    android:background="?colorOnSurfaceVariant"
                     android:layout_width="1dp"
                     android:layout_height="@dimen/l1"
                     android:layout_marginStart="@dimen/l_75"

@@ -122,9 +122,9 @@
                     tools:lines="4"
                     tools:text="@tools:sample/lorem/random" />
 
-                <com.google.android.material.textview.MaterialTextView
+                <View
                     android:id="@+id/module_divider"
-                    android:background="@android:color/darker_gray"
+                    android:background="?colorOnSurfaceVariant"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_margin="@dimen/l1"
