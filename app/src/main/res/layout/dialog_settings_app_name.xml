@@ -21,7 +21,6 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_generic"
             android:hint="@string/settings_app_name_hint"
             app:boxStrokeColor="?colorOnSurfaceVariant"
             app:counterEnabled="true"
@@ -32,7 +31,7 @@
             app:errorTextColor="?colorError"
             app:helperText="@string/settings_app_name_helper"
             app:hintEnabled="true"
-            app:hintTextAppearance="@style/AppearanceFoundation.Tiny"
+            app:hintTextAppearance="@style/TextAppearance.Material3.BodySmall"
             app:hintTextColor="?colorOnSurfaceVariant">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -41,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textCapWords"
                 android:text="@={data.result}"
-                android:textAppearance="@style/AppearanceFoundation.Body"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                 android:textColor="?colorOnSurface"
                 tools:text="@tools:sample/lorem" />
 

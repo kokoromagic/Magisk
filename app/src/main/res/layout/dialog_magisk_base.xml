@@ -14,6 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="?android:colorBackground"
         tools:layout_width="match_parent">
 
         <androidx.constraintlayout.widget.Guideline
@@ -30,7 +31,7 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="16dp" />
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/dialog_base_icon"
             style="@style/WidgetFoundation.Image.Big"
             gone="@{data.icon == null}"
@@ -43,7 +44,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_delete" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/dialog_base_title"
             gone="@{data.title.length == 0}"
             android:layout_width="0dp"
@@ -51,35 +52,48 @@
             android:layout_marginTop="@dimen/l1"
             android:gravity="center"
             android:text="@{data.title}"
-            android:textAppearance="@style/AppearanceFoundation.Title"
+            android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/dialog_base_end"
             app:layout_constraintStart_toStartOf="@+id/dialog_base_start"
             app:layout_constraintTop_toBottomOf="@+id/dialog_base_icon"
             tools:lines="1"
             tools:text="@tools:sample/lorem/random" />
 
+        <View
+            android:id="@+id/seperator"
+            gone="@{data.title.length == 0}"
+            android:background="?colorOnBackground"
+            android:layout_width="@dimen/l3"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/l_75"
+            android:layout_marginBottom="@dimen/l_50"
+            app:layout_constraintEnd_toEndOf="@+id/dialog_base_title"
+            app:layout_constraintStart_toStartOf="@+id/dialog_base_title"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_base_title" />
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/l_50"
             android:overScrollMode="ifContentScrolls"
             app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toTopOf="@+id/dialog_base_space"
             app:layout_constraintEnd_toEndOf="@+id/dialog_base_end"
             app:layout_constraintStart_toStartOf="@+id/dialog_base_start"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_base_title">
+            app:layout_constraintTop_toBottomOf="@+id/seperator">
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/dialog_base_message"
                     gone="@{data.message.length == 0}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/l1"
                     android:text="@{data.message}"
-                    android:textAppearance="@style/AppearanceFoundation.Body"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                     tools:lines="3"
                     tools:text="@tools:sample/lorem/random" />
 
@@ -116,9 +130,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/dialog_base_button_2"
-                style="@style/WidgetFoundation.Button.Text"
+                style="@style/Widget.Material3.Button.TextButton"
                 gone="@{data.buttonNeutral.gone}"
                 isEnabled="@{data.buttonNeutral.isEnabled}"
                 android:layout_width="wrap_content"
@@ -140,9 +154,9 @@
                 android:layout_weight="1"
                 android:visibility="invisible" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/dialog_base_button_3"
-                style="@style/WidgetFoundation.Button.Text"
+                style="@style/Widget.Material3.Button.TextButton"
                 gone="@{data.buttonNegative.gone}"
                 isEnabled="@{data.buttonNegative.isEnabled}"
                 android:layout_width="wrap_content"
@@ -156,9 +170,9 @@
                 tools:icon="@drawable/ic_bug"
                 tools:text="Button 1" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/dialog_base_button_1"
-                style="@style/WidgetFoundation.Button.Text"
+                style="@style/Widget.Material3.Button.TextButton"
                 gone="@{data.buttonPositive.gone}"
                 isEnabled="@{data.buttonPositive.isEnabled}"
                 android:layout_width="wrap_content"
