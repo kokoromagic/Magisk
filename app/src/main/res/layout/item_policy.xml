@@ -105,7 +105,7 @@
                 <View
                     android:layout_width="1dp"
                     android:layout_height="@dimen/l2"
-                    android:background="@color/material_dynamic_neutral_variant60"/>
+                    android:background="@android:color/darker_gray"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/policy_log"
@@ -125,7 +125,7 @@
                 <View
                     android:layout_width="1dp"
                     android:layout_height="@dimen/l2"
-                    android:background="@color/material_dynamic_neutral_variant60" />
+                    android:background="@android:color/darker_gray" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/policy_delete"

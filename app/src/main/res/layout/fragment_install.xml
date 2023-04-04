@@ -32,7 +32,7 @@
             android:layout_margin="@dimen/l1">
 
             <com.google.android.material.card.MaterialCardView
-                style="@style/Widget_Rip.Material3.CardView.Outlined2"
+                style="@style/Widget.Material3.CardView.Outlined"
                 gone="@{viewModel.skipOptions}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -135,7 +135,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                style="@style/Widget_Rip.Material3.CardView.Outlined2"
+                style="@style/Widget.Material3.CardView.Outlined"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/l_75"
@@ -235,7 +235,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                style="@style/Widget_Rip.Material3.CardView.Outlined2"
+                style="@style/Widget.Material3.CardView.Outlined"
                 gone="@{viewModel.notes.length == 0}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -17,7 +17,7 @@
 
 
     <com.google.android.material.card.MaterialCardView
-        style="@style/Widget_Rip.Material3.CardView.Outlined2"
+        style="@style/Widget.Material3.CardView.Outlined"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="false" >
@@ -136,7 +136,7 @@
 
             <View
                 android:id="@+id/textView"
-                android:background="@color/material_dynamic_neutral_variant60"
+                android:background="@android:color/darker_gray"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_margin="?dialogPreferredPadding"
