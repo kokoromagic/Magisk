@@ -14,10 +14,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginStart="@dimen/l1"
-        android:layout_marginEnd="@dimen/l1"
-        android:layout_marginTop="@dimen/l1"
-        android:layout_marginBottom="@dimen/l_25">
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="4dp">
 
         <com.google.android.material.textview.MaterialTextView
             gone="@{item.title.empty}"
