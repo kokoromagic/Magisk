@@ -62,8 +62,8 @@
             android:paddingBottom="0dp"
             app:fitsSystemWindowsInsets="start|end|bottom"
             app:itemHorizontalTranslationEnabled="false"
-            app:itemTextAppearanceActive="@style/TextAppearance.Material3.TitleSmall"
-            app:itemTextAppearanceInactive="@style/TextAppearance.Material3.TitleSmall"
+            app:itemTextAppearanceActive="@style/TextAppearance.Material3.BodyMedium"
+            app:itemTextAppearanceInactive="@style/TextAppearance.Material3.BodyMedium"
             app:labelVisibilityMode="selected"
             app:menu="@menu/menu_bottom_nav" />
 
